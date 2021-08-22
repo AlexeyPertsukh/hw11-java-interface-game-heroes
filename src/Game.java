@@ -42,8 +42,8 @@ public class Game {
 
 
 //    private Player[] players;
-    private Player player1;
-    private Player player2;
+    private final Player player1;
+    private final Player player2;
     private Player playerCurrent;
     private Player playerOther;
 
@@ -267,7 +267,7 @@ public class Game {
 //                printPage();
 //                return;
             case CMD_JOKE:
-                if(jocke()) {
+                if(joke()) {
                     focusNextUnit();
                     printPage();
                 }
@@ -433,7 +433,7 @@ public class Game {
     }
 
     //пошутить
-    public boolean jocke() {
+    public boolean joke() {
         Unit unit = playerCurrent.unitCurrent;
         boolean isJocker = unit instanceof Jokable;
 
