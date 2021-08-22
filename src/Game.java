@@ -36,7 +36,7 @@ public class Game {
     private static final String CMD_GAME_OVER = "0";
     private static final String CMD_RUN_RIGHT = ">";
     private static final String CMD_RUN_LEFT = "<";
-    private static final String CMD_JOCKE = "$";
+    private static final String CMD_JOKE = "$";
     private static final String CMD_PRINT_ALL_JOKE_STORIES = "~";
     private static final String CMD_SKIP = "%";
 
@@ -145,7 +145,7 @@ public class Game {
 
     private void printFooter() {
         My.setTextColor(COLOR_FOOTER);
-        String str = String.format("%s помощь   | %s%s идти   | %cномер_врага атаковать  | %cномер_союзника  лечить  | %s шутить  | 0 выход", CMD_HELP, CMD_RUN_LEFT, CMD_RUN_RIGHT, KEY_CMD_ATTACK,  KEY_CMD_CURE, CMD_JOCKE);
+        String str = String.format("%s помощь   | %s%s идти   | %cномер_врага атаковать  | %cномер_союзника  лечить  | %s шутить  | 0 выход", CMD_HELP, CMD_RUN_LEFT, CMD_RUN_RIGHT, KEY_CMD_ATTACK,  KEY_CMD_CURE, CMD_JOKE);
         System.out.println(". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .");
         System.out.println(str);
         System.out.println(". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .");
@@ -266,7 +266,7 @@ public class Game {
 //                focusNextUnit();
 //                printPage();
 //                return;
-            case CMD_JOCKE:
+            case CMD_JOKE:
                 if(jocke()) {
                     focusNextUnit();
                     printPage();
