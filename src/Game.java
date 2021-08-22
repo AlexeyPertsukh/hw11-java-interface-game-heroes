@@ -170,6 +170,8 @@ public class Game {
         System.out.println(Medicinable.CHAR_CURE + " уровень лечения");
         System.out.println(Jokable.STR_JOKE + " рассказывает шутки");
         System.out.println("---");
+        System.out.println("https://github.com/AlexeyPertsukh/hw11-java-interface-game-heroes");
+        System.out.println("---");
         My.resetTextColor();
     }
 
