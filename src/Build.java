@@ -11,5 +11,4 @@ public abstract class Build extends Unit {
         return super.infoHP().replace(CHAR_HP, CHAR_BUILD_HP);  //заменяем сердце на молоточки
     }
 
-    abstract public String shortInfo(); //абстрактный метод
 }

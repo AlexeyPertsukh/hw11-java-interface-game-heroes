@@ -18,5 +18,4 @@ public abstract class Soldier extends Man implements Attackable {
         return damageMax;
     }
 
-    abstract public String shortInfo(); //абстрактный метод
 }

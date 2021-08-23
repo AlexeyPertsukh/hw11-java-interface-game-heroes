@@ -5,5 +5,4 @@ public abstract class Shooter extends Soldier implements DistanceAttackable {
         super(name, hintPoint, position, coat, damageMin, damageMax);
     }
 
-    abstract public String shortInfo(); //абстрактный метод
 }

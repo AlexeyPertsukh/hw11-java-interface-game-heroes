@@ -19,6 +19,4 @@ public abstract class Bastion extends Build implements Attackable {
         return damageMax;
     }
 
-    abstract public String shortInfo(); //абстрактный метод
-
 }
