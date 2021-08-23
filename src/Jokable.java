@@ -66,7 +66,7 @@ public interface Jokable {
 
     //пошутить
     default String joke() {
-        int num = (int)(Math.random() * JOKE_STORIES.length);
+        int num = My.random(JOKE_STORIES.length);
         return JOKE_STORIES[num];
     }
 

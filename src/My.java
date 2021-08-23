@@ -176,4 +176,8 @@ public class My {
         }
         return (int) (Math.random() * (max - min)) + min;
     }
+
+    public static int random(int max) {
+        return random(0, max);
+    }
 }
