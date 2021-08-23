@@ -1,6 +1,7 @@
 //базовый юнит воин
 public abstract class Unit {
     public static final char CHAR_HP = '♥';
+    public static final String STR_DEAD_SYMBOL = "💀";
     public static final String MASK_INFO = "%-35s";
 
     public final int HP_MAX;
@@ -63,7 +64,7 @@ public abstract class Unit {
         return String.format("%c %-9s", coat, getName());
     }
     public String shortInfoDead() {
-        String str = String.format("💀 %s ", getName());
+        String str = String.format("%s %s ", STR_DEAD_SYMBOL, getName());
         return String.format(MASK_INFO, str) + " ";
     }
 
