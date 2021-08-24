@@ -6,7 +6,6 @@ public abstract class Unit {
 
     public final int HP_MAX;
 
-
     private final String name;
     private final char coat;              //тактический знак для отображения на карте
 
