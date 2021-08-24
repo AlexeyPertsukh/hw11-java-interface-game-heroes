@@ -1,4 +1,3 @@
-# hw11-java-interface-game-heroes
 Step-by-step strategy for java console
 ----
 Lesson theme:
