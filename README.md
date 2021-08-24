@@ -8,3 +8,5 @@ Lesson theme:
 ![alt text](screenshot.jpg)
 
 ![alt text](classes_diagram_heroes.jpg)
+
+[09.03.21]
