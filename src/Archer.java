@@ -1,4 +1,4 @@
-public class Archer extends Shooter{
+public class Archer extends Shooter {
 
     private static final String NAME = "Лучник";
     private static final char COAT = '◉';
