@@ -44,7 +44,6 @@ public abstract class Unit {
         return position;
     }
 
-
     //убит?
     public boolean isDead() {
         return (hitPoint <= 0);
@@ -54,7 +53,6 @@ public abstract class Unit {
     public boolean isHitPointMax() {
         return (hitPoint >= HP_MAX);
     }
-
 
     public String infoHitPoint() {
         return String.format("%c%d", CHAR_HP, hitPoint);

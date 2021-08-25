@@ -10,7 +10,6 @@ public class Player {
         this("noname", position);
     }
 
-
     public Player(String name, int position) {
         this.name = name;
         units = new Unit[0];

@@ -12,7 +12,6 @@ public class Game {
     public static final int RIGHT_MAP_MAX_POSITION = 3; //максимальная позиция, которую юнит может занимать на карте по горизонтали
     private static final int MAX_ROUND_NO_ATTACK = 4;     //максимальное количество ходов без атак
 
-
 //    private static final boolean PAUSE_ON = false;
     private static final boolean PAUSE_ON = true;
     private static final int PAUSE_ANIMATION = 2000;
@@ -40,7 +39,6 @@ public class Game {
     private static final String CMD_JOKE = "$";
     private static final String CMD_PRINT_ALL_JOKE_STORIES = "~";
     private static final String CMD_SKIP = "%";
-
 
 //    private Player[] players;
     private final Player player1;

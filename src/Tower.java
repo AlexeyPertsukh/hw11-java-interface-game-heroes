@@ -10,7 +10,6 @@ public class Tower extends Bastion implements DistanceAttackable {
         super(NAME, HIT_POINTS, position, COAT, DAMAGE_MIN, DAMAGE_MAX);
     }
 
-
     @Override
     public String shortInfo() {
         String info= String.format("%s (%s, %s)", infoName(), infoHitPoint(), infoDamage());
