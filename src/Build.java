@@ -7,8 +7,8 @@ public abstract class Build extends Unit {
 
 
     @Override
-    public String infoHP() {
-        return super.infoHP().replace(CHAR_HP, CHAR_BUILD_HP);  //заменяем сердце на молоточки
+    public String infoHitPoint() {
+        return super.infoHitPoint().replace(CHAR_HP, CHAR_BUILD_HP);  //заменяем сердце на молоточки
     }
 
 }

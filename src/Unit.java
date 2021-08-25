@@ -56,7 +56,7 @@ public abstract class Unit {
     }
 
 
-    public String infoHP() {
+    public String infoHitPoint() {
         return String.format("%c%d", CHAR_HP, hitPoint);
     }
     public String infoName() {

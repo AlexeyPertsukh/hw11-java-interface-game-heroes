@@ -12,7 +12,7 @@ public class Knight extends Soldier {
 
     @Override
     public String shortInfo() {
-        String info= String.format("%s (%s, %s)", infoName(), infoHP(), infoDamage());
+        String info= String.format("%s (%s, %s)", infoName(), infoHitPoint(), infoDamage());
         return String.format(MASK_INFO, info);
     }
 }
