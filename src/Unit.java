@@ -59,7 +59,7 @@ public abstract class Unit {
     public String infoHP() {
         return String.format("%c%d", CHAR_HP, hitPoint);
     }
-    public String infoUnit() {
+    public String infoName() {
         return String.format("%c %-9s", coat, getName());
     }
     public String shortInfoDead() {
