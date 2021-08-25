@@ -14,9 +14,6 @@ public class Magic extends Shooter implements Medicinable {
 
     @Override
     public String shortInfo() {
-        if (isDead()) {
-            return shortInfoDead();
-        }
         String info= String.format("%s (%s, %s, %s)", infoUnit(), infoHP(), infoDamage(), infoCure());
         return String.format(MASK_INFO, info);
     }

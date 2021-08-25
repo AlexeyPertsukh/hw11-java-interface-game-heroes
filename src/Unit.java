@@ -67,6 +67,15 @@ public abstract class Unit {
         return String.format(MASK_INFO, str) + " ";
     }
 
+    @Override
+    public String toString() {
+        if(isDead()) {
+            return shortInfoDead();
+        } else {
+            return shortInfo();
+        }
+    }
+
     //абстрактные методы
     abstract public String shortInfo();
 
