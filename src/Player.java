@@ -4,7 +4,7 @@ public class Player {
 
     private String name;
     private Unit[] units;
-    public  Unit unitCurrent;
+    private  Unit unitCurrent;
 
     public Player(int position) {
         this("noname", position);
@@ -143,4 +143,7 @@ public class Player {
         return units[num];
     }
 
+    public Unit getUnitCurrent() {
+        return unitCurrent;
+    }
 }

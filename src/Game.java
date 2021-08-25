@@ -67,7 +67,7 @@ public class Game {
         printPage();
 
         do {
-            System.out.printf("[%s] %s, введите команду: ", playerCurrent.getName(), playerCurrent.unitCurrent.getName().toLowerCase());
+            System.out.printf("[%s] %s, введите команду: ", playerCurrent.getName(), playerCurrent.getUnitCurrent().getName().toLowerCase());
             cmd = playerCurrent.nextCmd(sc);
             inputCmd(cmd);
 
@@ -235,7 +235,7 @@ public class Game {
             return COLOR_KILL;
         }
 
-        if(player == playerCurrent && player.unitCurrent == player.getUnitByNum(num)) {
+        if(player == playerCurrent && player.getUnitCurrent() == player.getUnitByNum(num)) {
             return COLOR_FOCUS;
         }
         return My.ANSI_RESET;
@@ -337,7 +337,7 @@ public class Game {
     private boolean attack(int... arr) {
 
         int num = arr[0];   //адрес вражеского юнита, который атакуем
-        Unit unit =  playerCurrent.unitCurrent;
+        Unit unit =  playerCurrent.getUnitCurrent();
         Unit enemy = playerOther.getUnitByNum(num);
 
         String str = "";
@@ -393,7 +393,7 @@ public class Game {
     public boolean cure(int num) {
 
         Unit patient = playerCurrent.getUnitByNum(num);
-        Unit unit = playerCurrent.unitCurrent;
+        Unit unit = playerCurrent.getUnitCurrent();
 
         if(patient == null) {
             return false;
@@ -435,7 +435,7 @@ public class Game {
 
     //пошутить
     public boolean joke() {
-        Unit unit = playerCurrent.unitCurrent;
+        Unit unit = playerCurrent.getUnitCurrent();
         boolean isJocker = unit instanceof Jokable;
 
 
@@ -482,7 +482,7 @@ public class Game {
 
 
     public boolean goRight() {
-        Unit unit = playerCurrent.unitCurrent;
+        Unit unit = playerCurrent.getUnitCurrent();
         String str = "";
         boolean isRunner =  unit instanceof Movable;
 
@@ -502,7 +502,7 @@ public class Game {
     }
 
     public boolean goLeft() {
-        Unit unit = playerCurrent.unitCurrent;
+        Unit unit = playerCurrent.getUnitCurrent();
         String str = "";
 
         boolean isRunner =  unit instanceof Movable;
