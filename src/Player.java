@@ -1,29 +1,30 @@
 import java.util.Scanner;
 
 public class Player {
+    private static final String DEFAULT_NAME = "noname";
 
-    private String name;
+    private final String name;
     private Unit[] units;
-    private  Unit unitCurrent;
+    private Unit unitCurrent;
 
     public Player(int position) {
-        this("noname", position);
+        this(DEFAULT_NAME, position);
     }
 
     public Player(String name, int position) {
         this.name = name;
         units = new Unit[0];
-        addUnit( new Tower(position));
-        addUnit( new Knight(position));
-        addUnit( new Archer(position));
-        addUnit( new Dangler(position));
-        addUnit( new Magic(position));
+        addUnit(new Tower(position));
+        addUnit(new Knight(position));
+        addUnit(new Archer(position));
+        addUnit(new Dangler(position));
+        addUnit(new Magic(position));
 
         focusFirstUnit();
     }
 
     public String getUnitShortInfo(int num) {
-        if(num < 0 || num>= units.length) { //некорректный запрос
+        if (num < 0 || num >= units.length) { //некорректный запрос
             return null;
         }
 
@@ -43,17 +44,18 @@ public class Player {
 
     //фокус на юнита
     public boolean focusUnit(Unit unit) {
-        if(unit.isDead()) {
+        if (unit.isDead()) {
             return false;
+        } else {
+            unitCurrent = unit;
+            return true;
         }
-        unitCurrent = unit;
-        return true;
     }
 
     //фокус на первого (живого) юнита
     public boolean focusFirstUnit() {
         for (Unit unit : units) {
-            if(!unit.isDead()) {
+            if (!unit.isDead()) {
                 return focusUnit(unit);
             }
         }
@@ -66,29 +68,29 @@ public class Player {
         //находим позицию в массиве текущего юнита
         int num = -1;
         for (int i = 0; i < units.length; i++) {
-            if(unitCurrent == units[i]) {
+            if (unitCurrent == units[i]) {
                 num = i;
                 break;
             }
         }
 
         //такого юнита вообще не нашли - выходим
-        if(num == -1) {
+        if (num == -1) {
             return false;
         }
 
         //все убиты? выходим
-        if(isAllUnitsDead()) {
+        if (isAllUnitsDead()) {
             return false;
         }
 
         //фокусируемся на следующем живом юните
         do {
             num++;
-            if(num >= units.length) {
+            if (num >= units.length) {
                 num = 0;
             }
-        }while(units[num].isDead());
+        } while (units[num].isDead());
 
         return focusUnit(units[num]);
     }
@@ -128,7 +130,7 @@ public class Player {
     //возвращяет порядковый номер юнита (начинается с 1), или ошибка -1
     public int getNumUnits(Unit unit) {
         for (int i = 0; i < units.length; i++) {
-            if(units[i] == unit) {
+            if (units[i] == unit) {
                 return i + 1;
             }
         }
@@ -136,7 +138,7 @@ public class Player {
     }
 
     public Unit getUnitByNum(int num) {
-        if(num < 0 || num >= units.length) {
+        if (num < 0 || num >= units.length) {
             return null;
         }
         return units[num];

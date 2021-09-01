@@ -8,7 +8,7 @@ public interface Medicinable {
     int CODE_IS_NO_MAN = -1;   //это не живое существо
     int CODE_IS_KILLED = -2;   //нельзя лечить убитого
     int CODE_IS_FULL = -3;   //нельзя лечить при полном здоровье
-    int CODE_IS_THIS = -4;   //нельзя лечить самого себя
+//    int CODE_IS_THIS = -4;   //нельзя лечить самого себя
 
     //Лечение
     //возвращает:
@@ -27,9 +27,7 @@ public interface Medicinable {
     default int cure(Unit patient, int cure) {
         if(patient.isDead()) {    //нельзя лечить убитого
             return CODE_IS_KILLED;
-        }
-
-        if(patient.isHitPointMax()) {    //если максимум здоровья- больше не добавляем
+        } else if(patient.isHitPointMax()) {    //если максимум здоровья- больше не добавляем
             return CODE_IS_FULL;
         }
 
