@@ -425,7 +425,11 @@ public class Game {
             return false;
         }
 
-        System.out.printf("[%s] %s подлечил раненого, %s(%d) восстановил %d ед. здоровья   \n", playerCurrent.getName(), unit.getName().toLowerCase(), patient.getName().toLowerCase(), playerCurrent.getNumUnits(patient), code);
+        System.out.printf("[%s] %s подлечил раненого, %s(%d) восстановил %d ед. здоровья   \n", playerCurrent.getName(),
+                unit.getName().toLowerCase(),
+                patient.getName().toLowerCase(),
+                playerCurrent.getNumUnits(patient),
+                code);
         return true;
     }
 
