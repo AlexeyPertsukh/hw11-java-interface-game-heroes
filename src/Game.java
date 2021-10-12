@@ -12,12 +12,7 @@ public class Game {
     public static final int RIGHT_MAP_MAX_POSITION = 3; //максимальная позиция, которую юнит может занимать на карте по горизонтали
     private static final int MAX_ROUND_NO_ATTACK = 4;     //максимальное количество ходов без атак
 
-    //    private static final boolean PAUSE_ON = false;
-    private static final boolean PAUSE_ON = true;
-    private static final int PAUSE_ANIMATION = 2000;
-    private static final int PAUSE_JOKE = 5000;         //время, что бы прочитать шутку
-
-    private static final String VERSION = "3.71";
+    private static final String VERSION = "3.8";
 
     //Цвета в программе
     private static final String COLOR_VICTORY = My.ANSI_GREEN;   //победа
@@ -40,7 +35,6 @@ public class Game {
     private static final String CMD_PRINT_ALL_JOKE_STORIES = "~";
     private static final String CMD_SKIP = "%";
 
-    //    private Player[] players;
     private final Player player1;
     private final Player player2;
     private Player playerCurrent;
@@ -61,11 +55,10 @@ public class Game {
 
     //========= основной блок ===========================
     public void go() {
-        String command;
         System.out.println("ver." + VERSION + " Dedicated to the Heroes of Might and Magic II  ");
         playerFirstFocus();
         printPage();
-
+        String command;
         do {
             command = inputCommand();
             processCommand(command);
@@ -536,7 +529,7 @@ public class Game {
 
     private void pressEnterForContinue() {
         System.out.println("...");
-        System.out.print("для продолжения нажмите <enter> ");
+        System.out.print("для продолжения нажмите <enter>");
         scannerEnter.nextLine();
     }
 
