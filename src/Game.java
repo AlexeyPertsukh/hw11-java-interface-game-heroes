@@ -248,42 +248,51 @@ public class Game {
 
     //обработка команд
     private void processCommand(String cmd) {
+        boolean ok;
         switch (cmd) {
             case CMD_RUN_RIGHT:         //идти вправо
-                if (!goRight()) {
-                    return;
+                ok = goRight();
+                if (ok) {
+                    focusNextUnit();
+                    printPage();
                 }
-                focusNextUnit();
-                printPage();
                 return;
+
             case CMD_RUN_LEFT:          //идти влево
-                if (!goLeft()) {
-                    return;
+                ok = goLeft();
+                if (ok) {
+                    focusNextUnit();
+                    printPage();
                 }
-                focusNextUnit();
-                printPage();
                 return;
+
             case CMD_HELP:              //помощь
                 printHelp();
                 return;
+
 //            case CMD_SKIP:
 //                System.out.println("пропуск хода");
 //                focusNextUnit();
 //                printPage();
 //                return;
+
             case CMD_JOKE:
-                if (joke()) {
+                ok = joke();
+                if (ok) {
                     focusNextUnit();
                     printPage();
                 }
                 return;
+
             case CMD_PRINT_ALL_JOKE_STORIES:       //распечатать все шутки
                 Dangler dangler = new Dangler(0);
                 dangler.printStories();
                 return;
+
             case CMD_GAME_OVER:         //выйти из игры
                 exit = true;
                 return;
+
             default:
                 break;
         }
@@ -293,7 +302,8 @@ public class Game {
 
         if (num != My.CODE_NOT_OK) {
             num--;
-            if (attack(num)) {
+            ok = attack(num);
+            if (ok) {
                 pressEnterForContinue();
                 focusNextUnit();
                 printPage();
@@ -305,7 +315,8 @@ public class Game {
         num = My.getIntFromCmdStr(cmd, KEY_CMD_KILL);
         if (num != My.CODE_NOT_OK) {
             num--;
-            if (attack(num, 1000)) {
+            ok = attack(num, 1000);
+            if (ok) {
                 pressEnterForContinue();
                 focusNextUnit();
                 printPage();
@@ -317,7 +328,8 @@ public class Game {
         num = My.getIntFromCmdStr(cmd, KEY_CMD_CURE);
         if (num != My.CODE_NOT_OK) {
             num--;
-            if (cure(num)) {
+            ok = cure(num);
+            if (ok) {
                 pressEnterForContinue();
                 focusNextUnit();
                 printPage();
