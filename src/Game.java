@@ -154,15 +154,23 @@ public class Game {
     private void printHelp() {
         My.setTextColor(COLOR_HELP);
         System.out.println("---");
+        System.out.println("Правила");
         System.out.println("Пехотинцы могут атаковать врагов только на своей вертикальной линии");
         System.out.println("Стрелки могут обстреливать врага из любой точки");
         System.out.println("Маг атакует издалека фаерболами, поэтому тоже стрелок");
         System.out.println("Маг может лечить");
         System.out.println("Лечение возможно только для живых существ");
         System.out.println("Тунеядец умеет шутить");
-//        System.out.println("Дополнительная команда для распечатки всех шуток: " + CMD_PRINT_ALL_JOCKE_STORIES);
         System.out.println("Ничья, если прошло " + MAX_ROUND_NO_ATTACK + " раунда без атаки");
         System.out.println("---");
+        System.out.println("Примеры команд");
+        System.out.println("Идти влево: " + CMD_RUN_LEFT);
+        System.out.println("Идти вправо: " + CMD_RUN_RIGHT);
+        System.out.println("Атаковать врага под номером 5: " + KEY_CMD_ATTACK + "5");
+        System.out.println("Лечить союзника под номером 2: " + KEY_CMD_CURE + "2");
+//        System.out.println("Дополнительная команда для распечатки всех шуток: " + CMD_PRINT_ALL_JOCKE_STORIES);
+        System.out.println("---");
+        System.out.println("Обозначения");
         System.out.println(Unit.CHAR_HP + " здоровье");
         System.out.println(Build.CHAR_BUILD_HP + " прочность строения");
         System.out.println(Attackable.CHAR_ATTACK + " наносимый урон");
