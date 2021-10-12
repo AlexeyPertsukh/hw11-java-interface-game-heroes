@@ -49,27 +49,26 @@ public class Game {
     private boolean exit;
     private int cntNoAttack; // счетчик ходов без атак
     private boolean draw;    //ничья
+    Scanner scanner;
     private final Scanner scannerEnter;
 
     public Game() {
         player1 = new Player("Карл IV Великолепный", LEFT_MAP_POSITION);
         player2 = new Player("Барон Свиное Рыло", RIGHT_MAP_MAX_POSITION);
         scannerEnter = new Scanner(System.in);
+        scanner = new Scanner(System.in);
     }
 
     //========= основной блок ===========================
     public void go() {
-        Scanner sc = new Scanner(System.in);
-        String cmd;
-
+        String command;
         System.out.println("ver." + VERSION + " Dedicated to the Heroes of Might and Magic II  ");
         playerFirstFocus();
         printPage();
 
         do {
-            System.out.printf("[%s] %s, введите команду: ", playerCurrent.getName(), playerCurrent.getUnitCurrent().getName().toLowerCase());
-            cmd = playerCurrent.nextCmd(sc);
-            inputCmd(cmd);
+            command = inputCommand();
+            processCommand(command);
 
             //Кто-то победил?
             if (player1.isAllUnitsDead() || player2.isAllUnitsDead()) {
@@ -248,8 +247,14 @@ public class Game {
         return My.ANSI_RESET;
     }
 
+    //ввод команды
+    private String inputCommand() {
+        System.out.printf("[%s] %s, введите команду: ", playerCurrent.getName(), playerCurrent.getUnitCurrent().getName().toLowerCase());
+        return playerCurrent.nextCmd(scanner);
+    }
+
     //обработка команд
-    private void inputCmd(String cmd) {
+    private void processCommand(String cmd) {
         switch (cmd) {
             case CMD_RUN_RIGHT:         //идти вправо
                 if (!goRight()) {
@@ -530,6 +535,7 @@ public class Game {
     }
 
     private void pressEnterForContinue() {
+        System.out.println("...");
         System.out.print("для продолжения нажмите <enter> ");
         scannerEnter.nextLine();
     }
