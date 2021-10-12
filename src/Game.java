@@ -49,10 +49,12 @@ public class Game {
     private boolean exit;
     private int cntNoAttack; // счетчик ходов без атак
     private boolean draw;    //ничья
+    private final Scanner scannerEnter;
 
     public Game() {
         player1 = new Player("Карл IV Великолепный", LEFT_MAP_POSITION);
         player2 = new Player("Барон Свиное Рыло", RIGHT_MAP_MAX_POSITION);
+        scannerEnter = new Scanner(System.in);
     }
 
     //========= основной блок ===========================
@@ -268,7 +270,6 @@ public class Game {
                 return;
 //            case CMD_SKIP:
 //                System.out.println("пропуск хода");
-//                My.sleepAnimation(4000, PAUSE_ON);
 //                focusNextUnit();
 //                printPage();
 //                return;
@@ -295,7 +296,7 @@ public class Game {
         if (num != My.CODE_NOT_OK) {
             num--;
             if (attack(num)) {
-                My.sleepAnimation(PAUSE_ANIMATION, PAUSE_ON);
+                pressEnterForContinue();
                 focusNextUnit();
                 printPage();
             }
@@ -307,7 +308,7 @@ public class Game {
         if (num != My.CODE_NOT_OK) {
             num--;
             if (attack(num, 1000)) {
-                My.sleepAnimation(PAUSE_ANIMATION, PAUSE_ON);
+                pressEnterForContinue();
                 focusNextUnit();
                 printPage();
             }
@@ -319,7 +320,7 @@ public class Game {
         if (num != My.CODE_NOT_OK) {
             num--;
             if (cure(num)) {
-                My.sleepAnimation(PAUSE_ANIMATION, PAUSE_ON);
+                pressEnterForContinue();
                 focusNextUnit();
                 printPage();
             }
@@ -455,7 +456,7 @@ public class Game {
         String story = ((Jokable) unit).joke();
         System.out.printf("[%s] %s шутит: ", playerCurrent.getName(), unit.getName().toLowerCase());
         My.printlnColor(story, COLOR_HELP);
-        My.sleepAnimation(PAUSE_JOKE, true);
+        pressEnterForContinue();
         return true;
     }
 
@@ -526,6 +527,11 @@ public class Game {
             System.out.println(str);
         }
         return res;
+    }
+
+    private void pressEnterForContinue() {
+        System.out.print("для продолжения нажмите <enter> ");
+        scannerEnter.nextLine();
     }
 
 

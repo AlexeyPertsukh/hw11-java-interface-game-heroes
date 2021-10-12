@@ -127,26 +127,6 @@ public class My {
         }
     }
 
-    //пауза
-    public static void sleep(int n){
-        try {
-            Thread.sleep(n);
-        } catch (InterruptedException ex) {
-            Thread.currentThread().interrupt();
-        }
-    }
-
-    public static void sleepAnimation(int n, boolean on){
-        n /= 500;
-        for (int i = 0; i < n; i++) {
-            if (on) {
-                sleep(500);
-                System.out.print(".");
-            }
-        }
-        System.out.println();
-    }
-
     //возвращает положительное число в строке-коменде или -1 если это не команда
     //например, команда +3 - вернет число 3
 
