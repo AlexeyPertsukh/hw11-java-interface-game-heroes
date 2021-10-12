@@ -168,7 +168,7 @@ public class Game {
         System.out.println("Идти вправо: " + CMD_RUN_RIGHT);
         System.out.println("Атаковать врага под номером 5: " + KEY_CMD_ATTACK + "5");
         System.out.println("Лечить союзника под номером 2: " + KEY_CMD_CURE + "2");
-//        System.out.println("Дополнительная команда для распечатки всех шуток: " + CMD_PRINT_ALL_JOCKE_STORIES);
+//        System.out.println("Дополнительная команда для распечатки всех шуток: " + CMD_PRINT_ALL_JOKE_STORIES);
         System.out.println("---");
         System.out.println("Обозначения");
         System.out.println(Unit.CHAR_HP + " здоровье");
