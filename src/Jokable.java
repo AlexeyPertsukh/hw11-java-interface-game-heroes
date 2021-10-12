@@ -6,7 +6,7 @@ https://www.anekdot.ru/tags/%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%
 
 //шутник
 public interface Jokable {
-    String STR_JOKE = ":)";
+    String LABEL_JOKE = ":)";
 
     String[] JOKE_STORIES = {
             "Сколько нужно программистов, что бы вкрутить лампочку? Нисколько, это аппаратная задача. ",
@@ -84,7 +84,7 @@ public interface Jokable {
 
     //информация о шутнике
     default String infoJoke() {
-        return String.format("%s", STR_JOKE);
+        return String.format("%s", LABEL_JOKE);
     }
 
 }

@@ -131,19 +131,19 @@ public class My {
     //например, команда +3 - вернет число 3
 
     public static int getIntFromCmdStr(String str, char key) {
-        int ret = CODE_NOT_OK;
+        int num = CODE_NOT_OK;
 
         if(str.length() < 2) {
-            return ret;
+            return num;
         }
 
         if(str.charAt(0) != key) {
-            return ret;
+            return num;
         }
 
         str = str.substring(1);
         if(!My.isInteger(str)) {
-            return ret;
+            return num;
         }
         return Integer.parseInt(str);
     }

@@ -12,7 +12,7 @@ public class Game {
     public static final int RIGHT_MAP_MAX_POSITION = 3; //максимальная позиция, которую юнит может занимать на карте по горизонтали
     private static final int MAX_ROUND_NO_ATTACK = 4;     //максимальное количество ходов без атак
 
-    private static final String VERSION = "3.8";
+    private static final String VERSION = "3.81";
 
     //Цвета в программе
     private static final String COLOR_VICTORY = My.ANSI_GREEN;   //победа
@@ -44,12 +44,10 @@ public class Game {
     private int cntNoAttack; // счетчик ходов без атак
     private boolean draw;    //ничья
     Scanner scanner;
-    private final Scanner scannerEnter;
 
     public Game() {
         player1 = new Player("Карл IV Великолепный", LEFT_MAP_POSITION);
         player2 = new Player("Барон Свиное Рыло", RIGHT_MAP_MAX_POSITION);
-        scannerEnter = new Scanner(System.in);
         scanner = new Scanner(System.in);
     }
 
@@ -169,7 +167,7 @@ public class Game {
         System.out.println(Build.CHAR_BUILD_HP + " прочность строения");
         System.out.println(Attackable.CHAR_ATTACK + " наносимый урон");
         System.out.println(Medicinable.CHAR_CURE + " уровень лечения");
-        System.out.println(Jokable.STR_JOKE + " рассказывает шутки");
+        System.out.println(Jokable.LABEL_JOKE + " рассказывает шутки");
         System.out.println("---");
         System.out.println("https://github.com/AlexeyPertsukh/hw11-java-interface-game-heroes");
         System.out.println("---");
@@ -511,12 +509,12 @@ public class Game {
             return false;
         }
 
-        boolean res = ((Movable) unit).goRightOneStep();
-        if (!res) {
+        boolean code = ((Movable) unit).goRightOneStep();
+        if (!code) {
             str = String.format("[%s] %s ", playerCurrent.getName(), Movable.MSG_NO_WAY);
             System.out.println(str);
         }
-        return res;
+        return code;
 
     }
 
@@ -531,18 +529,19 @@ public class Game {
             return false;
         }
 
-        boolean res = ((Movable) unit).goLeftOneStep();
-        if (!res) {
+        boolean code = ((Movable) unit).goLeftOneStep();
+        if (!code) {
             str = String.format("[%s] %s ", playerCurrent.getName(), Movable.MSG_NO_WAY);
             System.out.println(str);
         }
-        return res;
+        return code;
     }
 
     private void pressEnterForContinue() {
         System.out.println("...");
         System.out.print("для продолжения нажмите <enter>");
-        scannerEnter.nextLine();
+        Scanner sc = new Scanner(System.in);        //постоянно пересоздаем сканнер в этом методе из-за глюков при переводе фокуса из консоли в код и обратно
+        sc.nextLine();
     }
 
 
