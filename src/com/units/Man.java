@@ -8,5 +8,4 @@ public abstract class Man extends Unit implements Movable {
         super(name, hintPoint, position, coat);
     }
 
-//    abstract public String shortInfo(); //абстрактный метод
 }
