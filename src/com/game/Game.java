@@ -326,7 +326,7 @@ public class Game {
 
             case CMD_PRINT_ALL_JOKE_STORIES:       //распечатать все шутки
                 Dangler dangler = new Dangler(0);
-                dangler.printStories();
+                dangler.printStories(COLOR_HELP);
                 return needPrintPage;
 
             case CMD_GAME_OVER:         //выйти из игры

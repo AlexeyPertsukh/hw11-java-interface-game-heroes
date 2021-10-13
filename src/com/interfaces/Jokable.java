@@ -6,7 +6,6 @@ https://www.anekdot.ru/tags/%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%BC%D0%
 package com.interfaces;
 
 import com.game.Color;
-import com.game.Game;
 import com.game.Util;
 
 //шутник
@@ -76,8 +75,8 @@ public interface Jokable {
     }
 
     //распечатать все шутки
-    default void printStories(){
-        Color.setTextColor(Game.COLOR_HELP);
+    default void printStories(String color){
+        Color.setTextColor(color);
         System.out.println("----");
         System.out.println("Репертуар шутника, достаточный для получения бесплатной кружки пива на любом магистратском балагане:");
         for (int i = 0; i < JOKE_STORIES.length; i++) {
