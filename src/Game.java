@@ -12,7 +12,7 @@ public class Game {
     public static final int RIGHT_MAP_MAX_POSITION = 3; //максимальная позиция, которую юнит может занимать на карте по горизонтали
     private static final int MAX_ROUND_NO_ATTACK = 4;     //максимальное количество ходов без атак
 
-    private static final String VERSION = "3.82";
+    private static final String VERSION = "3.83";
 
     //Цвета в программе
     private static final String COLOR_VICTORY = My.ANSI_GREEN;   //победа
@@ -38,6 +38,9 @@ public class Game {
     private static final boolean NEED_PRINT_PAGE = true;
     private static final boolean NO_NEED_PRINT_PAGE = false;
 
+    private static final String NAME_PLAYER1 = "Карл IV Великолепный";
+    private static final String NAME_PLAYER2 = "Барон Свиное Рыло";
+
     private final Player player1;
     private final Player player2;
     private Player playerCurrent;
@@ -50,8 +53,8 @@ public class Game {
     String command;
 
     public Game() {
-        player1 = new Player("Карл IV Великолепный", LEFT_MAP_POSITION);
-        player2 = new Player("Барон Свиное Рыло", RIGHT_MAP_MAX_POSITION);
+        player1 = new Player(NAME_PLAYER1, LEFT_MAP_POSITION);
+        player2 = new Player(NAME_PLAYER2, RIGHT_MAP_MAX_POSITION);
         scanner = new Scanner(System.in);
     }
 
