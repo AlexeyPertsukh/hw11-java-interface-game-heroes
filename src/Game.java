@@ -72,12 +72,11 @@ public class Game {
                 printPage();
             }
 
-            //Кто-то победил?
-            if (checkWin()) {
+            if (checkWin()) {               //Кто-то победил?
                 Player playerWin = getWinPlayer();
                 My.printlnColor("⚑⚑⚑ ПОБЕДИЛ " + playerWin.getName() + " !!! ", COLOR_VICTORY);
                 exit = true;
-            } else if(checkDraw()) { //ничья?
+            } else if(checkDraw()) {        //ничья?
                 My.printlnColor("⛨⛨⛨ НИЧЬЯ: " + MAX_ROUND_NO_ATTACK + " раунда без атак.", COLOR_DRAW);
                 exit = true;
             }
@@ -99,6 +98,13 @@ public class Game {
 
         printHeader();
 
+        printNamePlayersOnBattleField(colorPlayer1, colorPlayer2);
+        printUnitsOnBattleField(colorPlayer1, colorPlayer2);
+
+        printFooter();
+    }
+
+    private void printNamePlayersOnBattleField(String colorPlayer1, String colorPlayer2) {
         String str1 = colorPlayer1 + "⚑  " + player1.getName() + My.ANSI_RESET;
         str1 = String.format("%-51s", str1);
         String str2 = COLOR_HEADER + "-----ПОЛЕ БОЯ------";
@@ -107,9 +113,10 @@ public class Game {
         str3 = String.format("%-38s", str3);
 
         System.out.printf("%s  %s  %s    \n", str1, str2, str3);
+    }
 
+    private void printUnitsOnBattleField(String colorPlayer1, String colorPlayer2) {
         String shortInfo = "";
-        //распечатка отрядов
         int i = 0;
         do {
             shortInfo = player1.getUnitShortInfo(i);
@@ -131,8 +138,6 @@ public class Game {
             My.printlnColor(shortInfo, colorUnit2);
             i++;
         } while (true);
-
-        printFooter();
     }
 
     private void printHeader() {
