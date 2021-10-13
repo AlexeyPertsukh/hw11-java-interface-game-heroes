@@ -42,11 +42,14 @@ public class My {
     }
 
     public static void printColor(String strPrint, String color){
-        System.out.print(color + strPrint + ANSI_RESET);
+        System.out.print(color);
+        System.out.print(strPrint);
+        System.out.print(ANSI_RESET);
     }
 
     public static void printlnColor(String strPrint, String color){
-        System.out.println(color + strPrint + ANSI_RESET);
+        printColor(strPrint, color);
+        System.out.println();
     }
 
     public static void printColorYellow(String strPrint) {
