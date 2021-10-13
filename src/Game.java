@@ -12,7 +12,7 @@ public class Game {
     public static final int RIGHT_MAP_MAX_POSITION = 3; //максимальная позиция, которую юнит может занимать на карте по горизонтали
     private static final int MAX_ROUND_NO_ATTACK = 4;     //максимальное количество ходов без атак
 
-    private static final String VERSION = "3.81";
+    private static final String VERSION = "3.82";
 
     //Цвета в программе
     private static final String COLOR_VICTORY = My.ANSI_GREEN;   //победа
@@ -35,6 +35,9 @@ public class Game {
     private static final String CMD_PRINT_ALL_JOKE_STORIES = "~";
     private static final String CMD_SKIP = "%";
 
+    private static final boolean NEED_PRINT_PAGE = true;
+    private static final boolean NO_NEED_PRINT_PAGE = false;
+
     private final Player player1;
     private final Player player2;
     private Player playerCurrent;
@@ -44,6 +47,7 @@ public class Game {
     private int cntNoAttack; // счетчик ходов без атак
     private boolean draw;    //ничья
     Scanner scanner;
+    String command;
 
     public Game() {
         player1 = new Player("Карл IV Великолепный", LEFT_MAP_POSITION);
@@ -56,14 +60,18 @@ public class Game {
         System.out.println("ver." + VERSION + " Dedicated to the Heroes of Might and Magic II  ");
         playerFirstFocus();
         printPage();
-        String command;
+        boolean needPrintPage;
         do {
             command = inputCommand();
-            processCommand(command);
+            needPrintPage = processCommand();
+
+            if(needPrintPage) {
+                printPage();
+            }
 
             //Кто-то победил?
-            if (player1.isAllUnitsDead() || player2.isAllUnitsDead()) {
-                Player playerWin = (player1.isAllUnitsDead()) ? player2 : player1;
+            if (checkWin()) {
+                Player playerWin = getWinPlayer();
                 My.printlnColor("⚑⚑⚑ ПОБЕДИЛ " + playerWin.getName() + " !!! ", COLOR_VICTORY);
                 exit = true;
             }
@@ -245,28 +253,30 @@ public class Game {
     }
 
     //обработка команд
-    private void processCommand(String cmd) {
+    private boolean processCommand() {
+        boolean needPrintPage = NO_NEED_PRINT_PAGE;
         boolean ok;
-        switch (cmd) {
+
+        switch (command) {
             case CMD_RUN_RIGHT:         //идти вправо
                 ok = goRight();
                 if (ok) {
                     focusNextUnit();
-                    printPage();
+                    needPrintPage = NEED_PRINT_PAGE;
                 }
-                return;
+                return needPrintPage;
 
             case CMD_RUN_LEFT:          //идти влево
                 ok = goLeft();
                 if (ok) {
                     focusNextUnit();
-                    printPage();
+                    needPrintPage = NEED_PRINT_PAGE;
                 }
-                return;
+                return needPrintPage;
 
             case CMD_HELP:              //помощь
                 printHelp();
-                return;
+                return needPrintPage;
 
 //            case CMD_SKIP:
 //                System.out.println("пропуск хода");
@@ -278,25 +288,25 @@ public class Game {
                 ok = joke();
                 if (ok) {
                     focusNextUnit();
-                    printPage();
+                    needPrintPage = NEED_PRINT_PAGE;
                 }
-                return;
+                return needPrintPage;
 
             case CMD_PRINT_ALL_JOKE_STORIES:       //распечатать все шутки
                 Dangler dangler = new Dangler(0);
                 dangler.printStories();
-                return;
+                return needPrintPage;
 
             case CMD_GAME_OVER:         //выйти из игры
                 exit = true;
-                return;
+                return needPrintPage;
 
             default:
                 break;
         }
 
         //атака
-        int num = My.getIntFromCmdStr(cmd, KEY_CMD_ATTACK);
+        int num = My.getIntFromCmdStr(command, KEY_CMD_ATTACK);
 
         if (num != My.CODE_NOT_OK) {
             num--;
@@ -304,39 +314,40 @@ public class Game {
             if (ok) {
                 pressEnterForContinue();
                 focusNextUnit();
-                printPage();
+                needPrintPage = NEED_PRINT_PAGE;
             }
-            return;
+            return needPrintPage;
         }
 
         //убить сразу
-        num = My.getIntFromCmdStr(cmd, KEY_CMD_KILL);
+        num = My.getIntFromCmdStr(command, KEY_CMD_KILL);
         if (num != My.CODE_NOT_OK) {
             num--;
             ok = attack(num, 1000);
             if (ok) {
                 pressEnterForContinue();
                 focusNextUnit();
-                printPage();
+                needPrintPage = NEED_PRINT_PAGE;
             }
-            return;
+            return needPrintPage;
         }
 
         //лечение
-        num = My.getIntFromCmdStr(cmd, KEY_CMD_CURE);
+        num = My.getIntFromCmdStr(command, KEY_CMD_CURE);
         if (num != My.CODE_NOT_OK) {
             num--;
             ok = cure(num);
             if (ok) {
                 pressEnterForContinue();
                 focusNextUnit();
-                printPage();
+                needPrintPage = NEED_PRINT_PAGE;
             }
-            return;
+            return needPrintPage;
         }
         //
         String str = String.format("[%s] неизвестная команда ", playerCurrent.getName());
         System.out.println(str);
+        return needPrintPage;
     }
 
     //фокус на следующего юнита, если все юниты отыграли - передаем ход следующему игроку
@@ -453,10 +464,10 @@ public class Game {
     //пошутить
     public boolean joke() {
         Unit unit = playerCurrent.getUnitCurrent();
-        boolean isJocker = unit instanceof Jokable;
+        boolean isJoker = unit instanceof Jokable;
 
 
-        if (!isJocker) {
+        if (!isJoker) {
             System.out.printf("[%s] %s не умеет шутить \n", playerCurrent.getName(), unit.getName().toLowerCase());
             return false;
         }
@@ -540,8 +551,18 @@ public class Game {
     private void pressEnterForContinue() {
         System.out.println("...");
         System.out.print("для продолжения нажмите <enter>");
-        Scanner sc = new Scanner(System.in);        //постоянно пересоздаем сканнер в этом методе из-за глюков при переводе фокуса из консоли в код и обратно
+        //не выносить инициализацию этого сканера в конструктор!
+        //постоянно пересоздаем сканнер в этом методе из-за глюков при переводе фокуса ввода(курсора) из консоли в код и обратно
+        Scanner sc = new Scanner(System.in);
         sc.nextLine();
+    }
+
+    private boolean checkWin() {
+        return player1.isAllUnitsDead() || player2.isAllUnitsDead();
+    }
+
+    private Player getWinPlayer() {
+        return  (player1.isAllUnitsDead()) ? player2 : player1;
     }
 
 
