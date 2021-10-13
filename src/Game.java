@@ -45,7 +45,7 @@ public class Game {
 
     private boolean exit;
     private int cntNoAttack; // счетчик ходов без атак
-    private boolean draw;    //ничья
+
     Scanner scanner;
     String command;
 
@@ -76,11 +76,13 @@ public class Game {
                 exit = true;
             }
 
-        } while (!exit);
+            //ничья?
+            if(checkDraw()) {
+                My.printlnColor("⛨⛨⛨ НИЧЬЯ: " + MAX_ROUND_NO_ATTACK + " раунда без атак.", COLOR_DRAW);
+                exit = true;
+            }
 
-        if (draw) {
-            My.printlnColor("⛨⛨⛨ НИЧЬЯ: " + MAX_ROUND_NO_ATTACK + " раунда без атак.", COLOR_DRAW);
-        }
+        } while (!exit);
 
         //конец игры
         System.out.println();
@@ -215,10 +217,6 @@ public class Game {
         }
 
         cntNoAttack++;
-        if (cntNoAttack > MAX_ROUND_NO_ATTACK) {  //ничья
-            draw = true;
-            exit = true;
-        }
     }
 
     //Цвет, каким распечатывать игрока (цветным- когда игрок в фокусе)
@@ -564,6 +562,11 @@ public class Game {
     private Player getWinPlayer() {
         return  (player1.isAllUnitsDead()) ? player2 : player1;
     }
+
+    private boolean checkDraw() {
+        return  (cntNoAttack > MAX_ROUND_NO_ATTACK);
+    }
+
 
 
 }
