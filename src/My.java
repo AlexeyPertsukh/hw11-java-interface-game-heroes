@@ -42,9 +42,9 @@ public class My {
     }
 
     public static void printColor(String strPrint, String color){
-        System.out.print(color);
+        setTextColor(color);
         System.out.print(strPrint);
-        System.out.print(ANSI_RESET);
+        resetTextColor();
     }
 
     public static void printlnColor(String strPrint, String color){
