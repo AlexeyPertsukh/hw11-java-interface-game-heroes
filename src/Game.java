@@ -77,10 +77,7 @@ public class Game {
                 Player playerWin = getWinPlayer();
                 My.printlnColor("⚑⚑⚑ ПОБЕДИЛ " + playerWin.getName() + " !!! ", COLOR_VICTORY);
                 exit = true;
-            }
-
-            //ничья?
-            if(checkDraw()) {
+            } else if(checkDraw()) { //ничья?
                 My.printlnColor("⛨⛨⛨ НИЧЬЯ: " + MAX_ROUND_NO_ATTACK + " раунда без атак.", COLOR_DRAW);
                 exit = true;
             }
