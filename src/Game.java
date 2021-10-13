@@ -62,7 +62,7 @@ public class Game {
         printPage();
         boolean needPrintPage;
         do {
-            command = inputCommand();
+            inputCommand();
             needPrintPage = processCommand();
 
             if(needPrintPage) {
@@ -247,9 +247,9 @@ public class Game {
     }
 
     //ввод команды
-    private String inputCommand() {
+    private void inputCommand() {
         System.out.printf("[%s] %s, введите команду: ", playerCurrent.getName(), playerCurrent.getUnitCurrent().getName().toLowerCase());
-        return playerCurrent.nextCmd(scanner);
+        command = playerCurrent.nextCmd(scanner);
     }
 
     //обработка команд
