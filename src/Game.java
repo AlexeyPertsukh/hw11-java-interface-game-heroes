@@ -146,7 +146,13 @@ public class Game {
 
     private void printFooter() {
         My.setTextColor(COLOR_FOOTER);
-        String str = String.format("%s помощь   | %s%s идти   | %cномер_врага атаковать  | %cномер_союзника  лечить  | %s шутить  | 0 выход", CMD_HELP, CMD_RUN_LEFT, CMD_RUN_RIGHT, KEY_CMD_ATTACK, KEY_CMD_CURE, CMD_JOKE);
+        String str = String.format("%s помощь   | %s%s идти   | %c%s  | %c%s  | %s шутить  | 0 выход",
+                CMD_HELP,
+                CMD_RUN_LEFT,
+                CMD_RUN_RIGHT,
+                KEY_CMD_ATTACK, "номер_врага атаковать",
+                KEY_CMD_CURE, "номер_союзника  лечить",
+                CMD_JOKE);
         System.out.println(". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .");
         System.out.println(str);
         System.out.println(". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .");
