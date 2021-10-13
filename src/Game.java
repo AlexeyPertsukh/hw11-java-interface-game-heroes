@@ -93,51 +93,65 @@ public class Game {
 
     //Распечатываем главную страницу игры
     private void printPage() {
-        String colorPlayer1 = getColorPlayer(player1);
-        String colorPlayer2 = getColorPlayer(player2);
+//        String colorPlayer1 = getColorPlayer(player1);
+//        String colorPlayer2 = getColorPlayer(player2);
 
         printHeader();
 
-        printNamePlayersOnBattleField(colorPlayer1, colorPlayer2);
-        printUnitsOnBattleField(colorPlayer1, colorPlayer2);
+        printNamePlayersOnBattleField();
+        printUnitsOnBattleField();
 
         printFooter();
     }
 
-    private void printNamePlayersOnBattleField(String colorPlayer1, String colorPlayer2) {
+    private void printNamePlayersOnBattleField() {
+        String colorPlayer1 = getColorPlayer(player1);
+        String colorPlayer2 = getColorPlayer(player2);
+
         String str1 = colorPlayer1 + "⚑  " + player1.getName() + My.ANSI_RESET;
         str1 = String.format("%-51s", str1);
+
         String str2 = COLOR_HEADER + "-----ПОЛЕ БОЯ------";
         str2 = String.format("%-30s", str2);
-        String str3 = colorPlayer2 + "⚑  " + player2.getName();
+
+        String str3 = colorPlayer2 + "⚑  " + player2.getName() + My.ANSI_RESET;
         str3 = String.format("%-38s", str3);
 
         System.out.printf("%s  %s  %s    \n", str1, str2, str3);
     }
 
-    private void printUnitsOnBattleField(String colorPlayer1, String colorPlayer2) {
-        String shortInfo = "";
-        int i = 0;
-        do {
-            shortInfo = player1.getUnitShortInfo(i);
-            if (shortInfo == null) {
+    private void printUnitsOnBattleField() {
+        String format;
+        String tacticMapLine;
+
+        int max = Math.max(player1.getUnitsSize(), player2.getUnitsSize());
+
+        for (int i = 0; i < max; i++) {
+            if(player1.getUnitShortInfo(i) == null || player2.getUnitShortInfo(i) == null) {
                 break;
             }
 
-            String colorUnit1 = getColorUnit(player1, i);
-            String colorUnit2 = getColorUnit(player2, i);
+            //юнит игрока1
+            format = "%d. %-35s    ";
+            printOneUnitOnBattleField(player1, i, format);
 
-            shortInfo = String.format("%d. %-35s    ", i + 1, shortInfo);
-            My.printColor(shortInfo, colorUnit1);
+            //рисуем линию тактической карты
+            tacticMapLine = getTacticMapLine(i);
+            System.out.print(tacticMapLine);
 
-            //рисуем карту
-            System.out.print(getStrMap(i, colorPlayer1, colorPlayer2));
+            //юнит игрока2
+            format = "       %d. %-35s ";
+            printOneUnitOnBattleField(player2, i, format);
 
-            shortInfo = player2.getUnitShortInfo(i);
-            shortInfo = String.format("       %d. %-35s ", i + 1, shortInfo);
-            My.printlnColor(shortInfo, colorUnit2);
-            i++;
-        } while (true);
+            System.out.println();
+        }
+    }
+
+    private void printOneUnitOnBattleField(Player player, int numUnit, String format) {
+        String colorUnit = getColorUnit(player, numUnit);
+        String shortInfo = player.getUnitShortInfo(numUnit);
+        shortInfo = String.format(format, numUnit + 1, shortInfo);
+        My.printColor(shortInfo, colorUnit);
     }
 
     private void printHeader() {
@@ -490,31 +504,34 @@ public class Game {
     }
 
     //для отрисовывки карты битвы построчно
-    public String getStrMap(int num, String color1, String color2) {
-        if (num < 0 || num >= player1.getUnitsArrLength()) {
+    public String getTacticMapLine(int num) {
+        if (num < 0 || num >= player1.getUnitsSize()) {
             return "";
         }
 
-        char line = '\'';
+        char border = '\'';
 
-        String str = "";
+        String str = border + "";
 
-        str += line;
-        for (int i = 0; i < RIGHT_MAP_MAX_POSITION + 1; i++) {
-            color1 = (player1.getUnitByNum(num).getPosition() == i && player1.getUnitByNum(num).isDead()) ? COLOR_KILL : color1;
+        for (int cell = 0; cell < RIGHT_MAP_MAX_POSITION + 1; cell++) {
 
-            str += color1;
-            str += (player1.getUnitByNum(num).getPosition() == i) ? player1.getUnitByNum(num).getCoat() : " ";
-            str += My.ANSI_RESET;
+            str += getUnitCoatOrEmptyInCellMap(player1, num, cell);
 
             str += "  ";
 
-            color2 = (player2.getUnitByNum(num).getPosition() == i && player2.getUnitByNum(num).isDead()) ? COLOR_KILL : color2;
-            str += color2;
-            str += (player2.getUnitByNum(num).getPosition() == i) ? player2.getUnitByNum(num).getCoat() : " ";
-            str += My.ANSI_RESET;
-            str += line;
+            str += getUnitCoatOrEmptyInCellMap(player2, num, cell);
+
+            str += border;
         }
+        return str;
+    }
+
+    private String getUnitCoatOrEmptyInCellMap(Player player, int pos, int cell) {
+        String defaultColor = getColorPlayer(player);
+        String str = (player.getUnitByNum(pos).getPosition() == cell && player.getUnitByNum(pos).isDead()) ? COLOR_KILL : defaultColor;
+        str += (player.getUnitByNum(pos).getPosition() == cell) ? player.getUnitByNum(pos).getCoat() : " ";
+        str += My.ANSI_RESET;
+
         return str;
     }
 

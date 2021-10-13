@@ -123,7 +123,7 @@ public class Player {
         return name;
     }
 
-    public int getUnitsArrLength() {
+    public int getUnitsSize() {
         return units.length;
     }
 
@@ -147,4 +147,6 @@ public class Player {
     public Unit getUnitCurrent() {
         return unitCurrent;
     }
+
+
 }
