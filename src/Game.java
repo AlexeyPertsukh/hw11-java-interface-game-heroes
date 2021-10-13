@@ -12,7 +12,7 @@ public class Game {
     public static final int RIGHT_MAP_MAX_POSITION = 3; //максимальная позиция, которую юнит может занимать на карте по горизонтали
     private static final int MAX_ROUND_NO_ATTACK = 4;     //максимальное количество ходов без атак
 
-    private static final String VERSION = "3.83";
+    private static final String VERSION = "3.9";
 
     //Цвета в программе
     private static final String COLOR_VICTORY = My.ANSI_GREEN;   //победа
@@ -93,8 +93,6 @@ public class Game {
 
     //Распечатываем главную страницу игры
     private void printPage() {
-//        String colorPlayer1 = getColorPlayer(player1);
-//        String colorPlayer2 = getColorPlayer(player2);
 
         printHeader();
 
@@ -595,7 +593,5 @@ public class Game {
     private boolean checkDraw() {
         return  (cntNoAttack > MAX_ROUND_NO_ATTACK);
     }
-
-
 
 }
