@@ -1,7 +1,7 @@
 package com.interfaces;
 
+import com.game.Util;
 import com.units.Man;
-import com.game.My;
 import com.units.Unit;
 
 //интерфейс лекаря
@@ -21,7 +21,7 @@ public interface Medicinable {
     // >0  количество очков здоровья, добавленных юниту
     // <0  код ошибки
     default int cure(Unit patient) {
-        int cure = My.random(HEALTH_RESTORE_MIN, HEALTH_RESTORE_MAX);
+        int cure = Util.random(HEALTH_RESTORE_MIN, HEALTH_RESTORE_MAX);
         //нельзя лечить не живые юниты (напр. здания)
         boolean isMan = patient instanceof Man;
         if(!isMan) {

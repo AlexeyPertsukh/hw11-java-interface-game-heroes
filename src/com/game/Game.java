@@ -21,16 +21,16 @@ public class Game {
     public static final int RIGHT_MAP_MAX_POSITION = 3; //максимальная позиция, которую юнит может занимать на карте по горизонтали
     private static final int MAX_ROUND_NO_ATTACK = 4;     //максимальное количество ходов без атак
 
-    private static final String VERSION = "3.91";
+    private static final String VERSION = "4.01";
 
     //Цвета в программе
-    private static final String COLOR_VICTORY = My.ANSI_GREEN;   //победа
-    private static final String COLOR_DRAW = My.ANSI_CYAN;       //ничья
-    private static final String COLOR_FOCUS = My.ANSI_GREEN;
-    private static final String COLOR_HEADER = My.ANSI_PURPLE;
-    private static final String COLOR_FOOTER = My.ANSI_BLUE;
-    public static final String COLOR_HELP = My.ANSI_BLUE;
-    private static final String COLOR_KILL = My.ANSI_RED;
+    private static final String COLOR_VICTORY = Color.ANSI_GREEN;   //победа
+    private static final String COLOR_DRAW = Color.ANSI_CYAN;       //ничья
+    private static final String COLOR_FOCUS = Color.ANSI_GREEN;
+    private static final String COLOR_HEADER = Color.ANSI_PURPLE;
+    private static final String COLOR_FOOTER = Color.ANSI_BLUE;
+    public static final String COLOR_HELP = Color.ANSI_BLUE;
+    private static final String COLOR_KILL = Color.ANSI_RED;
 
     private static final char KEY_CMD_ATTACK = '*';
     private static final char KEY_CMD_KILL = '#';
@@ -83,10 +83,10 @@ public class Game {
 
             if (checkWin()) {               //Кто-то победил?
                 Player playerWin = getWinPlayer();
-                My.printlnColor("⚑⚑⚑ ПОБЕДИЛ " + playerWin.getName() + " !!! ", COLOR_VICTORY);
+                Color.printlnColor("⚑⚑⚑ ПОБЕДИЛ " + playerWin.getName() + " !!! ", COLOR_VICTORY);
                 exit = true;
             } else if(checkDraw()) {        //ничья?
-                My.printlnColor("⛨⛨⛨ НИЧЬЯ: " + MAX_ROUND_NO_ATTACK + " раунда без атак.", COLOR_DRAW);
+                Color.printlnColor("⛨⛨⛨ НИЧЬЯ: " + MAX_ROUND_NO_ATTACK + " раунда без атак.", COLOR_DRAW);
                 exit = true;
             }
 
@@ -117,22 +117,21 @@ public class Game {
 
         String str = "⚑  " + player1.getName();
         str = String.format("%-44s", str);
-        My.printColor(str, colorPlayer1);
+        Color.printColor(str, colorPlayer1);
 
         str =  "-----ПОЛЕ БОЯ------";
         str = String.format("%-27s", str);
-        My.printColor(str, COLOR_HEADER);
+        Color.printColor(str, COLOR_HEADER);
 
         str = "⚑  " + player2.getName();
         str = String.format("%-38s", str);
-        My.printColor(str, colorPlayer2);
+        Color.printColor(str, colorPlayer2);
 
         System.out.println();
     }
 
     private void printUnitsOnBattleField() {
         String format;
-        String tacticMapLine;
 
         int max = Math.max(player1.getUnitsSize(), player2.getUnitsSize());
 
@@ -160,20 +159,20 @@ public class Game {
         String colorUnit = getColorUnit(player, numUnit);
         String shortInfo = player.getUnitShortInfo(numUnit);
         shortInfo = String.format(format, numUnit + 1, shortInfo);
-        My.printColor(shortInfo, colorUnit);
+        Color.printColor(shortInfo, colorUnit);
     }
 
     private void printHeader() {
-        My.setTextColor(COLOR_HEADER);
+        Color.setTextColor(COLOR_HEADER);
         System.out.println("*************************************************************************************************************");
         System.out.println("                         ⛓✠⛓✠⛓✠⛓       HEROES OF JAVA CONSOLE      ⚔✠⚔✠⚔✠⚔                         ");
         System.out.println("*************************************************************************************************************");
-        My.resetTextColor();
+        Color.resetTextColor();
     }
 
 
     private void printFooter() {
-        My.setTextColor(COLOR_FOOTER);
+        Color.setTextColor(COLOR_FOOTER);
         String str = String.format("%s %s   | %s%s %s   | %c%s  | %c%s  | %s %s  | %s %s",
                 CMD_HELP, "помощь",
                 CMD_RUN_LEFT, CMD_RUN_RIGHT, "идти",
@@ -185,11 +184,11 @@ public class Game {
         System.out.println(". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .");
         System.out.println(str);
         System.out.println(". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .");
-        My.resetTextColor();
+        Color.resetTextColor();
     }
 
     private void printHelp() {
-        My.setTextColor(COLOR_HELP);
+        Color.setTextColor(COLOR_HELP);
         System.out.println("---");
         System.out.println("Правила");
         System.out.println("Пехотинцы могут атаковать врагов только на своей вертикальной линии");
@@ -216,7 +215,7 @@ public class Game {
         System.out.println("---");
         System.out.println("https://github.com/AlexeyPertsukh/hw11-java-interface-game-heroes");
         System.out.println("---");
-        My.resetTextColor();
+        Color.resetTextColor();
     }
 
 
@@ -264,7 +263,7 @@ public class Game {
         if (player == playerCurrent) {
             return COLOR_FOCUS;
         }
-        return My.ANSI_RESET;
+        return Color.ANSI_RESET;
     }
 
     //Цвет, каким распечатывать юнита (цветным- когда юнит в фокусе)
@@ -276,7 +275,7 @@ public class Game {
         if (player == playerCurrent && player.getUnitCurrent() == player.getUnitByNum(num)) {
             return COLOR_FOCUS;
         }
-        return My.ANSI_RESET;
+        return Color.ANSI_RESET;
     }
 
     //ввод команды
@@ -339,9 +338,9 @@ public class Game {
         }
 
         //атака
-        int num = My.getIntFromCmdStr(command, KEY_CMD_ATTACK);
+        int num = Util.getIntFromCmdStr(command, KEY_CMD_ATTACK);
 
-        if (num != My.CODE_NOT_OK) {
+        if (num != Util.CODE_NOT_OK) {
             num--;
             ok = attack(num);
             if (ok) {
@@ -353,8 +352,8 @@ public class Game {
         }
 
         //убить сразу
-        num = My.getIntFromCmdStr(command, KEY_CMD_KILL);
-        if (num != My.CODE_NOT_OK) {
+        num = Util.getIntFromCmdStr(command, KEY_CMD_KILL);
+        if (num != Util.CODE_NOT_OK) {
             num--;
             ok = attack(num, 1000);
             if (ok) {
@@ -366,8 +365,8 @@ public class Game {
         }
 
         //лечение
-        num = My.getIntFromCmdStr(command, KEY_CMD_CURE);
-        if (num != My.CODE_NOT_OK) {
+        num = Util.getIntFromCmdStr(command, KEY_CMD_CURE);
+        if (num != Util.CODE_NOT_OK) {
             num--;
             ok = cure(num);
             if (ok) {
@@ -398,7 +397,7 @@ public class Game {
         Unit unit = playerCurrent.getUnitCurrent();
         Unit enemy = playerOther.getUnitByNum(num);
 
-        String str = "";
+        String str;
         if (enemy == null) {
             str = String.format("[%s] неправильный номер для атаки, попробуйте еще раз ", playerCurrent.getName());
             System.out.println(str);
@@ -507,7 +506,7 @@ public class Game {
 
         String story = ((Jokable) unit).joke();
         System.out.printf("[%s] %s шутит: ", playerCurrent.getName(), unit.getName().toLowerCase());
-        My.printlnColor(story, COLOR_HELP);
+        Color.printlnColor(story, COLOR_HELP);
         pressEnterForContinue();
         return true;
     }
@@ -544,13 +543,13 @@ public class Game {
             coat = String.valueOf(player.getUnitByNum(pos).getCoat());
         }
 
-        My.printColor(coat, color);
+        Color.printColor(coat, color);
     }
 
 
     public boolean goRight() {
         Unit unit = playerCurrent.getUnitCurrent();
-        String str = "";
+        String str;
         boolean isRunner = unit instanceof Movable;
 
         if (!isRunner) {
@@ -570,7 +569,7 @@ public class Game {
 
     public boolean goLeft() {
         Unit unit = playerCurrent.getUnitCurrent();
-        String str = "";
+        String str;
 
         boolean isRunner = unit instanceof Movable;
         if (!isRunner) {

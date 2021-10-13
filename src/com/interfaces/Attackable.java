@@ -1,6 +1,6 @@
 package com.interfaces;
 
-import com.game.My;
+import com.game.Util;
 import com.units.Unit;
 
 //атакующий в ближнем бою
@@ -17,7 +17,7 @@ public interface Attackable {
 
         int damageMin = getDamageMin();
         int damageMax = getDamageMax();
-        int damage = My.random(damageMin, damageMax);
+        int damage = Util.random(damageMin, damageMax);
 
         if(unit.getPosition() != enemy.getPosition()) {
             return CODE_TOO_FAR;

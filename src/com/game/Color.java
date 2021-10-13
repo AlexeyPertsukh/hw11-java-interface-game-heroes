@@ -2,7 +2,7 @@
 Цвета: http://surl.li/mrnv
  */
 package com.game;
-public class My {
+public class Color {
 
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_BLACK = "\u001B[30m";
@@ -33,11 +33,9 @@ public class My {
     public static final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
     public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
     public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
-
     //
-    public static final int CODE_NOT_OK = -1;
 
-    private My(){
+    private Color(){
 
     }
 
@@ -121,46 +119,4 @@ public class My {
         System.out.print(ANSI_RESET);
     }
 
-    public static boolean isInteger(String str) {
-        try {
-            Integer.parseInt(str);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
-    }
-
-    //возвращает положительное число в строке-коменде или -1 если это не команда
-    //например, команда +3 - вернет число 3
-
-    public static int getIntFromCmdStr(String str, char key) {
-        int num = CODE_NOT_OK;
-
-        if(str.length() < 2) {
-            return num;
-        }
-
-        if(str.charAt(0) != key) {
-            return num;
-        }
-
-        str = str.substring(1);
-        if(!My.isInteger(str)) {
-            return num;
-        }
-        return Integer.parseInt(str);
-    }
-
-    public static int random(int min, int max) {
-        if(min > max) {
-            int tmp = min;
-            min = max;
-            max = tmp;
-        }
-        return (int) (Math.random() * (max - min)) + min;
-    }
-
-    public static int random(int max) {
-        return random(0, max);
-    }
 }
