@@ -1,3 +1,5 @@
+package com.units;
+
 public class Knight extends Soldier {
 
     private static final String NAME = "Рыцарь";

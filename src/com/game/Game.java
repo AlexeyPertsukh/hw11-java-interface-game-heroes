@@ -3,6 +3,15 @@
 // https://wp-kama.ru/id_10136/100-yunikod-simvolov-kotorye-mozhno-ispolzovat-v-html-css-js-php.html
 // https://saney.ru/tools/symbols.html
 // ▲ ◈ ✠ ◉ ♦ ⛨
+package com.game;
+
+import com.interfaces.Attackable;
+import com.interfaces.Jokable;
+import com.interfaces.Medicinable;
+import com.interfaces.Movable;
+import com.units.Build;
+import com.units.Dangler;
+import com.units.Unit;
 
 import java.util.Scanner;
 

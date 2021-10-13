@@ -1,3 +1,8 @@
+package com.interfaces;
+
+import com.game.My;
+import com.units.Unit;
+
 //атакующий дистанционно
 public interface DistanceAttackable extends Attackable {
     @Override

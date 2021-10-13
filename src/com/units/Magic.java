@@ -1,3 +1,7 @@
+package com.units;
+
+import com.interfaces.Medicinable;
+
 //Маг - колдует фаерболы издалека(стрелок), и еще лечит
 public class Magic extends Shooter implements Medicinable {
 

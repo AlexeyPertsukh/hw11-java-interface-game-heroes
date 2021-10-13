@@ -1,3 +1,9 @@
+package com.interfaces;
+
+import com.units.Man;
+import com.game.My;
+import com.units.Unit;
+
 //интерфейс лекаря
 public interface Medicinable {
     char CHAR_CURE = '+';

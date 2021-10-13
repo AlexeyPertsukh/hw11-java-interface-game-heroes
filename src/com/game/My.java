@@ -1,7 +1,7 @@
 /*
 Цвета: http://surl.li/mrnv
  */
-
+package com.game;
 public class My {
 
     public static final String ANSI_RESET = "\u001B[0m";

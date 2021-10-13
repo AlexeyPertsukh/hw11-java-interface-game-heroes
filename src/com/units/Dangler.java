@@ -1,3 +1,7 @@
+package com.units;
+
+import com.interfaces.Jokable;
+
 //тунеядец-шутник ᙢ ☋
 public class Dangler extends Man implements Jokable {
 

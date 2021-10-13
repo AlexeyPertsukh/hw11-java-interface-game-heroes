@@ -1,3 +1,8 @@
+package com.interfaces;
+
+import com.game.My;
+import com.units.Unit;
+
 //атакующий в ближнем бою
 public interface Attackable {
     char CHAR_ATTACK = '↯';

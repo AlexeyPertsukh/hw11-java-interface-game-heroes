@@ -1,3 +1,5 @@
+package com.units;
+
 public class Archer extends Shooter {
 
     private static final String NAME = "Лучник";

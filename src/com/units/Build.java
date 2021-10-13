@@ -1,3 +1,5 @@
+package com.units;
+
 public abstract class Build extends Unit {
     public static final char CHAR_BUILD_HP = '⚒';
 

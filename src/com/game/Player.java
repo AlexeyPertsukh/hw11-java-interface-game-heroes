@@ -1,3 +1,7 @@
+package com.game;
+
+import com.units.*;
+
 import java.util.Scanner;
 
 public class Player {

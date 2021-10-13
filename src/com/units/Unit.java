@@ -1,3 +1,4 @@
+package com.units;
 //базовый юнит воин
 public abstract class Unit {
     public static final char CHAR_HP = '♥';

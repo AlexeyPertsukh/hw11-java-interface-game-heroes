@@ -1,3 +1,8 @@
+package com.interfaces;
+
+import com.game.Game;
+import com.units.Unit;
+
 //ходок, перемещается в пространстве
 public interface Movable {
     String MSG_NO_WAY = "туда ходить нельзя";

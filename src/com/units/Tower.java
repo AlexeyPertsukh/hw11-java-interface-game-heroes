@@ -1,3 +1,7 @@
+package com.units;
+
+import com.interfaces.DistanceAttackable;
+
 public class Tower extends Bastion implements DistanceAttackable {
 
     private static final String NAME = "Башня";
