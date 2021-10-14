@@ -22,6 +22,8 @@ public class Game {
     private static final int MAX_ROUND_NO_ATTACK = 4;     //максимальное количество ходов без атак
 
     private static final String VERSION = "4.01";
+    private static final String COPYRIGHT = "JAVA A01 \"ШАГ\", Запорожье 2021";
+    private static final String AUTHOR =  "Перцух Алексей";
 
     //Цвета в программе
     private static final String COLOR_VICTORY = Color.ANSI_GREEN;   //победа
@@ -71,14 +73,15 @@ public class Game {
         System.out.println("ver." + VERSION + " Dedicated to the Heroes of Might and Magic II  ");
         playerFirstFocus();
         printPage();
+
         boolean needPrintPage;
         while(true) {
             inputCommand();
             if(isExitCommand()) {
                 break;
             }
-            needPrintPage = processCommand();
 
+            needPrintPage = processCommand();
             if(needPrintPage) {
                 printPage();
             }
@@ -98,8 +101,8 @@ public class Game {
 
         //конец игры
         System.out.println();
-        System.out.println("JAVA A01 \"ШАГ\", Запорожье 2021");
-        System.out.println("Перцух Алексей");
+        System.out.println(COPYRIGHT);
+        System.out.println(AUTHOR);
     }
     //===================================================
 
