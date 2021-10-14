@@ -402,14 +402,12 @@ public class Game {
         Unit unit = playerCurrent.getUnitCurrent();
         Unit enemy = playerOther.getUnitByNum(num);
 
-        String str;
         if (enemy == null) {
             System.out.printf("[%s] неправильный номер для атаки, попробуйте еще раз \n", playerCurrent.getName());
             return false;
         }
 
-        boolean isAttacker = unit instanceof Attackable;
-        if (!isAttacker) {
+        if (!isAttackable(unit)) {
             System.out.printf("[%s] %s не умеет атаковать \n", playerCurrent.getName(), unit.getName().toLowerCase());
             return false;
         }
@@ -444,6 +442,10 @@ public class Game {
         return true;
     }
 
+    private boolean isAttackable(Unit unit) {
+        return unit instanceof Attackable;
+    }
+
 
     //лечение
     public boolean cure(int num) {
@@ -455,8 +457,7 @@ public class Game {
             return false;
         }
 
-        boolean isMedic = unit instanceof Medicinable;
-        if (!isMedic) {
+        if (!isMedicinable(unit)) {
             System.out.printf("[%s] %s не умеет лечить    \n", playerCurrent.getName(), unit.getName().toLowerCase());
             return false;
         }
@@ -493,13 +494,15 @@ public class Game {
         return true;
     }
 
+    private boolean isMedicinable(Unit unit) {
+        return unit instanceof Medicinable;
+    }
+
     //пошутить
     public boolean joke() {
         Unit unit = playerCurrent.getUnitCurrent();
-        boolean isJoker = unit instanceof Jokable;
 
-
-        if (!isJoker) {
+        if (!isJokable(unit)) {
             System.out.printf("[%s] %s не умеет шутить \n", playerCurrent.getName(), unit.getName().toLowerCase());
             return false;
         }
@@ -509,6 +512,10 @@ public class Game {
         Color.printlnColor(story, COLOR_HELP);
         pressEnterForContinue();
         return true;
+    }
+
+    private boolean isJokable(Unit unit) {
+        return unit instanceof Jokable;
     }
 
     //для отрисовывки карты битвы построчно
@@ -549,9 +556,8 @@ public class Game {
 
     public boolean goRight() {
         Unit unit = playerCurrent.getUnitCurrent();
-        boolean isRunner = unit instanceof Movable;
 
-        if (!isRunner) {
+        if (!isMovable(unit)) {
             System.out.printf("[%s] %s не умеет ходить \n", playerCurrent.getName(), unit.getName().toLowerCase());
             return false;
         }
@@ -567,8 +573,7 @@ public class Game {
     public boolean goLeft() {
         Unit unit = playerCurrent.getUnitCurrent();
 
-        boolean isRunner = unit instanceof Movable;
-        if (!isRunner) {
+        if (!isMovable(unit)) {
             System.out.printf("[%s] %s не умеет ходить \n", playerCurrent.getName(), unit.getName().toLowerCase());
             return false;
         }
@@ -578,6 +583,10 @@ public class Game {
             System.out.printf("[%s] %s \n", playerCurrent.getName(), Movable.MSG_NO_WAY);
         }
         return code;
+    }
+
+    private boolean isMovable(Unit unit) {
+        return unit instanceof Movable;
     }
 
     private void pressEnterForContinue() {
