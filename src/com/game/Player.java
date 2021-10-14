@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 public class Player {
     private static final String DEFAULT_NAME = "noname";
+    private static final int ERR_CODE = -1;
 
     private final String name;
     private Unit[] units;
@@ -70,7 +71,7 @@ public class Player {
     public boolean focusNextUnit() {
 
         //находим позицию в массиве текущего юнита
-        int num = -1;
+        int num = ERR_CODE;
         for (int i = 0; i < units.length; i++) {
             if (unitCurrent == units[i]) {
                 num = i;
@@ -79,7 +80,7 @@ public class Player {
         }
 
         //такого юнита вообще не нашли - выходим
-        if (num == -1) {
+        if (num == ERR_CODE) {
             return false;
         }
 
@@ -131,14 +132,14 @@ public class Player {
         return units.length;
     }
 
-    //возвращяет порядковый номер юнита (начинается с 1), или ошибка -1
+    //возвращяет порядковый номер юнита (начинается с 1), или код ошибки
     public int getNumUnits(Unit unit) {
         for (int i = 0; i < units.length; i++) {
             if (units[i] == unit) {
                 return i + 1;
             }
         }
-        return -1;
+        return ERR_CODE;
     }
 
     public Unit getUnitByNum(int num) {
