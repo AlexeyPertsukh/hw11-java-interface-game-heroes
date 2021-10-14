@@ -39,9 +39,7 @@ public class Player {
     //добавляем юнита
     private void addUnit(Unit unit) {
         Unit[] tmp = new Unit[units.length + 1];
-        for (int i = 0; i < units.length; i++) {
-            tmp[i] = units[i];
-        }
+        System.arraycopy(units, 0, tmp, 0, units.length);
 
         tmp[tmp.length - 1] = unit;
         units = tmp;

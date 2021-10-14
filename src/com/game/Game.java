@@ -555,19 +555,16 @@ public class Game {
 
     public boolean goRight() {
         Unit unit = playerCurrent.getUnitCurrent();
-        String str;
         boolean isRunner = unit instanceof Movable;
 
         if (!isRunner) {
-            str = String.format("[%s] %s не умеет ходить ", playerCurrent.getName(), unit.getName().toLowerCase());
-            System.out.println(str);
+            System.out.printf("[%s] %s не умеет ходить \n", playerCurrent.getName(), unit.getName().toLowerCase());
             return false;
         }
 
         boolean code = ((Movable) unit).goRightOneStep();
         if (!code) {
-            str = String.format("[%s] %s ", playerCurrent.getName(), Movable.MSG_NO_WAY);
-            System.out.println(str);
+            System.out.printf("[%s] %s \n", playerCurrent.getName(), Movable.MSG_NO_WAY);
         }
         return code;
 
@@ -575,19 +572,16 @@ public class Game {
 
     public boolean goLeft() {
         Unit unit = playerCurrent.getUnitCurrent();
-        String str;
 
         boolean isRunner = unit instanceof Movable;
         if (!isRunner) {
-            str = String.format("[%s] %s не умеет ходить ", playerCurrent.getName(), unit.getName().toLowerCase());
-            System.out.println(str);
+            System.out.printf("[%s] %s не умеет ходить \n", playerCurrent.getName(), unit.getName().toLowerCase());
             return false;
         }
 
         boolean code = ((Movable) unit).goLeftOneStep();
         if (!code) {
-            str = String.format("[%s] %s ", playerCurrent.getName(), Movable.MSG_NO_WAY);
-            System.out.println(str);
+            System.out.printf("[%s] %s \n", playerCurrent.getName(), Movable.MSG_NO_WAY);
         }
         return code;
     }
