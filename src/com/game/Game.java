@@ -31,7 +31,7 @@ public class Game {
     private static final String COLOR_FOCUS = Color.ANSI_GREEN;
     private static final String COLOR_HEADER = Color.ANSI_PURPLE;
     private static final String COLOR_FOOTER = Color.ANSI_BLUE;
-    public static final String COLOR_HELP = Color.ANSI_BLUE;
+    private static final String COLOR_HELP = Color.ANSI_BLUE;
     private static final String COLOR_KILL = Color.ANSI_RED;
 
     private static final char KEY_CMD_ATTACK = '*';
@@ -296,6 +296,7 @@ public class Game {
         boolean needPrintPage = NO_NEED_PRINT_PAGE;
         boolean ok;
 
+        //простые команды без параметров
         switch (command) {
             case CMD_RUN_RIGHT:         //идти вправо
                 ok = goRight();
@@ -339,6 +340,8 @@ public class Game {
             default:
                 break;
         }
+
+        //команды с параметрами
 
         //атака
         int num = Util.getIntFromCmdStr(command, KEY_CMD_ATTACK);
