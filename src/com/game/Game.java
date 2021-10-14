@@ -55,7 +55,6 @@ public class Game {
     private Player playerCurrent;
     private Player playerOther;
 
-    private boolean exit;
     private int cntNoAttack; // счетчик ходов без атак
 
     Scanner scanner;
@@ -73,24 +72,31 @@ public class Game {
         playerFirstFocus();
         printPage();
         boolean needPrintPage;
-        do {
+        while(true) {
             inputCommand();
+            if(isExitCommand()) {
+                break;
+            }
             needPrintPage = processCommand();
 
             if(needPrintPage) {
                 printPage();
             }
 
-            if (checkWin()) {               //Кто-то победил?
+            //Кто-то победил?
+            if (checkWin()) {
                 Player playerWin = getWinPlayer();
                 Color.printlnColor("⚑⚑⚑ ПОБЕДИЛ " + playerWin.getName() + " !!! ", COLOR_VICTORY);
-                exit = true;
-            } else if(checkDraw()) {        //ничья?
-                Color.printlnColor("⛨⛨⛨ НИЧЬЯ: " + MAX_ROUND_NO_ATTACK + " раунда без атак.", COLOR_DRAW);
-                exit = true;
+                break;
             }
 
-        } while (!exit);
+            //ничья?
+            if(checkDraw()) {
+                Color.printlnColor("⛨⛨⛨ НИЧЬЯ: " + MAX_ROUND_NO_ATTACK + " раунда без атак.", COLOR_DRAW);
+                break;
+            }
+
+        }
 
         //конец игры
         System.out.println();
@@ -327,10 +333,6 @@ public class Game {
             case CMD_PRINT_ALL_JOKE_STORIES:       //распечатать все шутки
                 Dangler dangler = new Dangler(0);
                 dangler.printStories(COLOR_HELP);
-                return needPrintPage;
-
-            case CMD_GAME_OVER:         //выйти из игры
-                exit = true;
                 return needPrintPage;
 
             default:
@@ -605,6 +607,10 @@ public class Game {
 
     private boolean checkDraw() {
         return  (cntNoAttack > MAX_ROUND_NO_ATTACK);
+    }
+
+    private boolean isExitCommand() {
+        return command.equalsIgnoreCase(CMD_GAME_OVER);
     }
 
 }
