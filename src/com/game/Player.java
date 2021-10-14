@@ -5,16 +5,11 @@ import com.units.*;
 import java.util.Scanner;
 
 public class Player {
-    private static final String DEFAULT_NAME = "noname";
     private static final int ERR_CODE = -1;
 
     private final String name;
     private Unit[] units;
     private Unit unitCurrent;
-
-    public Player(int position) {
-        this(DEFAULT_NAME, position);
-    }
 
     public Player(String name, int position) {
         this.name = name;
