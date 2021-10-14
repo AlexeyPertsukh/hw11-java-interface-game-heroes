@@ -21,7 +21,7 @@ public class Game {
     public static final int RIGHT_MAP_MAX_POSITION = 3; //максимальная позиция, которую юнит может занимать на карте по горизонтали
     private static final int MAX_ROUND_NO_ATTACK = 4;     //максимальное количество ходов без атак
 
-    private static final String VERSION = "4.01";
+    private static final String VERSION = "4.02";
     private static final String COPYRIGHT = "JAVA A01 \"ШАГ\", Запорожье 2021";
     private static final String AUTHOR =  "Перцух Алексей";
 
@@ -446,7 +446,6 @@ public class Game {
         return unit instanceof Attackable;
     }
 
-
     //лечение
     public boolean cure(int num) {
 
@@ -539,15 +538,15 @@ public class Game {
         }
     }
 
-    private void printUnitCoatOrEmptyInCellMap(Player player, int pos, int cell) {
+    private void printUnitCoatOrEmptyInCellMap(Player player, int num, int cell) {
         String color = getColorPlayer(player);
-        if(player.getUnitByNum(pos).getPosition() == cell && player.getUnitByNum(pos).isDead()) {
+        if(player.getUnitByNum(num).getPosition() == cell && player.getUnitByNum(num).isDead()) {
             color = COLOR_KILL;
         }
 
         String coat = " ";
-        if(player.getUnitByNum(pos).getPosition() == cell) {
-            coat = String.valueOf(player.getUnitByNum(pos).getCoat());
+        if(player.getUnitByNum(num).getPosition() == cell) {
+            coat = String.valueOf(player.getUnitByNum(num).getCoat());
         }
 
         Color.printColor(coat, color);
@@ -567,7 +566,6 @@ public class Game {
             System.out.printf("[%s] %s \n", playerCurrent.getName(), Movable.MSG_NO_WAY);
         }
         return code;
-
     }
 
     public boolean goLeft() {
