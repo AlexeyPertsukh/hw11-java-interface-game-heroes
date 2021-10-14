@@ -383,8 +383,7 @@ public class Game {
             return needPrintPage;
         }
         //
-        String str = String.format("[%s] неизвестная команда ", playerCurrent.getName());
-        System.out.println(str);
+        System.out.printf("[%s] неизвестная команда \n", playerCurrent.getName());
         return needPrintPage;
     }
 
@@ -405,15 +404,13 @@ public class Game {
 
         String str;
         if (enemy == null) {
-            str = String.format("[%s] неправильный номер для атаки, попробуйте еще раз ", playerCurrent.getName());
-            System.out.println(str);
+            System.out.printf("[%s] неправильный номер для атаки, попробуйте еще раз \n", playerCurrent.getName());
             return false;
         }
 
         boolean isAttacker = unit instanceof Attackable;
         if (!isAttacker) {
-            str = String.format("[%s] %s не умеет атаковать ", playerCurrent.getName(), unit.getName().toLowerCase());
-            System.out.println(str);
+            System.out.printf("[%s] %s не умеет атаковать \n", playerCurrent.getName(), unit.getName().toLowerCase());
             return false;
         }
 
@@ -426,12 +423,10 @@ public class Game {
 
         switch (code) {
             case Attackable.CODE_TOO_FAR:
-                str = String.format("[%s] %s атакует только в ближнем бою, подойдите к врагу вплотную ", playerCurrent.getName(), unit.getName().toLowerCase());
-                System.out.println(str);
+                System.out.printf("[%s] %s атакует только в ближнем бою, подойдите к врагу вплотную \n", playerCurrent.getName(), unit.getName().toLowerCase());
                 return false;
             case Attackable.CODE_IS_KILLED:
-                str = String.format("[%s] нельзя атаковать убитого ", playerCurrent.getName());
-                System.out.println(str);
+                System.out.printf("[%s] нельзя атаковать убитого \n", playerCurrent.getName());
                 return false;
             default:
                 break;
@@ -444,8 +439,7 @@ public class Game {
 
         cntNoAttack = 0; //сбрасываем счетчик ходов без атак
 
-        str = String.format("[%s] %s атакует: враг %s(%d) получил урон %d ед.", playerCurrent.getName(), unit.getName().toLowerCase(), enemy.getName().toLowerCase(), playerOther.getNumUnits(enemy), code);
-        System.out.println(str);
+        System.out.printf("[%s] %s атакует: враг %s(%d) получил урон %d ед. \n", playerCurrent.getName(), unit.getName().toLowerCase(), enemy.getName().toLowerCase(), playerOther.getNumUnits(enemy), code);
 
         return true;
     }
