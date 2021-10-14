@@ -85,17 +85,15 @@ public class Game {
 
             //Кто-то победил?
             if (checkWin()) {
-                Player playerWin = getWinPlayer();
-                Color.printlnColor("⚑⚑⚑ ПОБЕДИЛ " + playerWin.getName() + " !!! ", COLOR_VICTORY);
+                printOnWin();
                 break;
             }
 
             //ничья?
             if(checkDraw()) {
-                Color.printlnColor("⛨⛨⛨ НИЧЬЯ: " + MAX_ROUND_NO_ATTACK + " раунда без атак.", COLOR_DRAW);
+                printOnDraw();
                 break;
             }
-
         }
 
         //конец игры
@@ -611,6 +609,15 @@ public class Game {
 
     private boolean isExitCommand() {
         return command.equalsIgnoreCase(CMD_GAME_OVER);
+    }
+
+    private void printOnWin() {
+        Player playerWin = getWinPlayer();
+        Color.printlnColor("⚑⚑⚑ ПОБЕДИЛ " + playerWin.getName() + " !!! ", COLOR_VICTORY);
+    }
+
+    private void printOnDraw() {
+        Color.printlnColor("⛨⛨⛨ НИЧЬЯ: " + MAX_ROUND_NO_ATTACK + " раунда без атак.", COLOR_DRAW);
     }
 
 }
