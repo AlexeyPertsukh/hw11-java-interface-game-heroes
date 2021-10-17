@@ -350,7 +350,7 @@ public class Game {
             num--;
             ok = attack(num);
             if (ok) {
-                pressEnterForContinue();
+                Util.pressEnterForContinue();
                 focusNextUnit();
                 needPrintPage = NEED_PRINT_PAGE;
             }
@@ -363,7 +363,7 @@ public class Game {
             num--;
             ok = attack(num, 1000);
             if (ok) {
-                pressEnterForContinue();
+                Util.pressEnterForContinue();
                 focusNextUnit();
                 needPrintPage = NEED_PRINT_PAGE;
             }
@@ -376,7 +376,7 @@ public class Game {
             num--;
             ok = cure(num);
             if (ok) {
-                pressEnterForContinue();
+                Util.pressEnterForContinue();
                 focusNextUnit();
                 needPrintPage = NEED_PRINT_PAGE;
             }
@@ -509,7 +509,7 @@ public class Game {
         String story = ((Jokable) unit).joke();
         System.out.printf("[%s] %s шутит: ", playerCurrent.getName(), unit.getName().toLowerCase());
         Color.printlnColor(story, COLOR_HELP);
-        pressEnterForContinue();
+        Util.pressEnterForContinue();
         return true;
     }
 
@@ -585,15 +585,6 @@ public class Game {
 
     private boolean isMovable(Unit unit) {
         return unit instanceof Movable;
-    }
-
-    private void pressEnterForContinue() {
-        System.out.println("...");
-        System.out.print("для продолжения нажмите <enter>");
-        //не выносить инициализацию этого сканера в конструктор!
-        //постоянно пересоздаем сканнер в этом методе из-за глюков при переводе фокуса ввода(курсора) из консоли в код и обратно
-        Scanner sc = new Scanner(System.in);
-        sc.nextLine();
     }
 
     private boolean checkWin() {
