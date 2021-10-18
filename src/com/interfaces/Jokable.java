@@ -68,7 +68,7 @@ public interface Jokable {
     };
 
     //пошутить
-    default String joke() {
+    default String randomJoke() {
         int num = Util.random(JOKE_STORIES.length);
         return JOKE_STORIES[num];
     }

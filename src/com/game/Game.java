@@ -327,7 +327,7 @@ public class Game {
 //                return;
 
             case CMD_JOKE:
-                ok = joke();
+                ok = randomJoke();
                 if (ok) {
                     focusNextUnit();
                     needPrintPage = NEED_PRINT_PAGE;
@@ -335,7 +335,7 @@ public class Game {
                 return needPrintPage;
 
             case CMD_PRINT_ALL_JOKE_STORIES:       //распечатать все шутки
-                printAllJoke();
+                printAllJokes();
                 return needPrintPage;
 
             default:
@@ -388,10 +388,10 @@ public class Game {
         return needPrintPage;
     }
 
-    private void printAllJoke() {
+    private void printAllJokes() {
         Color.setTextColor(COLOR_HELP);
-        System.out.println("----");
         System.out.println("Репертуар шутника, достаточный для получения бесплатной кружки пива на любом магистратском балагане:");
+        System.out.println("----");
         for (String joke : Jokable.JOKE_STORIES) {
             System.out.println(joke);
         }
@@ -510,7 +510,7 @@ public class Game {
     }
 
     //пошутить
-    public boolean joke() {
+    public boolean randomJoke() {
         Unit unit = playerCurrent.getUnitCurrent();
 
         if (!isJokable(unit)) {
@@ -518,7 +518,7 @@ public class Game {
             return false;
         }
 
-        String story = ((Jokable) unit).joke();
+        String story = ((Jokable) unit).randomJoke();
         System.out.printf("[%s] %s шутит: ", playerCurrent.getName(), unit.getName().toLowerCase());
         Color.printlnColor(story, COLOR_HELP);
         Util.pressEnterForContinue();
