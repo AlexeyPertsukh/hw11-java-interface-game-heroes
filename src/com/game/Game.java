@@ -10,7 +10,6 @@ import com.interfaces.Jokable;
 import com.interfaces.Medicinable;
 import com.interfaces.Movable;
 import com.units.Build;
-import com.units.Dangler;
 import com.units.Unit;
 
 import java.util.Scanner;
@@ -206,12 +205,15 @@ public class Game {
         System.out.println("Тунеядец умеет шутить");
         System.out.println("Ничья, если прошло " + MAX_ROUND_NO_ATTACK + " раунда без атаки");
         System.out.println("---");
+        System.out.println("Дополнительная команда для распечатки всех шуток: " + CMD_PRINT_ALL_JOKE_STORIES);
+        System.out.println("Дополнительная чит-команда вражеского юнита сразу: " + KEY_CMD_KILL + "номер_врага");
+        System.out.println("---");
         System.out.println("Примеры команд");
         System.out.println("Идти влево: " + CMD_RUN_LEFT);
         System.out.println("Идти вправо: " + CMD_RUN_RIGHT);
         System.out.println("Атаковать врага под номером 5: " + KEY_CMD_ATTACK + "5");
         System.out.println("Лечить союзника под номером 2: " + KEY_CMD_CURE + "2");
-//        System.out.println("Дополнительная команда для распечатки всех шуток: " + CMD_PRINT_ALL_JOKE_STORIES);
+        System.out.println("Чит-команда убить сразу врага под номером 4: " + KEY_CMD_KILL + "4");
         System.out.println("---");
         System.out.println("Обозначения");
         System.out.println(Unit.CHAR_HP + " здоровье");
@@ -333,8 +335,7 @@ public class Game {
                 return needPrintPage;
 
             case CMD_PRINT_ALL_JOKE_STORIES:       //распечатать все шутки
-                Dangler dangler = new Dangler(0);
-                dangler.printStories(COLOR_HELP);
+                printAllJoke();
                 return needPrintPage;
 
             default:
@@ -385,6 +386,17 @@ public class Game {
         //
         System.out.printf("[%s] неизвестная команда \n", playerCurrent.getName());
         return needPrintPage;
+    }
+
+    private void printAllJoke() {
+        Color.setTextColor(COLOR_HELP);
+        System.out.println("----");
+        System.out.println("Репертуар шутника, достаточный для получения бесплатной кружки пива на любом магистратском балагане:");
+        for (String joke : Jokable.JOKE_STORIES) {
+            System.out.println(joke);
+        }
+        System.out.println("----");
+        Color.resetTextColor();
     }
 
     //фокус на следующего юнита, если все юниты отыграли - передаем ход следующему игроку

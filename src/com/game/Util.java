@@ -62,4 +62,19 @@ public class Util {
         Scanner sc = new Scanner(System.in);
         sc.nextLine();
     }
+
+    public static String[] concatenateStrings(String[]... arr) {
+        int size = 0;
+        for (String[] strings : arr) {
+            size += strings.length;
+        }
+        String[] outStrings = new String[size];
+        int i = 0;
+        for (String[] strings : arr) {
+            for (int n = 0; n < strings.length; n++) {
+                outStrings[i++] = strings[n];
+            }
+        }
+        return outStrings;
+    }
 }
