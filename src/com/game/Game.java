@@ -20,7 +20,7 @@ public class Game {
     public static final int RIGHT_MAP_MAX_POSITION = 3; //максимальная позиция, которую юнит может занимать на карте по горизонтали
     private static final int MAX_ROUND_NO_ATTACK = 4;     //максимальное количество ходов без атак
 
-    private static final String VERSION = "4.1";
+    private static final String VERSION = "4.11";
     private static final String COPYRIGHT = "JAVA A01 \"ШАГ\", Запорожье 2021";
     private static final String AUTHOR =  "Перцух Алексей";
 
@@ -306,7 +306,7 @@ public class Game {
         boolean needPrintPage = NO_NEED_PRINT_PAGE;
         boolean result;
 
-        if(checkBasicCommand(CMD_RUN_RIGHT)) {
+        if(isBasicCommand(CMD_RUN_RIGHT)) {
             result = goRight();
             if (result) {
                 focusNextUnit();
@@ -315,7 +315,7 @@ public class Game {
             return needPrintPage;
         }
 
-        if(checkBasicCommand(CMD_RUN_LEFT)) {
+        if(isBasicCommand(CMD_RUN_LEFT)) {
             result = goLeft();
             if (result) {
                 focusNextUnit();
@@ -324,12 +324,12 @@ public class Game {
             return needPrintPage;
         }
 
-        if(checkBasicCommand(CMD_HELP)) {
+        if(isBasicCommand(CMD_HELP)) {
             printHelp();
             return needPrintPage;
         }
 
-        if(checkBasicCommand(CMD_JOKE)) {
+        if(isBasicCommand(CMD_JOKE)) {
             result = randomJoke();
             if (result) {
                 focusNextUnit();
@@ -339,7 +339,7 @@ public class Game {
             return needPrintPage;
         }
 
-        if(checkBasicCommand(CMD_PRINT_ALL_JOKES)) {
+        if(isBasicCommand(CMD_PRINT_ALL_JOKES)) {
             printAllJokes();
             return needPrintPage;
         }
@@ -358,7 +358,6 @@ public class Game {
         }
 
         //убить сразу
-
         if (isCommandKill()) {
             int num = Util.getIntFromCommandStr(command, KEY_CMD_KILL) - 1;
             result = killEnemy(num);
@@ -643,7 +642,7 @@ public class Game {
         return num != Util.CODE_RESULT_NOT_OK;
     }
 
-    private boolean checkBasicCommand(String keyCommand) {
+    private boolean isBasicCommand(String keyCommand) {
         return command.equalsIgnoreCase(keyCommand);
     }
 

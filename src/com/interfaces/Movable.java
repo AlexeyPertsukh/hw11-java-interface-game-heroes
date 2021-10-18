@@ -14,7 +14,7 @@ public interface Movable {
         if(unit.getPosition() + step > Game.RIGHT_MAP_MAX_POSITION) { //двигаться вправо некуда
             return false;
         }
-        else if(unit.getPosition() + step < 0) {   //двигаться влевоЮ некуда
+        else if(unit.getPosition() + step < 0) {   //двигаться влево некуда
             return false;
         }
         unit.setPosition(unit.getPosition() + step);

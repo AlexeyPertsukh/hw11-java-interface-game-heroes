@@ -1,9 +1,9 @@
-Step-by-step strategy for java console
+Step-by-step battle for java console
 ----
 Lesson theme:
 - abstract class
 - extends classes
-- interface, implementation interfaces
+- interface
 
 Features of the program code:
 - using null in return values (breaking GoF patterns)
