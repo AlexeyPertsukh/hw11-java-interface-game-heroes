@@ -50,6 +50,7 @@ public class Game {
 
     private static final String NAME_PLAYER1 = "Карл IV Великолепный";
     private static final String NAME_PLAYER2 = "Барон Свиное Рыло";
+    private static final char EMPTY_SYMBOL = ' ';
 
     private final Player player1;
     private final Player player2;
@@ -563,12 +564,12 @@ public class Game {
             color = COLOR_KILL;
         }
 
-        String coat = " ";
+        char coat = EMPTY_SYMBOL;
         if(player.getUnitByNum(num).getPosition() == cell) {
-            coat = String.valueOf(player.getUnitByNum(num).getCoat());
+            coat = player.getUnitByNum(num).getCoat();
         }
-
-        Color.printColor(coat, color);
+        String coatString = String.valueOf(coat);
+        Color.printColor(coatString, color);
     }
 
 
