@@ -20,7 +20,7 @@ public class Player {
         addUnit(new Dangler(position));
         addUnit(new Magic(position));
 
-        focusFirstUnit();
+        focusFirstLivingUnit();
     }
 
     public String getUnitShortInfo(int num) {
@@ -51,7 +51,7 @@ public class Player {
     }
 
     //фокус на первого (живого) юнита
-    public boolean focusFirstUnit() {
+    public boolean focusFirstLivingUnit() {
         for (Unit unit : units) {
             if (!unit.isDead()) {
                 return focusUnit(unit);
@@ -94,7 +94,7 @@ public class Player {
     }
 
     //все юниты сыграли?
-    public boolean isAllUnitsPlayed() {
+    public boolean currentUnitIsFirstAmongLiving() {
         for (Unit unit : units) {
             if (!unit.isDead()) {
                 return (unit == unitCurrent);

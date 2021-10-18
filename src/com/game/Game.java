@@ -20,7 +20,7 @@ public class Game {
     public static final int RIGHT_MAP_MAX_POSITION = 3; //максимальная позиция, которую юнит может занимать на карте по горизонтали
     private static final int MAX_ROUND_NO_ATTACK = 4;     //максимальное количество ходов без атак
 
-    private static final String VERSION = "4.11";
+    private static final String VERSION = "4.12";
     private static final String COPYRIGHT = "JAVA A01 \"ШАГ\", Запорожье 2021";
     private static final String AUTHOR =  "Перцух Алексей";
 
@@ -52,6 +52,8 @@ public class Game {
     private static final String NAME_PLAYER2 = "Барон Свиное Рыло";
     private static final char EMPTY_SYMBOL = ' ';
 
+    String MESSAGE_NO_WAY = "туда ходить нельзя";
+
     private final Player player1;
     private final Player player2;
     private Player playerCurrent;
@@ -71,7 +73,7 @@ public class Game {
     //========= основной блок ===========================
     public void go() {
         printOnStart();
-        playerFirstFocus();
+        focusFirstPlayer();
         printPage();
 
         boolean needPrintPage;
@@ -129,17 +131,17 @@ public class Game {
         String colorPlayer1 = getColorPlayer(player1);
         String colorPlayer2 = getColorPlayer(player2);
 
-        String str = "⚑  " + player1.getName();
-        str = String.format("%-44s", str);
-        Color.printColor(str, colorPlayer1);
+        String text = "⚑  " + player1.getName();
+        text = String.format("%-44s", text);
+        Color.printColor(text, colorPlayer1);
 
-        str =  "-----ПОЛЕ БОЯ------";
-        str = String.format("%-27s", str);
-        Color.printColor(str, COLOR_HEADER);
+        text =  "-----ПОЛЕ БОЯ------";
+        text = String.format("%-27s", text);
+        Color.printColor(text, COLOR_HEADER);
 
-        str = "⚑  " + player2.getName();
-        str = String.format("%-38s", str);
-        Color.printColor(str, colorPlayer2);
+        text = "⚑  " + player2.getName();
+        text = String.format("%-38s", text);
+        Color.printColor(text, colorPlayer2);
 
         System.out.println();
     }
@@ -187,7 +189,7 @@ public class Game {
 
     private void printFooter() {
         Color.setTextColor(COLOR_FOOTER);
-        String str = String.format("%s %s   | %s%s %s   | %c%s  | %c%s  | %s %s  | %s %s",
+        String text = String.format("%s %s   | %s%s %s   | %c%s  | %c%s  | %s %s  | %s %s",
                 CMD_HELP, "помощь",
                 CMD_RUN_LEFT, CMD_RUN_RIGHT, "идти",
                 KEY_CMD_ATTACK, "номер_врага атаковать",
@@ -196,7 +198,7 @@ public class Game {
                 CMD_GAME_OVER, "выход"
                 );
         System.out.println(". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .");
-        System.out.println(str);
+        System.out.println(text);
         System.out.println(". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .");
         Color.resetTextColor();
     }
@@ -237,34 +239,34 @@ public class Game {
 
 
     // фокус на перволго игрока
-    private void playerFirstFocus() {
-        playerFocus(player1);
+    private void focusFirstPlayer() {
+        focusPlayer(player1);
     }
 
-    private void playerSecondFocus() {
-        playerFocus(player2);
+    private void focusSecondPlayer() {
+        focusPlayer(player2);
     }
 
-    private void playerFocus(Player player) {
+    private void focusPlayer(Player player) {
         playerCurrent = (player == player1) ? player1 : player2;
         playerOther = (player == player1) ? player2 : player1;
 
-        playerCurrent.focusFirstUnit();
+        playerCurrent.focusFirstLivingUnit();
     }
 
 
     //фокус на следующего игрокa
-    private void playerNextFocus() {
+    private void focusNextPlayer() {
 
         if (playerOther.isAllUnitsDead()) { //враг убит полностью- фокус на самого себя
-            playerFocus(playerCurrent);
+            focusPlayer(playerCurrent);
             return;
         }
 
         if (playerCurrent == player1) {
-            playerSecondFocus();
+            focusSecondPlayer();
         } else {
-            playerFirstFocus();
+            focusFirstPlayer();
         }
 
         cntNoAttack++;
@@ -399,8 +401,8 @@ public class Game {
     //фокус на следующего юнита, если все юниты отыграли - передаем ход следующему игроку
     private void focusNextUnit() {
         playerCurrent.focusNextUnit();
-        if (playerCurrent.isAllUnitsPlayed()) {  //все юниты сделали ход - передаем ход следующему
-            playerNextFocus();
+        if (playerCurrent.currentUnitIsFirstAmongLiving()) {  //фокус на превом из живых юнитов, значит все юниты сделали один ход, передаем ход следующему игроку
+            focusNextPlayer();
         }
     }
 
@@ -591,7 +593,7 @@ public class Game {
 
         boolean code = ((Movable) unit).goRightOneStep();
         if (!code) {
-            System.out.printf("[%s] %s \n", playerCurrent.getName(), Movable.MSG_NO_WAY);
+            System.out.printf("[%s] %s \n", playerCurrent.getName(), MESSAGE_NO_WAY);
         }
         return code;
     }
@@ -606,7 +608,7 @@ public class Game {
 
         boolean code = ((Movable) unit).goLeftOneStep();
         if (!code) {
-            System.out.printf("[%s] %s \n", playerCurrent.getName(), Movable.MSG_NO_WAY);
+            System.out.printf("[%s] %s \n", playerCurrent.getName(), MESSAGE_NO_WAY);
         }
         return code;
     }

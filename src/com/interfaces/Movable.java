@@ -5,20 +5,18 @@ import com.units.Unit;
 
 //ходок, перемещается в пространстве
 public interface Movable {
-    String MSG_NO_WAY = "туда ходить нельзя";
 
-    //идти
     default boolean go(int step) {
         Unit unit = (Unit)this;
-        int newPosition = unit.getPosition() + step;
+        int nextPosition = unit.getPosition() + step;
 
-        if( newPosition > Game.RIGHT_MAP_MAX_POSITION) { //двигаться вправо некуда
+        if( nextPosition > Game.RIGHT_MAP_MAX_POSITION) { //двигаться вправо некуда
             return false;
         }
-        else if(newPosition < 0) {   //двигаться влево некуда
+        else if(nextPosition < 0) {   //двигаться влево некуда
             return false;
         }
-        unit.setPosition(newPosition);
+        unit.setPosition(nextPosition);
         return true;
     }
 
