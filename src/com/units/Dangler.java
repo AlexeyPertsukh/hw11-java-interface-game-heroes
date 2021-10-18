@@ -7,10 +7,10 @@ public class Dangler extends Man implements Jokable {
 
     private static final String NAME = "Тунеядец";
     private static final char COAT = '⬦';
-    private static final int HIT_POINTS = 15;
+    private static final int HIT_POINT = 15;
 
     public Dangler(int position) {
-        super(NAME, HIT_POINTS, position, COAT);
+        super(NAME, HIT_POINT, position, COAT);
     }
 
     @Override

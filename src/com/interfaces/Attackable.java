@@ -12,9 +12,9 @@ public interface Attackable {
 
     //атака
     default int attack(Unit enemy) {
-        Unit unit = (Unit)this;
+        Unit unit = (Unit) this;
 
-       if(unit.getPosition() != enemy.getPosition()) {
+        if (unit.getPosition() != enemy.getPosition()) {
             return CODE_TOO_FAR;
         }
 
@@ -27,7 +27,7 @@ public interface Attackable {
 
     default int attack(Unit enemy, int damagePoint) {
         //нельзя атаковать убитого
-        if(enemy.isDead()) {
+        if (enemy.isDead()) {
             return CODE_IS_KILLED;
         }
 

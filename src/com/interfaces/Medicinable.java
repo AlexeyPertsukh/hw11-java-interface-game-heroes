@@ -24,16 +24,16 @@ public interface Medicinable {
         int curePoint = Util.random(HEALTH_RESTORE_MIN, HEALTH_RESTORE_MAX);
         //нельзя лечить не живые юниты (напр. здания)
         boolean isMan = patient instanceof Man;
-        if(!isMan) {
+        if (!isMan) {
             return CODE_IS_NO_MAN;
         }
         return cure(patient, curePoint);
     }
 
     default int cure(Unit patient, int curePoint) {
-        if(patient.isDead()) {    //нельзя лечить убитого
+        if (patient.isDead()) {    //нельзя лечить убитого
             return CODE_IS_KILLED;
-        } else if(patient.isHitPointMax()) {    //если максимум здоровья- больше не добавляем
+        } else if (patient.isHitPointMax()) {    //если максимум здоровья- больше не добавляем
             return CODE_IS_FULL;
         }
 

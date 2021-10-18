@@ -5,7 +5,7 @@ public abstract class Unit {
     public static final String STR_DEAD_SYMBOL = "💀";
     public static final String MASK_INFO = "%-35s";
 
-    public final int HP_MAX;
+    public final int maxHitPoint;
 
     private final String name;
     private final char coat;              //тактический знак для отображения на карте
@@ -18,7 +18,7 @@ public abstract class Unit {
         this.coat = coat;
         this.position = position;
         this.hitPoint = hitPoint;
-        HP_MAX = this.hitPoint;
+        this.maxHitPoint = this.hitPoint;
     }
 
     public void setPosition(int position) {
@@ -38,8 +38,8 @@ public abstract class Unit {
     }
 
     private void setHitPoint(int hitPoint) {
-        if(hitPoint > HP_MAX) {
-            hitPoint = HP_MAX;
+        if(hitPoint > maxHitPoint) {
+            hitPoint = maxHitPoint;
         } else if (hitPoint < 0){
             hitPoint = 0;
         }
@@ -70,7 +70,7 @@ public abstract class Unit {
 
     //жизнь на максимум?
     public boolean isHitPointMax() {
-        return (hitPoint >= HP_MAX);
+        return (hitPoint >= maxHitPoint);
     }
 
     public String infoHitPoint() {
