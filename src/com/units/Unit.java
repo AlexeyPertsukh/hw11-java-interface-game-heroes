@@ -41,6 +41,14 @@ public abstract class Unit {
         this.hitPoint = hitPoint;
     }
 
+    public void addHitPoint(int point) {
+        hitPoint += point;
+        if(hitPoint > HP_MAX) {
+            hitPoint = HP_MAX;
+        }
+    }
+
+
     public int getPosition() {
         return position;
     }

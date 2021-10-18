@@ -41,13 +41,7 @@ public interface Medicinable {
 //            return CODE_IS_THIS;
 //        }
 
-        int hitPoint = patient.getHitPoint() + cure;
-
-        if(hitPoint >= patient.HP_MAX) {
-            hitPoint = patient.HP_MAX;
-        }
-
-        patient.setHitPoint(hitPoint);
+        patient.addHitPoint(cure);
         return cure;
     }
 
