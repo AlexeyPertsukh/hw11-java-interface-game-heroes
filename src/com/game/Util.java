@@ -6,7 +6,7 @@ package com.game;
 import java.util.Scanner;
 
 public class Util {
-    public static final int CODE_NOT_OK = -1;
+    public static final int CODE_RESULT_NOT_OK = -1;
 
     private Util(){
     }
@@ -24,7 +24,7 @@ public class Util {
     //например, команда +3 - вернет число 3
 
     public static int getIntFromCommandStr(String str, char key) {
-        int num = CODE_NOT_OK;
+        int num = CODE_RESULT_NOT_OK;
 
         if(str.length() < 2) {
             return num;

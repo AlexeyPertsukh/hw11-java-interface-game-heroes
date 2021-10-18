@@ -304,11 +304,11 @@ public class Game {
     //обработка команд
     private boolean processCommand() {
         boolean needPrintPage = NO_NEED_PRINT_PAGE;
-        boolean ok;
+        boolean result;
 
         if(isBasicCommand(CMD_RUN_RIGHT)) {
-            ok = unitGoRight();
-            if (ok) {
+            result = unitGoRight();
+            if (result) {
                 focusNextUnit();
                 needPrintPage = NEED_PRINT_PAGE;
             }
@@ -316,8 +316,8 @@ public class Game {
         }
 
         if(isBasicCommand(CMD_RUN_LEFT)) {
-            ok = unitGoLeft();
-            if (ok) {
+            result = unitGoLeft();
+            if (result) {
                 focusNextUnit();
                 needPrintPage = NEED_PRINT_PAGE;
             }
@@ -330,8 +330,8 @@ public class Game {
         }
 
         if(isBasicCommand(CMD_JOKE)) {
-            ok = randomJoke();
-            if (ok) {
+            result = randomJoke();
+            if (result) {
                 focusNextUnit();
                 Util.pressEnterForContinue();
                 needPrintPage = NEED_PRINT_PAGE;
@@ -348,8 +348,8 @@ public class Game {
         //атака
         if (isCommandAttack()) {
             int num = Util.getIntFromCommandStr(command, KEY_CMD_ATTACK) - 1;
-            ok = attack(num);
-            if (ok) {
+            result = attack(num);
+            if (result) {
                 Util.pressEnterForContinue();
                 focusNextUnit();
                 needPrintPage = NEED_PRINT_PAGE;
@@ -361,8 +361,8 @@ public class Game {
 
         if (isCommandKill()) {
             int num = Util.getIntFromCommandStr(command, KEY_CMD_KILL) - 1;
-            ok = killEnemy(num);
-            if (ok) {
+            result = killEnemy(num);
+            if (result) {
                 Util.pressEnterForContinue();
 //                focusNextUnit();
                 needPrintPage = NEED_PRINT_PAGE;
@@ -373,8 +373,8 @@ public class Game {
         //лечение
         if (isCommandCure()) {
             int num = Util.getIntFromCommandStr(command, KEY_CMD_CURE) - 1;
-            ok = cure(num);
-            if (ok) {
+            result = cure(num);
+            if (result) {
                 Util.pressEnterForContinue();
                 focusNextUnit();
                 needPrintPage = NEED_PRINT_PAGE;
@@ -411,13 +411,13 @@ public class Game {
         Unit unit = playerCurrent.getUnitCurrent();
         Unit enemy = playerOther.getUnitByNum(numEnemy);
 
-        if (enemy == null) {
-            System.out.printf("[%s] неправильный номер для атаки, попробуйте еще раз \n", playerCurrent.getName());
+        if (!isAttackable(unit)) {
+            System.out.printf("[%s] %s не умеет атаковать \n", playerCurrent.getName(), unit.getName().toLowerCase());
             return false;
         }
 
-        if (!isAttackable(unit)) {
-            System.out.printf("[%s] %s не умеет атаковать \n", playerCurrent.getName(), unit.getName().toLowerCase());
+        if (enemy == null) {
+            System.out.printf("[%s] неправильный номер для атаки, попробуйте еще раз \n", playerCurrent.getName());
             return false;
         }
 
@@ -616,10 +616,6 @@ public class Game {
         return  (cntNoAttack > MAX_ROUND_NO_ATTACK);
     }
 
-    private boolean isExitCommand() {
-        return command.equalsIgnoreCase(CMD_GAME_OVER);
-    }
-
     private void printOnWin() {
         Player playerWin = getWinPlayer();
         Color.printlnColor("⚑⚑⚑ ПОБЕДИЛ " + playerWin.getName() + " !!! ", COLOR_VICTORY);
@@ -631,22 +627,25 @@ public class Game {
 
     private boolean isCommandAttack() {
         int num = Util.getIntFromCommandStr(command, KEY_CMD_ATTACK);
-        return num != Util.CODE_NOT_OK;
+        return num != Util.CODE_RESULT_NOT_OK;
     }
 
     private boolean isCommandKill() {
         int num = Util.getIntFromCommandStr(command, KEY_CMD_KILL);
-        return num != Util.CODE_NOT_OK;
+        return num != Util.CODE_RESULT_NOT_OK;
     }
 
     private boolean isCommandCure() {
         int num = Util.getIntFromCommandStr(command, KEY_CMD_CURE);
-        return num != Util.CODE_NOT_OK;
+        return num != Util.CODE_RESULT_NOT_OK;
     }
 
     private boolean isBasicCommand(String keyCommand) {
         return command.equalsIgnoreCase(keyCommand);
     }
 
+    private boolean isExitCommand() {
+        return command.equalsIgnoreCase(CMD_GAME_OVER);
+    }
 
 }
