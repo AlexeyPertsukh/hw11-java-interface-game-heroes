@@ -41,7 +41,7 @@ public interface Medicinable {
 //            return CODE_IS_THIS;
 //        }
 
-        patient.addHitPoint(cure);
+        patient.additionHitPoint(cure);
         return cure;
     }
 

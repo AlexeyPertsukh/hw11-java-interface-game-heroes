@@ -31,11 +31,7 @@ public interface Attackable {
             return CODE_IS_KILLED;
         }
 
-        int hitPoint = enemy.getHitPoint() - damage;
-        if(hitPoint < 0) {
-            hitPoint = 0;
-        }
-        enemy.setHitPoint(hitPoint);
+        enemy.subtractionHitPoint(damage);
         return damage;
     }
 

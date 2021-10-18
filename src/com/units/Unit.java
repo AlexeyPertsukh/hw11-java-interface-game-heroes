@@ -37,15 +37,21 @@ public abstract class Unit {
         return hitPoint;
     }
 
-    public void setHitPoint(int hitPoint) {
+    private void setHitPoint(int hitPoint) {
+        if(hitPoint > HP_MAX) {
+            hitPoint = HP_MAX;
+        } else if (hitPoint < 0){
+            hitPoint = 0;
+        }
         this.hitPoint = hitPoint;
     }
 
-    public void addHitPoint(int point) {
-        hitPoint += point;
-        if(hitPoint > HP_MAX) {
-            hitPoint = HP_MAX;
-        }
+    public void additionHitPoint(int point) {
+        setHitPoint(hitPoint + point);
+    }
+
+    public void subtractionHitPoint(int point) {
+        setHitPoint(hitPoint - point);
     }
 
 
