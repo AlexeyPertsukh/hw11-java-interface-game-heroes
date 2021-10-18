@@ -38,7 +38,7 @@ public class Game {
     private static final char KEY_CMD_CURE = '@';
 
     private static final String CMD_HELP = "?";
-    private static final String CMD_GAME_OVER = "0";
+    private static final String CMD_GAME_OVER = "END";
     private static final String CMD_RUN_RIGHT = ">";
     private static final String CMD_RUN_LEFT = "<";
     private static final String CMD_JOKE = "$";
@@ -69,7 +69,7 @@ public class Game {
 
     //========= основной блок ===========================
     public void go() {
-        System.out.println("ver." + VERSION + " Dedicated to the Heroes of Might and Magic II  ");
+        printOnStart();
         playerFirstFocus();
         printPage();
 
@@ -98,12 +98,19 @@ public class Game {
             }
         }
 
-        //конец игры
+        printOnEnd();
+    }
+    //===================================================
+
+    private void printOnStart() {
+        System.out.println("ver." + VERSION + " Dedicated to the Heroes of Might and Magic II  ");
+    }
+
+    private void printOnEnd() {
         System.out.println();
         System.out.println(COPYRIGHT);
         System.out.println(AUTHOR);
     }
-    //===================================================
 
 
     //Распечатываем главную страницу игры
@@ -330,6 +337,7 @@ public class Game {
                 ok = randomJoke();
                 if (ok) {
                     focusNextUnit();
+                    Util.pressEnterForContinue();
                     needPrintPage = NEED_PRINT_PAGE;
                 }
                 return needPrintPage;
@@ -521,7 +529,6 @@ public class Game {
         String story = ((Jokable) unit).randomJoke();
         System.out.printf("[%s] %s шутит: ", playerCurrent.getName(), unit.getName().toLowerCase());
         Color.printlnColor(story, COLOR_HELP);
-        Util.pressEnterForContinue();
         return true;
     }
 
