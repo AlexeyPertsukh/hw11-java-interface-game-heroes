@@ -306,8 +306,8 @@ public class Game {
         boolean needPrintPage = NO_NEED_PRINT_PAGE;
         boolean result;
 
-        if(isBasicCommand(CMD_RUN_RIGHT)) {
-            result = unitGoRight();
+        if(checkBasicCommand(CMD_RUN_RIGHT)) {
+            result = goRight();
             if (result) {
                 focusNextUnit();
                 needPrintPage = NEED_PRINT_PAGE;
@@ -315,8 +315,8 @@ public class Game {
             return needPrintPage;
         }
 
-        if(isBasicCommand(CMD_RUN_LEFT)) {
-            result = unitGoLeft();
+        if(checkBasicCommand(CMD_RUN_LEFT)) {
+            result = goLeft();
             if (result) {
                 focusNextUnit();
                 needPrintPage = NEED_PRINT_PAGE;
@@ -324,12 +324,12 @@ public class Game {
             return needPrintPage;
         }
 
-        if(isBasicCommand(CMD_HELP)) {
+        if(checkBasicCommand(CMD_HELP)) {
             printHelp();
             return needPrintPage;
         }
 
-        if(isBasicCommand(CMD_JOKE)) {
+        if(checkBasicCommand(CMD_JOKE)) {
             result = randomJoke();
             if (result) {
                 focusNextUnit();
@@ -339,7 +339,7 @@ public class Game {
             return needPrintPage;
         }
 
-        if(isBasicCommand(CMD_PRINT_ALL_JOKES)) {
+        if(checkBasicCommand(CMD_PRINT_ALL_JOKES)) {
             printAllJokes();
             return needPrintPage;
         }
@@ -421,9 +421,9 @@ public class Game {
             return false;
         }
 
-        int code  = ((Attackable) unit).attack(enemy);
+        int attackResult  = ((Attackable) unit).attack(enemy);
 
-        switch (code) {
+        switch (attackResult) {
             case Attackable.CODE_TOO_FAR:
                 System.out.printf("[%s] %s атакует только в ближнем бою, подойдите к врагу вплотную \n", playerCurrent.getName(), unit.getName().toLowerCase());
                 return false;
@@ -434,14 +434,18 @@ public class Game {
                 break;
         }
 
-        if (code < 0) {
+        if (attackResult < 0) {
             System.out.printf("[%s] атака невозможна по неизвестной причине   \n", playerCurrent.getName());
             return false;
         }
 
         cntNoAttack = 0; //сбрасываем счетчик ходов без атак
 
-        System.out.printf("[%s] %s атакует: враг %s(%d) получил урон %d ед. \n", playerCurrent.getName(), unit.getName().toLowerCase(), enemy.getName().toLowerCase(), playerOther.getNumUnits(enemy), code);
+        System.out.printf("[%s] %s атакует: враг %s(%d) получил урон %d ед. \n", playerCurrent.getName(),
+                unit.getName().toLowerCase(),
+                enemy.getName().toLowerCase(),
+                playerOther.getNumUnits(enemy),
+                attackResult);
 
         return true;
     }
@@ -464,9 +468,9 @@ public class Game {
     }
 
     //лечение
-    public boolean cure(int num) {
+    public boolean cure(int numPatient) {
 
-        Unit patient = playerCurrent.getUnitByNum(num);
+        Unit patient = playerCurrent.getUnitByNum(numPatient);
         Unit unit = playerCurrent.getUnitCurrent();
 
         if (!isMedicinable(unit)) {
@@ -479,26 +483,26 @@ public class Game {
             return false;
         }
 
-        int code = ((Medicinable) (unit)).cureMan(patient);
+        int cureResult = ((Medicinable) (unit)).cureMan(patient);
 
-        switch (code) {
+        switch (cureResult) {
             case Medicinable.CODE_IS_KILLED:
-                System.out.printf("[%s] лечение не выполнено, убитому не помочь    \n", playerCurrent.getName());
+                System.out.printf("[%s] лечение невозможно, убитому не помочь    \n", playerCurrent.getName());
                 return false;
             case Medicinable.CODE_IS_FULL:
-                System.out.printf("[%s] лечение не выполнено, %s полностью здоров    \n", playerCurrent.getName(), patient.getName().toLowerCase());
+                System.out.printf("[%s] лечение невозможно, %s полностью здоров    \n", playerCurrent.getName(), patient.getName().toLowerCase());
                 return false;
             case Medicinable.CODE_IS_NO_MAN:
                 System.out.printf("[%s] лечение невозможно, %s не является живым существом   \n", playerCurrent.getName(), patient.getName().toLowerCase());
                 return false;
 //            case Medicinable.CODE_IS_THIS:
-//                System.out.printf("[%s] нельзя лечить самого себя   \n", playerCurrent.getName());
+//                System.out.printf("[%s] лечение невозможно, нельзя лечить самого себя   \n", playerCurrent.getName());
 //                return false;
             default:
                 break;
         }
 
-        if (code < 0) {
+        if (cureResult < 0) {
             System.out.printf("[%s] лечение невозможно по неизвестной причине   \n", playerCurrent.getName());
             return false;
         }
@@ -507,7 +511,7 @@ public class Game {
                 unit.getName().toLowerCase(),
                 patient.getName().toLowerCase(),
                 playerCurrent.getNumUnits(patient),
-                code);
+                cureResult);
         return true;
     }
 
@@ -569,8 +573,16 @@ public class Game {
         Color.printColor(coatString, color);
     }
 
+    private void printOnWin() {
+        Player playerWin = getWinPlayer();
+        Color.printlnColor("⚑⚑⚑ ПОБЕДИЛ " + playerWin.getName() + " !!! ", COLOR_VICTORY);
+    }
 
-    public boolean unitGoRight() {
+    private void printOnDraw() {
+        Color.printlnColor("⛨⛨⛨ НИЧЬЯ: " + MAX_ROUND_NO_ATTACK + " раунда без атак.", COLOR_DRAW);
+    }
+
+    public boolean goRight() {
         Unit unit = playerCurrent.getUnitCurrent();
 
         if (!isMovable(unit)) {
@@ -585,7 +597,7 @@ public class Game {
         return code;
     }
 
-    public boolean unitGoLeft() {
+    public boolean goLeft() {
         Unit unit = playerCurrent.getUnitCurrent();
 
         if (!isMovable(unit)) {
@@ -616,15 +628,6 @@ public class Game {
         return  (cntNoAttack > MAX_ROUND_NO_ATTACK);
     }
 
-    private void printOnWin() {
-        Player playerWin = getWinPlayer();
-        Color.printlnColor("⚑⚑⚑ ПОБЕДИЛ " + playerWin.getName() + " !!! ", COLOR_VICTORY);
-    }
-
-    private void printOnDraw() {
-        Color.printlnColor("⛨⛨⛨ НИЧЬЯ: " + MAX_ROUND_NO_ATTACK + " раунда без атак.", COLOR_DRAW);
-    }
-
     private boolean isCommandAttack() {
         int num = Util.getIntFromCommandStr(command, KEY_CMD_ATTACK);
         return num != Util.CODE_RESULT_NOT_OK;
@@ -640,7 +643,7 @@ public class Game {
         return num != Util.CODE_RESULT_NOT_OK;
     }
 
-    private boolean isBasicCommand(String keyCommand) {
+    private boolean checkBasicCommand(String keyCommand) {
         return command.equalsIgnoreCase(keyCommand);
     }
 
