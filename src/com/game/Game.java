@@ -471,13 +471,13 @@ public class Game {
         Unit patient = playerCurrent.getUnitByNum(num);
         Unit unit = playerCurrent.getUnitCurrent();
 
-        if (patient == null) {
-            System.out.printf("[%s] неправильный номер для лечения, попробуйте еще раз \n", playerCurrent.getName());
+        if (!isMedicinable(unit)) {
+            System.out.printf("[%s] %s не умеет лечить    \n", playerCurrent.getName(), unit.getName().toLowerCase());
             return false;
         }
 
-        if (!isMedicinable(unit)) {
-            System.out.printf("[%s] %s не умеет лечить    \n", playerCurrent.getName(), unit.getName().toLowerCase());
+        if (patient == null) {
+            System.out.printf("[%s] неправильный номер для лечения, попробуйте еще раз \n", playerCurrent.getName());
             return false;
         }
 
