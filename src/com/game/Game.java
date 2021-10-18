@@ -416,9 +416,9 @@ public class Game {
     //атака на противника
     private boolean attack(int... arr) {
 
-        int num = arr[0];   //адрес вражеского юнита, который атакуем
+        int numEnemy = arr[0];   //адрес вражеского юнита, который атакуем
         Unit unit = playerCurrent.getUnitCurrent();
-        Unit enemy = playerOther.getUnitByNum(num);
+        Unit enemy = playerOther.getUnitByNum(numEnemy);
 
         if (enemy == null) {
             System.out.printf("[%s] неправильный номер для атаки, попробуйте еще раз \n", playerCurrent.getName());
@@ -434,7 +434,8 @@ public class Game {
         if (arr.length == 1) {
             code = ((Attackable) unit).attack(enemy);
         } else {
-            code = ((Attackable) unit).attack(enemy, arr[1]);
+            int damage = arr[1];
+            code = ((Attackable) unit).attack(enemy, damage);
         }
 
         switch (code) {
@@ -471,6 +472,7 @@ public class Game {
         Unit unit = playerCurrent.getUnitCurrent();
 
         if (patient == null) {
+            System.out.printf("[%s] неправильный номер для лечения, попробуйте еще раз \n", playerCurrent.getName());
             return false;
         }
 
