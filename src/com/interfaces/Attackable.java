@@ -12,27 +12,27 @@ public interface Attackable {
 
     //атака
     default int attack(Unit enemy) {
-
         Unit unit = (Unit)this;
+
+       if(unit.getPosition() != enemy.getPosition()) {
+            return CODE_TOO_FAR;
+        }
 
         int damageMin = getDamageMin();
         int damageMax = getDamageMax();
-        int damage = Util.random(damageMin, damageMax);
+        int damagePoint = Util.random(damageMin, damageMax);
 
-        if(unit.getPosition() != enemy.getPosition()) {
-            return CODE_TOO_FAR;
-        }
-        return attack(enemy, damage);
+        return attack(enemy, damagePoint);
     }
 
-    default int attack(Unit enemy, int damage) {
+    default int attack(Unit enemy, int damagePoint) {
         //нельзя атаковать убитого
         if(enemy.isDead()) {
             return CODE_IS_KILLED;
         }
 
-        enemy.subtractionHitPoint(damage);
-        return damage;
+        enemy.subtractionHitPoint(damagePoint);
+        return damagePoint;
     }
 
     //информация об уроне
