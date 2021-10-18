@@ -42,7 +42,7 @@ public class Game {
     private static final String CMD_RUN_RIGHT = ">";
     private static final String CMD_RUN_LEFT = "<";
     private static final String CMD_JOKE = "$";
-    private static final String CMD_PRINT_ALL_JOKE_STORIES = "~";
+    private static final String CMD_PRINT_ALL_JOKES = "~";
     private static final String CMD_SKIP = "%";
 
     private static final boolean NEED_PRINT_PAGE = true;
@@ -213,7 +213,7 @@ public class Game {
         System.out.println("Тунеядец умеет шутить");
         System.out.println("Ничья, если прошло " + MAX_ROUND_NO_ATTACK + " раунда без атаки");
         System.out.println("---");
-        System.out.println("Дополнительная команда для распечатки всех шуток: " + CMD_PRINT_ALL_JOKE_STORIES);
+        System.out.println("Дополнительная команда для распечатки всех шуток: " + CMD_PRINT_ALL_JOKES);
         System.out.println("Дополнительная чит-команда убить вражеского юнита сразу: " + KEY_CMD_KILL + "номер_врага");
         System.out.println("---");
         System.out.println("Примеры команд");
@@ -306,53 +306,45 @@ public class Game {
         boolean needPrintPage = NO_NEED_PRINT_PAGE;
         boolean ok;
 
-        //простые команды без параметров
-        switch (command) {
-            case CMD_RUN_RIGHT:         //идти вправо
-                ok = goRight();
-                if (ok) {
-                    focusNextUnit();
-                    needPrintPage = NEED_PRINT_PAGE;
-                }
-                return needPrintPage;
+        if(isBasicCommand(CMD_RUN_RIGHT)) {
+            ok = unitGoRight();
+            if (ok) {
+                focusNextUnit();
+                needPrintPage = NEED_PRINT_PAGE;
+            }
+            return needPrintPage;
+        }
 
-            case CMD_RUN_LEFT:          //идти влево
-                ok = goLeft();
-                if (ok) {
-                    focusNextUnit();
-                    needPrintPage = NEED_PRINT_PAGE;
-                }
-                return needPrintPage;
+        if(isBasicCommand(CMD_RUN_LEFT)) {
+            ok = unitGoLeft();
+            if (ok) {
+                focusNextUnit();
+                needPrintPage = NEED_PRINT_PAGE;
+            }
+            return needPrintPage;
+        }
 
-            case CMD_HELP:              //помощь
-                printHelp();
-                return needPrintPage;
+        if(isBasicCommand(CMD_HELP)) {
+            printHelp();
+            return needPrintPage;
+        }
 
-//            case CMD_SKIP:
-//                System.out.println("пропуск хода");
-//                focusNextUnit();
-//                printPage();
-//                return;
+        if(isBasicCommand(CMD_JOKE)) {
+            ok = randomJoke();
+            if (ok) {
+                focusNextUnit();
+                Util.pressEnterForContinue();
+                needPrintPage = NEED_PRINT_PAGE;
+            }
+            return needPrintPage;
+        }
 
-            case CMD_JOKE:
-                ok = randomJoke();
-                if (ok) {
-                    focusNextUnit();
-                    Util.pressEnterForContinue();
-                    needPrintPage = NEED_PRINT_PAGE;
-                }
-                return needPrintPage;
-
-            case CMD_PRINT_ALL_JOKE_STORIES:       //распечатать все шутки
-                printAllJokes();
-                return needPrintPage;
-
-            default:
-                break;
+        if(isBasicCommand(CMD_PRINT_ALL_JOKES)) {
+            printAllJokes();
+            return needPrintPage;
         }
 
         //команды с параметрами
-
         //атака
         if (isCommandAttack()) {
             int num = Util.getIntFromCommandStr(command, KEY_CMD_ATTACK) - 1;
@@ -369,10 +361,10 @@ public class Game {
 
         if (isCommandKill()) {
             int num = Util.getIntFromCommandStr(command, KEY_CMD_KILL) - 1;
-            ok = attack(num, 1000);
+            ok = killEnemy(num);
             if (ok) {
                 Util.pressEnterForContinue();
-                focusNextUnit();
+//                focusNextUnit();
                 needPrintPage = NEED_PRINT_PAGE;
             }
             return needPrintPage;
@@ -414,9 +406,8 @@ public class Game {
     }
 
     //атака на противника
-    private boolean attack(int... arr) {
+    private boolean attack(int numEnemy) {
 
-        int numEnemy = arr[0];   //адрес вражеского юнита, который атакуем
         Unit unit = playerCurrent.getUnitCurrent();
         Unit enemy = playerOther.getUnitByNum(numEnemy);
 
@@ -430,13 +421,7 @@ public class Game {
             return false;
         }
 
-        int code;
-        if (arr.length == 1) {
-            code = ((Attackable) unit).attack(enemy);
-        } else {
-            int damage = arr[1];
-            code = ((Attackable) unit).attack(enemy, damage);
-        }
+        int code  = ((Attackable) unit).attack(enemy);
 
         switch (code) {
             case Attackable.CODE_TOO_FAR:
@@ -459,6 +444,19 @@ public class Game {
         System.out.printf("[%s] %s атакует: враг %s(%d) получил урон %d ед. \n", playerCurrent.getName(), unit.getName().toLowerCase(), enemy.getName().toLowerCase(), playerOther.getNumUnits(enemy), code);
 
         return true;
+    }
+
+    private boolean killEnemy(int numEnemy) {
+        Unit enemy = playerOther.getUnitByNum(numEnemy);
+        if (enemy == null) {
+            System.out.printf("[%s] неправильный номер для моментального убийства, попробуйте еще раз \n", playerCurrent.getName());
+            return false;
+        } else {
+            enemy.kill();
+            System.out.println("чит-команда выполнена");
+            return true;
+        }
+
     }
 
     private boolean isAttackable(Unit unit) {
@@ -572,7 +570,7 @@ public class Game {
     }
 
 
-    public boolean goRight() {
+    public boolean unitGoRight() {
         Unit unit = playerCurrent.getUnitCurrent();
 
         if (!isMovable(unit)) {
@@ -587,7 +585,7 @@ public class Game {
         return code;
     }
 
-    public boolean goLeft() {
+    public boolean unitGoLeft() {
         Unit unit = playerCurrent.getUnitCurrent();
 
         if (!isMovable(unit)) {
@@ -644,6 +642,10 @@ public class Game {
     private boolean isCommandCure() {
         int num = Util.getIntFromCommandStr(command, KEY_CMD_CURE);
         return num != Util.CODE_NOT_OK;
+    }
+
+    private boolean isBasicCommand(String keyCommand) {
+        return command.equalsIgnoreCase(keyCommand);
     }
 
 

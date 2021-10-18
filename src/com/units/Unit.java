@@ -45,6 +45,10 @@ public abstract class Unit {
         return position;
     }
 
+    public void kill() {
+        hitPoint = 0;
+    }
+
     //убит?
     public boolean isDead() {
         return (hitPoint <= 0);
