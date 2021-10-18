@@ -473,7 +473,7 @@ public class Game {
             return false;
         }
 
-        int code = ((Medicinable) (unit)).cure(patient);
+        int code = ((Medicinable) (unit)).cureMan(patient);
 
         switch (code) {
             case Medicinable.CODE_IS_KILLED:
