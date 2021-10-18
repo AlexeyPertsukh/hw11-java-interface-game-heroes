@@ -10,14 +10,15 @@ public interface Movable {
     //идти
     default boolean go(int step) {
         Unit unit = (Unit)this;
+        int newPosition = unit.getPosition() + step;
 
-        if(unit.getPosition() + step > Game.RIGHT_MAP_MAX_POSITION) { //двигаться вправо некуда
+        if( newPosition > Game.RIGHT_MAP_MAX_POSITION) { //двигаться вправо некуда
             return false;
         }
-        else if(unit.getPosition() + step < 0) {   //двигаться влево некуда
+        else if(newPosition < 0) {   //двигаться влево некуда
             return false;
         }
-        unit.setPosition(unit.getPosition() + step);
+        unit.setPosition(newPosition);
         return true;
     }
 
