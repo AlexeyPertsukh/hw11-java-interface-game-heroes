@@ -206,7 +206,7 @@ public class Game {
         System.out.println("Ничья, если прошло " + MAX_ROUND_NO_ATTACK + " раунда без атаки");
         System.out.println("---");
         System.out.println("Дополнительная команда для распечатки всех шуток: " + CMD_PRINT_ALL_JOKE_STORIES);
-        System.out.println("Дополнительная чит-команда вражеского юнита сразу: " + KEY_CMD_KILL + "номер_врага");
+        System.out.println("Дополнительная чит-команда убить вражеского юнита сразу: " + KEY_CMD_KILL + "номер_врага");
         System.out.println("---");
         System.out.println("Примеры команд");
         System.out.println("Идти влево: " + CMD_RUN_LEFT);
