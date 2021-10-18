@@ -23,7 +23,7 @@ public class Util {
     //возвращает положительное число в строке-коменде или -1 если это не команда
     //например, команда +3 - вернет число 3
 
-    public static int getIntFromCmdStr(String str, char key) {
+    public static int getIntFromCommandStr(String str, char key) {
         int num = CODE_NOT_OK;
 
         if(str.length() < 2) {

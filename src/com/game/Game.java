@@ -354,10 +354,8 @@ public class Game {
         //команды с параметрами
 
         //атака
-        int num = Util.getIntFromCmdStr(command, KEY_CMD_ATTACK);
-
-        if (num != Util.CODE_NOT_OK) {
-            num--;
+        if (isCommandAttack()) {
+            int num = Util.getIntFromCommandStr(command, KEY_CMD_ATTACK) - 1;
             ok = attack(num);
             if (ok) {
                 Util.pressEnterForContinue();
@@ -368,9 +366,9 @@ public class Game {
         }
 
         //убить сразу
-        num = Util.getIntFromCmdStr(command, KEY_CMD_KILL);
-        if (num != Util.CODE_NOT_OK) {
-            num--;
+
+        if (isCommandKill()) {
+            int num = Util.getIntFromCommandStr(command, KEY_CMD_KILL) - 1;
             ok = attack(num, 1000);
             if (ok) {
                 Util.pressEnterForContinue();
@@ -381,9 +379,8 @@ public class Game {
         }
 
         //лечение
-        num = Util.getIntFromCmdStr(command, KEY_CMD_CURE);
-        if (num != Util.CODE_NOT_OK) {
-            num--;
+        if (isCommandCure()) {
+            int num = Util.getIntFromCommandStr(command, KEY_CMD_CURE) - 1;
             ok = cure(num);
             if (ok) {
                 Util.pressEnterForContinue();
@@ -631,5 +628,21 @@ public class Game {
     private void printOnDraw() {
         Color.printlnColor("⛨⛨⛨ НИЧЬЯ: " + MAX_ROUND_NO_ATTACK + " раунда без атак.", COLOR_DRAW);
     }
+
+    private boolean isCommandAttack() {
+        int num = Util.getIntFromCommandStr(command, KEY_CMD_ATTACK);
+        return num != Util.CODE_NOT_OK;
+    }
+
+    private boolean isCommandKill() {
+        int num = Util.getIntFromCommandStr(command, KEY_CMD_KILL);
+        return num != Util.CODE_NOT_OK;
+    }
+
+    private boolean isCommandCure() {
+        int num = Util.getIntFromCommandStr(command, KEY_CMD_CURE);
+        return num != Util.CODE_NOT_OK;
+    }
+
 
 }
