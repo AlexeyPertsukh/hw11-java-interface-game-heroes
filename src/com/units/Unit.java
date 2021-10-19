@@ -84,7 +84,7 @@ public abstract class Unit {
 
     protected String shortInfoDead() {
         String info = String.format("%s %s", STR_DEAD_SYMBOL, getName());
-        return String.format(FORMAT_INFO_DEAD, info) ;
+        return String.format(FORMAT_INFO_DEAD, info) ;      //делать так из-за глюка при выводе символов типа черепа
     }
 
     public String shortInfo() {

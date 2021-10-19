@@ -45,9 +45,6 @@ public class Game {
     private static final String CMD_PRINT_ALL_JOKES = "~";
     private static final String CMD_SKIP = "%";
 
-    private static final boolean NEED_PRINT_PAGE = true;
-    private static final boolean NO_NEED_PRINT_PAGE = false;
-
     private static final String NAME_PLAYER1 = "Карл IV Великолепный";
     private static final String NAME_PLAYER2 = "Барон Свиное Рыло";
     private static final char EMPTY_SYMBOL = ' ';
@@ -76,15 +73,23 @@ public class Game {
         focusFirstPlayer();
         printPage();
 
-        boolean needPrintPage;
         while(true) {
             inputCommand();
             if(isExitCommand()) {
                 break;
             }
 
-            needPrintPage = processCommand();
-            if(needPrintPage) {
+            boolean result = processCommand();
+
+            if(result && needPressForContinue()) {
+                Util.pressEnterForContinue();
+            }
+
+            if(result && needFocusNextUnit()) {
+                focusNextUnit();
+            }
+
+            if(result && needUpdatePage()) {
                 printPage();
             }
 
@@ -305,86 +310,51 @@ public class Game {
 
     //обработка команд
     private boolean processCommand() {
-        boolean needPrintPage = NO_NEED_PRINT_PAGE;
-        boolean result;
 
         if(isBasicCommand(CMD_RUN_RIGHT)) {
-            result = goRight();
-            if (result) {
-                focusNextUnit();
-                needPrintPage = NEED_PRINT_PAGE;
-            }
-            return needPrintPage;
+            return goRight();
         }
 
         if(isBasicCommand(CMD_RUN_LEFT)) {
-            result = goLeft();
-            if (result) {
-                focusNextUnit();
-                needPrintPage = NEED_PRINT_PAGE;
-            }
-            return needPrintPage;
+            return goLeft();
         }
 
         if(isBasicCommand(CMD_HELP)) {
             printHelp();
-            return needPrintPage;
+            return true;
         }
 
         if(isBasicCommand(CMD_JOKE)) {
-            result = randomJoke();
-            if (result) {
-                focusNextUnit();
-                Util.pressEnterForContinue();
-                needPrintPage = NEED_PRINT_PAGE;
-            }
-            return needPrintPage;
+            return randomJoke();
         }
 
         if(isBasicCommand(CMD_PRINT_ALL_JOKES)) {
             printAllJokes();
-            return needPrintPage;
+            return true;
         }
 
         //команды с параметрами
         //атака
         if (isCommandAttack()) {
             int num = Util.getIntFromCommandStr(command, KEY_CMD_ATTACK) - 1;
-            result = attack(num);
-            if (result) {
-                Util.pressEnterForContinue();
-                focusNextUnit();
-                needPrintPage = NEED_PRINT_PAGE;
-            }
-            return needPrintPage;
+            return attack(num);
         }
 
         //убить сразу
         if (isCommandKill()) {
             int num = Util.getIntFromCommandStr(command, KEY_CMD_KILL) - 1;
-            result = killEnemy(num);
-            if (result) {
-                Util.pressEnterForContinue();
-//                focusNextUnit();
-                needPrintPage = NEED_PRINT_PAGE;
-            }
-            return needPrintPage;
+            return killEnemy(num);
         }
 
         //лечение
         if (isCommandCure()) {
             int num = Util.getIntFromCommandStr(command, KEY_CMD_CURE) - 1;
-            result = cure(num);
-            if (result) {
-                Util.pressEnterForContinue();
-                focusNextUnit();
-                needPrintPage = NEED_PRINT_PAGE;
-            }
-            return needPrintPage;
+            return cure(num);
         }
+
         //
         System.out.printf("[%s] неизвестная команда \n", playerCurrent.getName());
-        return needPrintPage;
+        return false;
     }
 
     private void printAllJokes() {
@@ -452,6 +422,7 @@ public class Game {
                 attackResult);
 
         return true;
+
     }
 
     private boolean killEnemy(int numEnemy) {
@@ -462,9 +433,9 @@ public class Game {
         } else {
             enemy.kill();
             System.out.println("чит-команда выполнена");
+
             return true;
         }
-
     }
 
     private boolean isAttackable(Unit unit) {
@@ -489,16 +460,22 @@ public class Game {
 
         int cureResult = ((Medicinable) (unit)).cureMan(patient);
         final String errMessage = "лечение невозможно";
+
         switch (cureResult) {
             case Medicinable.CODE_IS_KILLED:
                 System.out.printf("[%s] %s, убитому не помочь    \n", playerCurrent.getName(), errMessage);
                 return false;
+
             case Medicinable.CODE_IS_FULL:
-                System.out.printf("[%s] %s, %s полностью здоров    \n", playerCurrent.getName(), errMessage, patient.getName().toLowerCase());
+                System.out.printf("[%s] %s, %s полностью здоров    \n", playerCurrent.getName(),
+                        errMessage, patient.getName().toLowerCase());
                 return false;
+
             case Medicinable.CODE_IS_NO_MAN:
-                System.out.printf("[%s] %s, %s не является живым существом   \n", playerCurrent.getName(), errMessage, patient.getName().toLowerCase());
+                System.out.printf("[%s] %s, %s не является живым существом   \n", playerCurrent.getName(),
+                        errMessage, patient.getName().toLowerCase());
                 return false;
+
 //            case Medicinable.CODE_IS_THIS:
 //                System.out.printf("[%s] лечение невозможно, нельзя лечить самого себя   \n", playerCurrent.getName());
 //                return false;
@@ -516,6 +493,7 @@ public class Game {
                 patient.getName().toLowerCase(),
                 playerCurrent.getNumUnits(patient),
                 cureResult);
+
         return true;
     }
 
@@ -535,6 +513,7 @@ public class Game {
         String story = ((Jokable) unit).randomJoke();
         System.out.printf("[%s] %s шутит: ", playerCurrent.getName(), unit.getName().toLowerCase());
         Color.printlnColor(story, COLOR_HELP);
+
         return true;
     }
 
@@ -597,8 +576,10 @@ public class Game {
         boolean code = ((Movable) unit).goRightOneStep();
         if (!code) {
             System.out.printf("[%s] %s \n", playerCurrent.getName(), MESSAGE_NO_WAY);
+            return false;
         }
-        return code;
+
+        return true;
     }
 
     public boolean goLeft() {
@@ -612,8 +593,10 @@ public class Game {
         boolean code = ((Movable) unit).goLeftOneStep();
         if (!code) {
             System.out.printf("[%s] %s \n", playerCurrent.getName(), MESSAGE_NO_WAY);
+            return false;
         }
-        return code;
+
+        return true;
     }
 
     private boolean isMovable(Unit unit) {
@@ -654,5 +637,23 @@ public class Game {
     private boolean isExitCommand() {
         return command.equalsIgnoreCase(CMD_GAME_OVER);
     }
+
+    //Если бы на этом этапе учебы мы знали про enum, я бы использовал enum для доп. атрибутирования команд,
+    //но пока справляюсь как могу- needUpdatePage(), needFocusNextUnit() etc.
+    private boolean needUpdatePage() {
+        return isBasicCommand(CMD_RUN_RIGHT) || isBasicCommand(CMD_RUN_LEFT) || isBasicCommand(CMD_JOKE) ||
+                isCommandAttack() || isCommandKill() || isCommandCure();
+    }
+
+    private boolean needFocusNextUnit() {
+        return isBasicCommand(CMD_RUN_RIGHT) || isBasicCommand(CMD_RUN_LEFT) || isBasicCommand(CMD_JOKE) ||
+                isCommandAttack() || isCommandCure();
+    }
+
+    private boolean needPressForContinue() {
+        return isBasicCommand(CMD_JOKE) || isBasicCommand(CMD_PRINT_ALL_JOKES) ||
+                isCommandAttack() || isCommandKill() || isCommandCure();
+    }
+
 
 }

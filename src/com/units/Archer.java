@@ -15,7 +15,6 @@ public class Archer extends Shooter {
     @Override
     protected String shortInfoAlive() {
         return String.format("%s (%s, %s)", infoName(), infoHitPoint(), infoDamage());
-//        return String.format(MASK_INFO, info);
     }
 
 }

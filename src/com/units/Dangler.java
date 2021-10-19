@@ -16,6 +16,5 @@ public class Dangler extends Man implements Jokable {
     @Override
     protected String shortInfoAlive() {
         return String.format("%s (%s, %s)", infoName(), infoHitPoint(), infoJoke());
-//        return String.format(MASK_INFO, info);
     }
 }
