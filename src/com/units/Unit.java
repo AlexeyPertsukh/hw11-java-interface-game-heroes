@@ -74,17 +74,17 @@ public abstract class Unit {
         return (hitPoint >= maxHitPoint);
     }
 
-    public String infoHitPoint() {
+    protected String infoHitPoint() {
         return String.format("%c%d", CHAR_HP, hitPoint);
     }
 
-    public String infoName() {
+    protected String infoName() {
         return String.format("%c %-9s", coat, getName());
     }
 
-    public String shortInfoDead() {
-        String str = String.format("%s %s ", STR_DEAD_SYMBOL, getName());
-        return String.format(MASK_INFO, str) + " "; //не убирать пробел! он нужен для ровного цветного вывода убитого юнита
+    protected String shortInfoDead() {
+        String info = String.format("%s %s ", STR_DEAD_SYMBOL, getName());
+        return String.format(MASK_INFO, info) + " "; //не убирать пробел! он нужен для ровного цветного вывода убитого юнита
     }
 
     public String shortInfo() {
@@ -96,6 +96,6 @@ public abstract class Unit {
     }
 
     //абстрактные методы
-    abstract public String shortInfoAlive();
+    abstract protected String shortInfoAlive();
 
 }
