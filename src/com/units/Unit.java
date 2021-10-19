@@ -4,7 +4,7 @@ package com.units;
 public abstract class Unit {
     public static final char CHAR_HP = '♥';
     public static final String STR_DEAD_SYMBOL = "💀";
-    public static final String MASK_INFO = "%-35s";
+    private static final String FORMAT_INFO_DEAD = "%-36s";
 
     public final int maxHitPoint;
 
@@ -83,8 +83,8 @@ public abstract class Unit {
     }
 
     protected String shortInfoDead() {
-        String info = String.format("%s %s ", STR_DEAD_SYMBOL, getName());
-        return String.format(MASK_INFO, info) + " "; //не убирать пробел! он нужен для ровного цветного вывода убитого юнита
+        String info = String.format("%s %s", STR_DEAD_SYMBOL, getName());
+        return String.format(FORMAT_INFO_DEAD, info) ;
     }
 
     public String shortInfo() {
