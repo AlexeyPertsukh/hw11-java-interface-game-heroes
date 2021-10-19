@@ -1,4 +1,5 @@
 package com.units;
+
 //базовый юнит воин
 public abstract class Unit {
     public static final char CHAR_HP = '♥';
@@ -83,19 +84,18 @@ public abstract class Unit {
 
     public String shortInfoDead() {
         String str = String.format("%s %s ", STR_DEAD_SYMBOL, getName());
-        return String.format(MASK_INFO, str) + " ";
+        return String.format(MASK_INFO, str) + " "; //не убирать пробел! он нужен для ровного цветного вывода убитого юнита
     }
 
-    @Override
-    public String toString() {
+    public String shortInfo() {
         if(isDead()) {
             return shortInfoDead();
         } else {
-            return shortInfo();
+            return shortInfoAlive();
         }
     }
 
     //абстрактные методы
-    abstract public String shortInfo();
+    abstract public String shortInfoAlive();
 
 }

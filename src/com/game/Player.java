@@ -28,7 +28,7 @@ public class Player {
             return null;
         }
 
-        return units[num].toString();
+        return units[num].shortInfo();
     }
 
     //добавляем юнита

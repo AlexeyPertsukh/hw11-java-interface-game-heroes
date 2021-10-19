@@ -483,21 +483,21 @@ public class Game {
         }
 
         if (patient == null) {
-            System.out.printf("[%s] неправильный номер для лечения, попробуйте еще раз \n", playerCurrent.getName());
+            System.out.printf("[%s] неправильный номер для лечения \n", playerCurrent.getName());
             return false;
         }
 
         int cureResult = ((Medicinable) (unit)).cureMan(patient);
-
+        final String errMessage = "лечение невозможно";
         switch (cureResult) {
             case Medicinable.CODE_IS_KILLED:
-                System.out.printf("[%s] лечение невозможно, убитому не помочь    \n", playerCurrent.getName());
+                System.out.printf("[%s] %s, убитому не помочь    \n", playerCurrent.getName(), errMessage);
                 return false;
             case Medicinable.CODE_IS_FULL:
-                System.out.printf("[%s] лечение невозможно, %s полностью здоров    \n", playerCurrent.getName(), patient.getName().toLowerCase());
+                System.out.printf("[%s] %s, %s полностью здоров    \n", playerCurrent.getName(), errMessage, patient.getName().toLowerCase());
                 return false;
             case Medicinable.CODE_IS_NO_MAN:
-                System.out.printf("[%s] лечение невозможно, %s не является живым существом   \n", playerCurrent.getName(), patient.getName().toLowerCase());
+                System.out.printf("[%s] %s, %s не является живым существом   \n", playerCurrent.getName(), errMessage, patient.getName().toLowerCase());
                 return false;
 //            case Medicinable.CODE_IS_THIS:
 //                System.out.printf("[%s] лечение невозможно, нельзя лечить самого себя   \n", playerCurrent.getName());
@@ -507,7 +507,7 @@ public class Game {
         }
 
         if (cureResult < 0) {
-            System.out.printf("[%s] лечение невозможно по неизвестной причине   \n", playerCurrent.getName());
+            System.out.printf("[%s] %s по неизвестной причине   \n", playerCurrent.getName(), errMessage);
             return false;
         }
 
@@ -548,7 +548,7 @@ public class Game {
             return;
         }
 
-        char border = '\'';
+        final char border = '\'';
         System.out.print(border);
 
         for (int cell = 0; cell < RIGHT_MAP_MAX_POSITION + 1; cell++) {
