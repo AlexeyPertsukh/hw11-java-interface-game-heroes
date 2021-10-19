@@ -83,24 +83,26 @@ public class Player {
         }
 
         //фокусируемся на следующем живом юните
-        do {
-            num++;
-            if (num >= units.length) {
-                num = 0;
+        for (int i = num + 1; i < units.length; i++) {
+            if(!units[i].isDead()) {
+                num = i;
+                break;
             }
-        } while (units[num].isDead());
+        }
 
         return focusUnit(units[num]);
     }
 
-    //все юниты сыграли?
-    public boolean currentUnitIsFirstAmongLiving() {
+    public boolean currentUnitIsLastInLine() {
+        boolean isLast = false;
         for (Unit unit : units) {
-            if (!unit.isDead()) {
-                return (unit == unitCurrent);
+            if (unit == unitCurrent) {
+                isLast = true;
+            } else if(!unit.isDead()) {
+                isLast = false;
             }
         }
-        return false;
+        return isLast;
     }
 
     //все юниты погибли?

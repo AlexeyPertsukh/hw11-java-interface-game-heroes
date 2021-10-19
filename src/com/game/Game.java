@@ -400,10 +400,13 @@ public class Game {
 
     //фокус на следующего юнита, если все юниты отыграли - передаем ход следующему игроку
     private void focusNextUnit() {
-        playerCurrent.focusNextUnit();
-        if (playerCurrent.currentUnitIsFirstAmongLiving()) {  //фокус на превом из живых юнитов, значит все юниты сделали один ход, передаем ход следующему игроку
+        if(playerCurrent.currentUnitIsLastInLine()) {
+            playerCurrent.focusFirstLivingUnit();
             focusNextPlayer();
+        } else {
+            playerCurrent.focusNextUnit();
         }
+
     }
 
     //атака на противника
