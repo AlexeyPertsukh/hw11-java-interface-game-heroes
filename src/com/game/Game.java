@@ -20,7 +20,7 @@ public class Game {
     public static final int RIGHT_MAP_MAX_POSITION = 3; //максимальная позиция, которую юнит может занимать на карте по горизонтали
     private static final int MAX_ROUND_NO_ATTACK = 4;     //максимальное количество ходов без атак
 
-    private static final String VERSION = "4.12";
+    private static final String VERSION = "4.2";
     private static final String COPYRIGHT = "JAVA A01 \"ШАГ\", Запорожье 2021";
     private static final String AUTHOR =  "Перцух Алексей";
 
@@ -39,8 +39,8 @@ public class Game {
 
     private static final String CMD_HELP = "?";
     private static final String CMD_GAME_OVER = "END";
-    private static final String CMD_RUN_RIGHT = ">";
-    private static final String CMD_RUN_LEFT = "<";
+    private static final String CMD_GO_RIGHT = ">";
+    private static final String CMD_GO_LEFT = "<";
     private static final String CMD_JOKE = "$";
     private static final String CMD_PRINT_ALL_JOKES = "~";
     private static final String CMD_SKIP = "%";
@@ -75,21 +75,21 @@ public class Game {
 
         while(true) {
             inputCommand();
-            if(isExitCommand()) {
+            if(checkExitCommand()) {
                 break;
             }
 
-            boolean result = processCommand();
+            boolean cmdResult = processCommand();
 
-            if(result && needPressForContinue()) {
+            if(checkNeedPressForContinue(cmdResult)) {
                 Util.pressEnterForContinue();
             }
 
-            if(result && needFocusNextUnit()) {
+            if(checkNeedFocusNextUnit(cmdResult)) {
                 focusNextUnit();
             }
 
-            if(result && needUpdatePage()) {
+            if(checkNeedUpdatePage(cmdResult)) {
                 printPage();
             }
 
@@ -196,7 +196,7 @@ public class Game {
         Color.setTextColor(COLOR_FOOTER);
         String text = String.format("%s %s   | %s%s %s   | %c%s  | %c%s  | %s %s  | %s %s",
                 CMD_HELP, "помощь",
-                CMD_RUN_LEFT, CMD_RUN_RIGHT, "идти",
+                CMD_GO_LEFT, CMD_GO_RIGHT, "идти",
                 KEY_CMD_ATTACK, "номер_врага атаковать",
                 KEY_CMD_CURE, "номер_союзника  лечить",
                 CMD_JOKE, "шутить",
@@ -224,8 +224,8 @@ public class Game {
         System.out.println("Дополнительная чит-команда убить вражеского юнита сразу: " + KEY_CMD_KILL + "номер_врага");
         System.out.println("---");
         System.out.println("Примеры команд");
-        System.out.println("Идти влево: " + CMD_RUN_LEFT);
-        System.out.println("Идти вправо: " + CMD_RUN_RIGHT);
+        System.out.println("Идти влево: " + CMD_GO_LEFT);
+        System.out.println("Идти вправо: " + CMD_GO_RIGHT);
         System.out.println("Атаковать врага под номером 5: " + KEY_CMD_ATTACK + "5");
         System.out.println("Лечить союзника под номером 2: " + KEY_CMD_CURE + "2");
         System.out.println("Чит-команда убить сразу врага под номером 4: " + KEY_CMD_KILL + "4");
@@ -311,43 +311,43 @@ public class Game {
     //обработка команд
     private boolean processCommand() {
 
-        if(isBasicCommand(CMD_RUN_RIGHT)) {
+        if(checkBasicCommand(CMD_GO_RIGHT)) {
             return goRight();
         }
 
-        if(isBasicCommand(CMD_RUN_LEFT)) {
+        if(checkBasicCommand(CMD_GO_LEFT)) {
             return goLeft();
         }
 
-        if(isBasicCommand(CMD_HELP)) {
+        if(checkBasicCommand(CMD_HELP)) {
             printHelp();
             return true;
         }
 
-        if(isBasicCommand(CMD_JOKE)) {
+        if(checkBasicCommand(CMD_JOKE)) {
             return randomJoke();
         }
 
-        if(isBasicCommand(CMD_PRINT_ALL_JOKES)) {
+        if(checkBasicCommand(CMD_PRINT_ALL_JOKES)) {
             printAllJokes();
             return true;
         }
 
         //команды с параметрами
         //атака
-        if (isCommandAttack()) {
+        if (checkCommandAttack()) {
             int num = Util.getIntFromCommandStr(command, KEY_CMD_ATTACK) - 1;
             return attack(num);
         }
 
         //убить сразу
-        if (isCommandKill()) {
+        if (checkCommandKill()) {
             int num = Util.getIntFromCommandStr(command, KEY_CMD_KILL) - 1;
             return killEnemy(num);
         }
 
         //лечение
-        if (isCommandCure()) {
+        if (checkCommandCure()) {
             int num = Util.getIntFromCommandStr(command, KEY_CMD_CURE) - 1;
             return cure(num);
         }
@@ -615,44 +615,47 @@ public class Game {
         return  (cntNoAttack > MAX_ROUND_NO_ATTACK);
     }
 
-    private boolean isCommandAttack() {
+    private boolean checkCommandAttack() {
         int num = Util.getIntFromCommandStr(command, KEY_CMD_ATTACK);
         return num != Util.CODE_RESULT_NOT_OK;
     }
 
-    private boolean isCommandKill() {
+    private boolean checkCommandKill() {
         int num = Util.getIntFromCommandStr(command, KEY_CMD_KILL);
         return num != Util.CODE_RESULT_NOT_OK;
     }
 
-    private boolean isCommandCure() {
+    private boolean checkCommandCure() {
         int num = Util.getIntFromCommandStr(command, KEY_CMD_CURE);
         return num != Util.CODE_RESULT_NOT_OK;
     }
 
-    private boolean isBasicCommand(String keyCommand) {
+    private boolean checkBasicCommand(String keyCommand) {
         return command.equalsIgnoreCase(keyCommand);
     }
 
-    private boolean isExitCommand() {
+    private boolean checkExitCommand() {
         return command.equalsIgnoreCase(CMD_GAME_OVER);
     }
 
     //Если бы на этом этапе учебы мы знали про enum, я бы использовал enum для доп. атрибутирования команд,
-    //но пока справляюсь как могу- needUpdatePage(), needFocusNextUnit() etc.
-    private boolean needUpdatePage() {
-        return isBasicCommand(CMD_RUN_RIGHT) || isBasicCommand(CMD_RUN_LEFT) || isBasicCommand(CMD_JOKE) ||
-                isCommandAttack() || isCommandKill() || isCommandCure();
+    //но пока справляюсь как могу- checkNeedUpdatePage etc.
+    private boolean checkNeedUpdatePage(boolean cmdResult) {
+        boolean need = checkBasicCommand(CMD_GO_RIGHT) || checkBasicCommand(CMD_GO_LEFT) || checkBasicCommand(CMD_JOKE) ||
+                checkCommandAttack() || checkCommandKill() || checkCommandCure();
+        return cmdResult && need;
     }
 
-    private boolean needFocusNextUnit() {
-        return isBasicCommand(CMD_RUN_RIGHT) || isBasicCommand(CMD_RUN_LEFT) || isBasicCommand(CMD_JOKE) ||
-                isCommandAttack() || isCommandCure();
+    private boolean checkNeedFocusNextUnit(boolean cmdResult) {
+        boolean need = checkBasicCommand(CMD_GO_RIGHT) || checkBasicCommand(CMD_GO_LEFT) || checkBasicCommand(CMD_JOKE) ||
+                checkCommandAttack() || checkCommandCure();
+        return cmdResult && need;
     }
 
-    private boolean needPressForContinue() {
-        return isBasicCommand(CMD_JOKE) || isBasicCommand(CMD_PRINT_ALL_JOKES) ||
-                isCommandAttack() || isCommandKill() || isCommandCure();
+    private boolean checkNeedPressForContinue(boolean cmdResult) {
+        boolean need = checkBasicCommand(CMD_JOKE) || checkBasicCommand(CMD_PRINT_ALL_JOKES) ||
+                checkCommandAttack() || checkCommandKill() || checkCommandCure();
+        return cmdResult && need;
     }
 
 

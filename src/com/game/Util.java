@@ -24,20 +24,20 @@ public class Util {
     //например, команда +3 - вернет число 3
 
     public static int getIntFromCommandStr(String str, char key) {
-        int num = CODE_RESULT_NOT_OK;
 
         if(str.length() < 2) {
-            return num;
+            return CODE_RESULT_NOT_OK;
         }
 
         if(str.charAt(0) != key) {
-            return num;
+            return CODE_RESULT_NOT_OK;
         }
 
         str = str.substring(1);
         if(!Util.isInteger(str)) {
-            return num;
+            return CODE_RESULT_NOT_OK;
         }
+
         return Integer.parseInt(str);
     }
 
