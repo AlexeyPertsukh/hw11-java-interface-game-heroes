@@ -72,6 +72,7 @@ public class Game {
         printOnStart();
         focusFirstPlayer();
         printPage();
+        boolean cmdResult;
 
         while(true) {
             inputCommand();
@@ -79,19 +80,8 @@ public class Game {
                 break;
             }
 
-            boolean cmdResult = processCommand();
-
-            if(checkNeedPressForContinue(cmdResult)) {
-                Util.pressEnterForContinue();
-            }
-
-            if(checkNeedFocusNextUnit(cmdResult)) {
-                focusNextUnit();
-            }
-
-            if(checkNeedUpdatePage(cmdResult)) {
-                printPage();
-            }
+            cmdResult = processCommand();
+            processNeedActions(cmdResult);
 
             //Кто-то победил?
             if (checkWin()) {
@@ -636,6 +626,20 @@ public class Game {
 
     private boolean checkExitCommand() {
         return command.equalsIgnoreCase(CMD_GAME_OVER);
+    }
+
+    private void processNeedActions(boolean cmdResult) {
+        if(checkNeedPressForContinue(cmdResult)) {
+            Util.pressEnterForContinue();
+        }
+
+        if(checkNeedFocusNextUnit(cmdResult)) {
+            focusNextUnit();
+        }
+
+        if(checkNeedUpdatePage(cmdResult)) {
+            printPage();
+        }
     }
 
     //Если бы на этом этапе учебы мы знали про enum, я бы использовал enum для доп. атрибутирования команд,
