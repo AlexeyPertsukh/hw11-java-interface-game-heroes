@@ -243,8 +243,14 @@ public class Game {
     }
 
     private void focusPlayer(Player player) {
-        playerCurrent = (player == player1) ? player1 : player2;
-        playerOther = (player == player1) ? player2 : player1;
+
+        if(player == player1) {
+            playerCurrent = player1;
+            playerOther = player2;
+        } else {
+            playerCurrent = player2;
+            playerOther = player1;
+        }
 
         playerCurrent.focusFirstLivingUnit();
     }
@@ -598,7 +604,16 @@ public class Game {
     }
 
     private Player getWinPlayer() {
-        return  (player1.isAllUnitsDead()) ? player2 : player1;
+        if(player1.isAllUnitsDead()) {
+            return player2;
+
+        } else  if(player2.isAllUnitsDead()) {
+            return player1;
+
+        } else {
+            return null;
+        }
+
     }
 
     private boolean checkDraw() {
