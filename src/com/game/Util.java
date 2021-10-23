@@ -20,8 +20,9 @@ public class Util {
         }
     }
 
-    //возвращает положительное число в строке-коменде или -1 если это не команда
-    //например, команда +3 - вернет число 3
+    //возвращает положительное число в строке-команде или -1 если это не команда
+    //например, команда (str = "+3", key ='+') вернет число 3,
+    //например, команда (str = "+3", key ='@') вернет число -1, потому что '@' не входит в "+3"
 
     public static int getIntFromCommandStr(String str, char key) {
 
@@ -46,6 +47,8 @@ public class Util {
             int tmp = min;
             min = max;
             max = tmp;
+
+            
         }
         return (int) (Math.random() * (max - min)) + min;
     }
@@ -63,18 +66,4 @@ public class Util {
         sc.nextLine();
     }
 
-    public static String[] concatenateStrings(String[]... arr) {
-        int size = 0;
-        for (String[] strings : arr) {
-            size += strings.length;
-        }
-        String[] outStrings = new String[size];
-        int i = 0;
-        for (String[] strings : arr) {
-            for (int n = 0; n < strings.length; n++) {
-                outStrings[i++] = strings[n];
-            }
-        }
-        return outStrings;
-    }
 }
