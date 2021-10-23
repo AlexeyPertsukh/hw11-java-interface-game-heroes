@@ -127,16 +127,6 @@ public class Player {
         return units.length;
     }
 
-    //возвращяет порядковый номер юнита (начинается с 1), или код ошибки
-    public int getNumUnits(Unit unit) {
-        for (int i = 0; i < units.length; i++) {
-            if (units[i] == unit) {
-                return i + 1;
-            }
-        }
-        return ERR_CODE;
-    }
-
     public Unit getUnitByNum(int num) {
         if (num < 0 || num >= units.length) {
             return null;

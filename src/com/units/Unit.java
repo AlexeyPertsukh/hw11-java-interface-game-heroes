@@ -30,6 +30,10 @@ public abstract class Unit {
         return name;
     }
 
+    public String getNameLowerCase() {
+        return name.toLowerCase();
+    }
+
     public char getCoat() {
         return coat;
     }
