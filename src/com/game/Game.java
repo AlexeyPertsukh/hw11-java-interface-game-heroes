@@ -396,19 +396,8 @@ public class Game {
 
         int attackResult  = ((Attackable) unit).attack(enemy);
 
-        switch (attackResult) {
-            case Attackable.CODE_TOO_FAR:
-                System.out.printf("[%s] %s атакует только в ближнем бою, подойдите к врагу вплотную \n", playerCurrent.getName(), unit.getNameLowerCase());
-                return false;
-            case Attackable.CODE_IS_KILLED:
-                System.out.printf("[%s] нельзя атаковать убитого \n", playerCurrent.getName());
-                return false;
-            default:
-                break;
-        }
-
-        if (attackResult < 0) {
-            System.out.printf("[%s] атака невозможна по неизвестной причине   \n", playerCurrent.getName());
+        if(attackResult < 0) {
+            printMessageIfAttackFails(unit, attackResult);
             return false;
         }
 
@@ -422,6 +411,20 @@ public class Game {
 
         return true;
 
+    }
+
+    private void printMessageIfAttackFails(Unit unit, int code) {
+        switch (code) {
+            case Attackable.CODE_TOO_FAR:
+                System.out.printf("[%s] %s атакует только в ближнем бою, подойдите к врагу вплотную \n", playerCurrent.getName(), unit.getNameLowerCase());
+                break;
+            case Attackable.CODE_IS_KILLED:
+                System.out.printf("[%s] нельзя атаковать убитого \n", playerCurrent.getName());
+                break;
+            default:
+                System.out.printf("[%s] атака невозможна по неизвестной причине   \n", playerCurrent.getName());
+                break;
+        }
     }
 
     private boolean killEnemy(int numEnemy) {
@@ -458,32 +461,9 @@ public class Game {
         }
 
         int cureResult = ((Medicinable) (unit)).cureMan(patient);
-        final String errMessage = "лечение невозможно";
 
-        switch (cureResult) {
-            case Medicinable.CODE_IS_KILLED:
-                System.out.printf("[%s] %s, убитому не помочь    \n", playerCurrent.getName(), errMessage);
-                return false;
-
-            case Medicinable.CODE_IS_FULL:
-                System.out.printf("[%s] %s, %s полностью здоров    \n", playerCurrent.getName(),
-                        errMessage, patient.getNameLowerCase());
-                return false;
-
-            case Medicinable.CODE_IS_NO_MAN:
-                System.out.printf("[%s] %s, %s не является живым существом   \n", playerCurrent.getName(),
-                        errMessage, patient.getNameLowerCase());
-                return false;
-
-//            case Medicinable.CODE_IS_THIS:
-//                System.out.printf("[%s] лечение невозможно, нельзя лечить самого себя   \n", playerCurrent.getName());
-//                return false;
-            default:
-                break;
-        }
-
-        if (cureResult < 0) {
-            System.out.printf("[%s] %s по неизвестной причине   \n", playerCurrent.getName(), errMessage);
+        if(cureResult < 0) {
+            printMessageIfCureFails(patient, cureResult);
             return false;
         }
 
@@ -494,6 +474,34 @@ public class Game {
                 cureResult);
 
         return true;
+    }
+
+    private void printMessageIfCureFails(Unit patient, int code) {
+        final String errMessage = "лечение невозможно";
+
+        switch (code) {
+            case Medicinable.CODE_IS_KILLED:
+                System.out.printf("[%s] %s, убитому не помочь    \n", playerCurrent.getName(), errMessage);
+                break;
+
+            case Medicinable.CODE_IS_FULL:
+                System.out.printf("[%s] %s, %s полностью здоров    \n", playerCurrent.getName(),
+                        errMessage, patient.getNameLowerCase());
+                break;
+
+            case Medicinable.CODE_IS_NO_MAN:
+                System.out.printf("[%s] %s, %s не является живым существом   \n", playerCurrent.getName(),
+                        errMessage, patient.getNameLowerCase());
+                break;
+
+//            case Medicinable.CODE_IS_THIS:
+//                System.out.printf("[%s] лечение невозможно, нельзя лечить самого себя   \n", playerCurrent.getName());
+//                break;
+            default:
+                System.out.printf("[%s] %s по неизвестной причине   \n", playerCurrent.getName(), errMessage);
+                break;
+        }
+
     }
 
     private boolean isMedicinable(Unit unit) {
