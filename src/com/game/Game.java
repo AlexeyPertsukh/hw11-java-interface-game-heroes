@@ -397,7 +397,7 @@ public class Game {
         int attackResult  = ((Attackable) unit).attack(enemy);
 
         if(attackResult < 0) {
-            printMessageIfAttackFails(unit, attackResult);
+            printMessageAttackFails(unit, attackResult);
             return false;
         }
 
@@ -413,8 +413,8 @@ public class Game {
 
     }
 
-    private void printMessageIfAttackFails(Unit unit, int code) {
-        switch (code) {
+    private void printMessageAttackFails(Unit unit, int codeMessage) {
+        switch (codeMessage) {
             case Attackable.CODE_TOO_FAR:
                 System.out.printf("[%s] %s атакует только в ближнем бою, подойдите к врагу вплотную \n", playerCurrent.getName(), unit.getNameLowerCase());
                 break;
@@ -463,7 +463,7 @@ public class Game {
         int cureResult = ((Medicinable) (unit)).cureMan(patient);
 
         if(cureResult < 0) {
-            printMessageIfCureFails(patient, cureResult);
+            printMessageCureFails(patient, cureResult);
             return false;
         }
 
@@ -476,10 +476,10 @@ public class Game {
         return true;
     }
 
-    private void printMessageIfCureFails(Unit patient, int code) {
+    private void printMessageCureFails(Unit patient, int codeMessage) {
         final String errMessage = "лечение невозможно";
 
-        switch (code) {
+        switch (codeMessage) {
             case Medicinable.CODE_IS_KILLED:
                 System.out.printf("[%s] %s, убитому не помочь    \n", playerCurrent.getName(), errMessage);
                 break;
