@@ -282,8 +282,9 @@ public class Game {
 
         if (player == playerCurrent) {
             return COLOR_FOCUS;
+        } else {
+            return Color.ANSI_RESET;
         }
-        return Color.ANSI_RESET;
     }
 
     //Цвет, каким распечатывать юнита (цветным- когда юнит в фокусе)
@@ -296,9 +297,9 @@ public class Game {
 
         if (player == playerCurrent && player.getUnitCurrent() == unit) {
             return COLOR_FOCUS;
+        } else {
+            return Color.ANSI_RESET;
         }
-
-        return Color.ANSI_RESET;
     }
 
     //ввод команды
@@ -375,7 +376,6 @@ public class Game {
         } else {
             playerCurrent.focusNextUnit();
         }
-
     }
 
     //атака на противника

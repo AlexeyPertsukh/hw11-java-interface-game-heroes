@@ -83,11 +83,11 @@ public abstract class Unit {
     }
 
     protected String infoName() {
-        return String.format("%c %-9s", coat, getName());
+        return String.format("%c %-9s", coat, name);
     }
 
     protected String shortInfoDead() {
-        String info = String.format("%s %s", STR_DEAD_SYMBOL, getName());
+        String info = String.format("%s %s", STR_DEAD_SYMBOL, name);
         return String.format(FORMAT_INFO_DEAD, info) ;      //делать так из-за глюка при выводе символов типа черепа
     }
 
