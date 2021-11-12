@@ -11,16 +11,9 @@ public class Player {
     private Unit[] units;
     private Unit unitCurrent;
 
-    public Player(String name, int position) {
+    public Player(String name) {
         this.name = name;
         units = new Unit[0];
-        addUnit(new Tower(position));
-        addUnit(new Knight(position));
-        addUnit(new Archer(position));
-        addUnit(new Dangler(position));
-        addUnit(new Magic(position));
-
-        focusFirstLivingUnit();
     }
 
     public String getUnitShortInfo(int num) {
@@ -32,7 +25,7 @@ public class Player {
     }
 
     //добавляем юнита
-    private void addUnit(Unit unit) {
+    public void addUnit(Unit unit) {
         Unit[] tmp = new Unit[units.length + 1];
         System.arraycopy(units, 0, tmp, 0, units.length);
 
