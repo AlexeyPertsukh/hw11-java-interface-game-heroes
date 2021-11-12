@@ -18,14 +18,13 @@ public interface Attackable {
             return CODE_TOO_FAR;
         }
 
-        int damageMin = getDamageMin();
-        int damageMax = getDamageMax();
-        int damagePoint = Util.random(damageMin, damageMax);
-
-        return attack(enemy, damagePoint);
+        return inputRandomDamage(enemy, getDamageMin(), getDamageMax());
     }
 
-    default int attack(Unit enemy, int damagePoint) {
+    default int inputRandomDamage(Unit enemy, int damageMin, int damageMax) {
+
+        int damagePoint = Util.random(damageMin, damageMax);
+
         //нельзя атаковать убитого
         if (enemy.isDead()) {
             return CODE_IS_KILLED;

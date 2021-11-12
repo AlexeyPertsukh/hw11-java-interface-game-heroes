@@ -76,6 +76,7 @@ public class Game {
         player2.addUnit(new Archer(RIGHT_POSITION));
         player2.addUnit(new Dangler(RIGHT_POSITION));
         player2.addUnit(new Magic(RIGHT_POSITION));
+//        player2.addUnit(new Archer(RIGHT_POSITION));   //для проверки игры с разным количеством юнитов у игроков
 
         scanner = new Scanner(System.in);
     }
