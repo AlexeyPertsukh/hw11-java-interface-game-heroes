@@ -10,7 +10,7 @@ public interface Movable {
         Unit unit = (Unit)this;
         int nextPosition = unit.getPosition() + step;
 
-        if( nextPosition > Game.RIGHT_MAP_MAX_POSITION) { //двигаться вправо некуда
+        if( nextPosition > Game.RIGHT_POSITION) { //двигаться вправо некуда
             return false;
         }
         else if(nextPosition < 0) {   //двигаться влево некуда

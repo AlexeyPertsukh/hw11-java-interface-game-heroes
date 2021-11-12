@@ -15,8 +15,8 @@ import java.util.Scanner;
 
 public class Game {
 
-    private static final int LEFT_MAP_POSITION = 0;
-    public static final int RIGHT_MAP_MAX_POSITION = 3; //максимальная позиция, которую юнит может занимать на карте по горизонтали
+    private static final int LEFT_POSITION = 0;
+    public static final int RIGHT_POSITION = 3; //максимальная позиция, которую юнит может занимать на карте по горизонтали
     private static final int MAX_ROUND_NO_ATTACK = 4;     //максимальное количество ходов без атак
 
     private static final String VERSION = "4.22";
@@ -62,18 +62,18 @@ public class Game {
 
     public Game() {
         player1 = new Player(NAME_PLAYER1);
-        player1.addUnit(new Tower(LEFT_MAP_POSITION));
-        player1.addUnit(new Knight(LEFT_MAP_POSITION));
-        player1.addUnit(new Archer(LEFT_MAP_POSITION));
-        player1.addUnit(new Dangler(LEFT_MAP_POSITION));
-        player1.addUnit(new Magic(LEFT_MAP_POSITION));
+        player1.addUnit(new Tower(LEFT_POSITION));
+        player1.addUnit(new Knight(LEFT_POSITION));
+        player1.addUnit(new Archer(LEFT_POSITION));
+        player1.addUnit(new Dangler(LEFT_POSITION));
+        player1.addUnit(new Magic(LEFT_POSITION));
 
         player2 = new Player(NAME_PLAYER2);
-        player2.addUnit(new Tower(RIGHT_MAP_MAX_POSITION));
-        player2.addUnit(new Knight(RIGHT_MAP_MAX_POSITION));
-        player2.addUnit(new Archer(RIGHT_MAP_MAX_POSITION));
-        player2.addUnit(new Dangler(RIGHT_MAP_MAX_POSITION));
-        player2.addUnit(new Magic(RIGHT_MAP_MAX_POSITION));
+        player2.addUnit(new Tower(RIGHT_POSITION));
+        player2.addUnit(new Knight(RIGHT_POSITION));
+        player2.addUnit(new Archer(RIGHT_POSITION));
+        player2.addUnit(new Dangler(RIGHT_POSITION));
+        player2.addUnit(new Magic(RIGHT_POSITION));
 
         scanner = new Scanner(System.in);
     }
@@ -552,7 +552,7 @@ public class Game {
         final char border = '\'';
         System.out.print(border);
 
-        for (int cell = 0; cell < RIGHT_MAP_MAX_POSITION + 1; cell++) {
+        for (int cell = 0; cell < RIGHT_POSITION + 1; cell++) {
 
             printUnitCoatOrEmptyInCellMap(player1, num, cell);
 
