@@ -177,16 +177,17 @@ public class Game {
     }
 
     private void printOneUnitOnBattleField(Player player, int numUnit, String format) {
-        String shortInfo = player.getUnitShortInfo(numUnit);
-        String colorUnit;
-        if(shortInfo == null) {
-            shortInfo = String.format(format,0,"");
-            shortInfo = spacedString(shortInfo);
-            colorUnit = Color.ANSI_BLACK;
-        } else {
-            shortInfo = String.format(format, numUnit + 1, shortInfo);
-            colorUnit = getColorUnit(player, numUnit);
+        Unit unit = player.getUnitByNum(numUnit);
+        if (unit == null) {
+            String string = String.format(format, 0, "");
+            string = spacedString(string);
+            System.out.print(string);
+            return;
         }
+
+        String shortInfo = player.getUnitShortInfo(numUnit);
+        shortInfo = String.format(format, numUnit + 1, shortInfo);
+        String colorUnit = getColorUnit(player, numUnit);
 
         Color.printColor(shortInfo, colorUnit);
     }
@@ -574,27 +575,25 @@ public class Game {
     }
 
     private void printUnitCoatOrEmptyInCellBattleField(Player player, int num, int cell) {
-        String color = getColorPlayer(player);
         Unit unit = player.getUnitByNum(num);
-        char coat;
 
-        if (unit == null) {
-            coat = EMPTY_SYMBOL;
-            color = Color.ANSI_BLACK;
+        if (unit == null || unit.getPosition() != cell) {
+            System.out.print(EMPTY_SYMBOL);
+            return;
+        }
+
+        char coat = unit.getCoat();
+        String color;
+
+        if (unit.isDead()) {
+            color = COLOR_KILL;
         } else {
-            if(unit.getPosition() == cell) {
-                coat = unit.getCoat();
-            } else {
-                coat = EMPTY_SYMBOL;
-            }
-
-            if(unit.getPosition() == cell && unit.isDead()) {
-                color = COLOR_KILL;
-            }
+            color = getColorPlayer(player);
         }
 
         String coatString = String.valueOf(coat);
         Color.printColor(coatString, color);
+
     }
 
     private void printOnWin() {
