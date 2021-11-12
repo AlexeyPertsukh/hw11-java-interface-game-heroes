@@ -19,7 +19,7 @@ public class Game {
     public static final int RIGHT_POSITION = 3; //максимальная позиция, которую юнит может занимать на карте по горизонтали
     private static final int MAX_ROUND_NO_ATTACK = 4;     //максимальное количество ходов без атак
 
-    private static final String VERSION = "4.3";
+    private static final String VERSION = "4.31";
     private static final String COPYRIGHT = "JAVA A01 \"ШАГ\", Запорожье 2021";
     private static final String AUTHOR =  "Перцух Алексей";
 
@@ -62,7 +62,7 @@ public class Game {
     String command;
 
     public Game() {
-        //игроки 1 и 2 могут содержать разное количество юнитов
+        //количество юнитов у игрока 1 и 2 может быть разным
         player1 = new Player(NAME_PLAYER1);
         player1.addUnit(new Tower(LEFT_POSITION));
         player1.addUnit(new Knight(LEFT_POSITION));
@@ -225,6 +225,9 @@ public class Game {
 
     private void printHelp() {
         Color.setTextColor(COLOR_HELP);
+        System.out.println("---");
+        System.out.println("Пошаговая битва воинов по мотивам игры 'Heroes of Might and Magic II'");
+        System.out.println("Количество юнитов у игроков может быть разным");
         System.out.println("---");
         System.out.println("Правила");
         System.out.println("Пехотинцы могут атаковать врагов только на своей вертикальной линии");
