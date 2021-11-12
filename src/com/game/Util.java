@@ -47,8 +47,6 @@ public class Util {
             int tmp = min;
             min = max;
             max = tmp;
-
-            
         }
         return (int) (Math.random() * (max - min)) + min;
     }

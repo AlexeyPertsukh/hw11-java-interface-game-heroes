@@ -19,7 +19,7 @@ public class Game {
     public static final int RIGHT_POSITION = 3; //максимальная позиция, которую юнит может занимать на карте по горизонтали
     private static final int MAX_ROUND_NO_ATTACK = 4;     //максимальное количество ходов без атак
 
-    private static final String VERSION = "4.31";
+    private static final String VERSION = "4.32";
     private static final String COPYRIGHT = "JAVA A01 \"ШАГ\", Запорожье 2021";
     private static final String AUTHOR =  "Перцух Алексей";
 
@@ -197,7 +197,7 @@ public class Game {
         return  out;
     }
 
-    private void printHeader() {
+    private static void printHeader() {
         Color.setTextColor(COLOR_HEADER);
         System.out.println("*************************************************************************************************************");
         System.out.println("                         ⛓✠⛓✠⛓✠⛓       HEROES OF JAVA CONSOLE      ⚔✠⚔✠⚔✠⚔                         ");
@@ -207,7 +207,7 @@ public class Game {
 
 
 
-    private void printFooter() {
+    private static void printFooter() {
         Color.setTextColor(COLOR_FOOTER);
         String text = String.format("%s %s   | %s%s %s   | %c%s  | %c%s  | %s %s  | %s %s",
                 CMD_HELP, "помощь",
@@ -223,7 +223,7 @@ public class Game {
         Color.resetTextColor();
     }
 
-    private void printHelp() {
+    private static void printHelp() {
         Color.setTextColor(COLOR_HELP);
         System.out.println("---");
         System.out.println("Пошаговая битва воинов по мотивам игры 'Heroes of Might and Magic II'");
@@ -463,7 +463,6 @@ public class Game {
         } else {
             enemy.kill();
             System.out.println("чит-команда выполнена");
-
             return true;
         }
     }
