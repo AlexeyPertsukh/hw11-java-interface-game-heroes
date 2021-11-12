@@ -47,7 +47,7 @@ public class Game {
     private static final String NAME_PLAYER1 = "Карл IV Великолепный";
     private static final String NAME_PLAYER2 = "Барон Свиное Рыло";
     private static final char EMPTY_SYMBOL = ' ';
-    private static final char BORDER_CHAR = '\'';
+    private static final char BATTLE_FIELD_BORDER_CHAR = '\'';
 
     private static final String MESSAGE_NO_WAY = "туда ходить нельзя";
 
@@ -62,6 +62,7 @@ public class Game {
     String command;
 
     public Game() {
+        //игроки 1 и 2 могут содержать разное количество юнитов
         player1 = new Player(NAME_PLAYER1);
         player1.addUnit(new Tower(LEFT_POSITION));
         player1.addUnit(new Knight(LEFT_POSITION));
@@ -78,9 +79,6 @@ public class Game {
 
         scanner = new Scanner(System.in);
     }
-
-
-
 
     //========= основной блок ===========================
     public void go() {
@@ -559,36 +557,37 @@ public class Game {
     //для отрисовывки карты битвы построчно
     public void printBattleFieldLine(int num) {
 
-        System.out.print(BORDER_CHAR);
+        System.out.print(BATTLE_FIELD_BORDER_CHAR);
 
         for (int cell = 0; cell < RIGHT_POSITION + 1; cell++) {
 
-            printUnitCoatOrEmptyInCellMap(player1, num, cell);
+            printUnitCoatOrEmptyInCellBattleField(player1, num, cell);
 
             System.out.print("  ");    //разделитель между вражескими юнитами, когда они станут в одну ячейку
 
-            printUnitCoatOrEmptyInCellMap(player2, num, cell);
+            printUnitCoatOrEmptyInCellBattleField(player2, num, cell);
 
-            System.out.print(BORDER_CHAR);
+            System.out.print(BATTLE_FIELD_BORDER_CHAR);
         }
     }
 
-    private void printUnitCoatOrEmptyInCellMap(Player player, int num, int cell) {
+    private void printUnitCoatOrEmptyInCellBattleField(Player player, int num, int cell) {
         String color = getColorPlayer(player);
         Unit unit = player.getUnitByNum(num);
         char coat;
 
         if (unit == null) {
-            coat = ' ';
+            coat = EMPTY_SYMBOL;
             color = Color.ANSI_BLACK;
         } else {
-            if(unit.getPosition() == cell && unit.isDead()) {
-                color = COLOR_KILL;
-            }
-
-            coat = EMPTY_SYMBOL;
             if(unit.getPosition() == cell) {
                 coat = unit.getCoat();
+            } else {
+                coat = EMPTY_SYMBOL;
+            }
+
+            if(unit.getPosition() == cell && unit.isDead()) {
+                color = COLOR_KILL;
             }
         }
 
