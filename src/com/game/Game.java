@@ -47,8 +47,9 @@ public class Game {
     private static final String NAME_PLAYER1 = "Карл IV Великолепный";
     private static final String NAME_PLAYER2 = "Барон Свиное Рыло";
     private static final char EMPTY_SYMBOL = ' ';
+    private static final char BORDER_CHAR = '\'';
 
-    String MESSAGE_NO_WAY = "туда ходить нельзя";
+    private static final String MESSAGE_NO_WAY = "туда ходить нельзя";
 
     private final Player player1;
     private final Player player2;
@@ -558,8 +559,7 @@ public class Game {
     //для отрисовывки карты битвы построчно
     public void printBattleFieldLine(int num) {
 
-        final char border = '\'';
-        System.out.print(border);
+        System.out.print(BORDER_CHAR);
 
         for (int cell = 0; cell < RIGHT_POSITION + 1; cell++) {
 
@@ -569,7 +569,7 @@ public class Game {
 
             printUnitCoatOrEmptyInCellMap(player2, num, cell);
 
-            System.out.print(border);
+            System.out.print(BORDER_CHAR);
         }
     }
 
