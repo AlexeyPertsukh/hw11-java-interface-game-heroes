@@ -19,7 +19,7 @@ public class Game {
     public static final int RIGHT_POSITION = 3; //максимальная позиция, которую юнит может занимать на карте по горизонтали
     private static final int MAX_ROUND_NO_ATTACK = 4;     //максимальное количество ходов без атак
 
-    private static final String VERSION = "4.22";
+    private static final String VERSION = "4.3";
     private static final String COPYRIGHT = "JAVA A01 \"ШАГ\", Запорожье 2021";
     private static final String AUTHOR =  "Перцух Алексей";
 
@@ -161,9 +161,6 @@ public class Game {
         int max = Math.max(player1.getUnitsSize(), player2.getUnitsSize());
 
         for (int i = 0; i < max; i++) {
-//            if(player1.getUnitShortInfo(i) == null || player2.getUnitShortInfo(i) == null) {
-//                break;
-//            }
 
             //юнит игрока1
             format = "%d. %-35s    ";
@@ -173,7 +170,7 @@ public class Game {
             printBattleFieldLine(i);
 
             //юнит игрока2
-            format = "       %d. %-35s ";
+            format = "       " + format;
             printOneUnitOnBattleField(player2, i, format);
 
             System.out.println();
