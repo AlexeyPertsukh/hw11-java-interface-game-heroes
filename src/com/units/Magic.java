@@ -6,7 +6,7 @@ import com.interfaces.Medicinable;
 public class Magic extends Shooter implements Medicinable {
 
     private static final String NAME = "Маг";
-    private static final char COAT = '✶';
+    private static final char COAT = '▣';
     private static final int DAMAGE_MIN = 5;
     private static final int DAMAGE_MAX = 10;
     private static final int HIT_POINT = 75;
