@@ -161,16 +161,16 @@ public class Game {
         int max = Math.max(player1.getUnitsSize(), player2.getUnitsSize());
 
         for (int i = 0; i < max; i++) {
-            if(player1.getUnitShortInfo(i) == null || player2.getUnitShortInfo(i) == null) {
-                break;
-            }
+//            if(player1.getUnitShortInfo(i) == null || player2.getUnitShortInfo(i) == null) {
+//                break;
+//            }
 
             //юнит игрока1
             format = "%d. %-35s    ";
             printOneUnitOnBattleField(player1, i, format);
 
             //рисуем линию тактической карты
-            printTacticMapLine(i);
+            printBattleFieldLine(i);
 
             //юнит игрока2
             format = "       %d. %-35s ";
@@ -181,10 +181,24 @@ public class Game {
     }
 
     private void printOneUnitOnBattleField(Player player, int numUnit, String format) {
-        String colorUnit = getColorUnit(player, numUnit);
         String shortInfo = player.getUnitShortInfo(numUnit);
-        shortInfo = String.format(format, numUnit + 1, shortInfo);
+        String colorUnit;
+        if(shortInfo == null) {
+            shortInfo = String.format(format,0,"");
+            shortInfo = spacedString(shortInfo);
+            colorUnit = Color.ANSI_BLACK;
+        } else {
+            shortInfo = String.format(format, numUnit + 1, shortInfo);
+            colorUnit = getColorUnit(player, numUnit);
+        }
+
         Color.printColor(shortInfo, colorUnit);
+    }
+
+    private String spacedString(String string) {
+        String out = "%" + (string.length() + 1) + "s";
+        out = String.format(out, "");
+        return  out;
     }
 
     private void printHeader() {
@@ -194,6 +208,7 @@ public class Game {
         System.out.println("*************************************************************************************************************");
         Color.resetTextColor();
     }
+
 
 
     private void printFooter() {
@@ -544,10 +559,7 @@ public class Game {
     }
 
     //для отрисовывки карты битвы построчно
-    public void printTacticMapLine(int num) {
-        if (num < 0 || num >= player1.getUnitsSize()) {
-            return;
-        }
+    public void printBattleFieldLine(int num) {
 
         final char border = '\'';
         System.out.print(border);
@@ -567,15 +579,22 @@ public class Game {
     private void printUnitCoatOrEmptyInCellMap(Player player, int num, int cell) {
         String color = getColorPlayer(player);
         Unit unit = player.getUnitByNum(num);
+        char coat;
 
-        if(unit.getPosition() == cell && unit.isDead()) {
-            color = COLOR_KILL;
+        if (unit == null) {
+            coat = ' ';
+            color = Color.ANSI_BLACK;
+        } else {
+            if(unit.getPosition() == cell && unit.isDead()) {
+                color = COLOR_KILL;
+            }
+
+            coat = EMPTY_SYMBOL;
+            if(unit.getPosition() == cell) {
+                coat = unit.getCoat();
+            }
         }
 
-        char coat = EMPTY_SYMBOL;
-        if(unit.getPosition() == cell) {
-            coat = unit.getCoat();
-        }
         String coatString = String.valueOf(coat);
         Color.printColor(coatString, color);
     }
