@@ -4,7 +4,6 @@ package com.units;
 public abstract class Unit {
     public static final char CHAR_HP = '♥';
     public static final String STR_DEAD_SYMBOL = "💀";
-    private static final String FORMAT_INFO_DEAD = "%-36s";
 
     public final int maxHitPoint;
 
@@ -59,7 +58,6 @@ public abstract class Unit {
         setHitPoint(hitPoint - point);
     }
 
-
     public int getPosition() {
         return position;
     }
@@ -82,15 +80,6 @@ public abstract class Unit {
         return String.format("%c%d", CHAR_HP, hitPoint);
     }
 
-    protected String infoName() {
-        return String.format("%c %-9s", coat, name);
-    }
-
-    protected String shortInfoDead() {
-        String info = String.format("%s %s", STR_DEAD_SYMBOL, name);
-        return String.format(FORMAT_INFO_DEAD, info) ;      //делать так из-за глюка при выводе символов типа черепа
-    }
-
     public String shortInfo() {
         if(isDead()) {
             return shortInfoDead();
@@ -99,7 +88,15 @@ public abstract class Unit {
         }
     }
 
+    protected String shortInfoAlive() {
+     return String.format("%c %s", coat, name);
+    }
+
+    protected String shortInfoDead() {
+        return String.format("%s %s", STR_DEAD_SYMBOL, name);
+    }
+
     //абстрактные методы
-    abstract protected String shortInfoAlive();
+    abstract public String infoSkills();
 
 }

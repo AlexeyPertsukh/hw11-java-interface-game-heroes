@@ -16,8 +16,8 @@ public class Magic extends Shooter implements Medicinable {
     }
 
     @Override
-    protected String shortInfoAlive() {
-        return String.format("%s (%s, %s, %s)", infoName(), infoHitPoint(), infoDamage(), infoCure());
+    public String infoSkills() {
+        return String.format("%s, %s, %s", infoHitPoint(), infoDamage(), infoCure());
     }
 
 }

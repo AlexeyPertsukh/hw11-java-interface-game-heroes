@@ -13,8 +13,8 @@ public class Archer extends Shooter {
     }
 
     @Override
-    protected String shortInfoAlive() {
-        return String.format("%s (%s, %s)", infoName(), infoHitPoint(), infoDamage());
+    public String infoSkills() {
+        return String.format("%s, %s", infoHitPoint(), infoDamage());
     }
 
 }

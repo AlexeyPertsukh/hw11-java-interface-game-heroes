@@ -163,7 +163,7 @@ public class Game {
         for (int i = 0; i < max; i++) {
 
             //юнит игрока1
-            format = "%d. %-35s    ";
+            format = "%d. %-11s %-22s   ";      // напр: "4. ⬦ Тунеядец  (♥15, :))"
             printOneUnitOnBattleField(player1, i, format);
 
             //рисуем линию тактической карты
@@ -186,13 +186,24 @@ public class Game {
             return;
         }
 
-        String shortInfo = player.getUnitShortInfo(numUnit);
-        shortInfo = String.format(format, numUnit + 1, shortInfo);
+        String infoSkills = "";
+        if(!unit.isDead()) {
+            infoSkills = String.format("(%s)", unit.infoSkills());
+        }
+
+        String shortInfo = unit.shortInfo();
+
+        String info = String.format(format, numUnit + 1, shortInfo, infoSkills);
+        if(unit.isDead()) {
+            info += " ";    // потому что при выводе черепа появляются глюки при выводе текста
+        }
         String colorUnit = getColorUnit(player, numUnit);
 
-        Color.printColor(shortInfo, colorUnit);
+        Color.printColor(info, colorUnit);
     }
 
+    //Возвращает пустую строку того же размера
+    //in: '9 symbols', out: '         '
     private String spacedString(String string) {
         String out = "%" + (string.length() + 1) + "s";
         out = String.format(out, "");
@@ -206,8 +217,6 @@ public class Game {
         System.out.println("*************************************************************************************************************");
         Color.resetTextColor();
     }
-
-
 
     private static void printFooter() {
         Color.setTextColor(COLOR_FOOTER);
@@ -440,7 +449,6 @@ public class Game {
                 attackResult);
 
         return true;
-
     }
 
     private void printMessageAttackFail(Unit unit, int codeMessage) {
