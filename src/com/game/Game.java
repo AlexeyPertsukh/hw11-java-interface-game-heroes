@@ -140,16 +140,18 @@ public class Game {
         String colorPlayer1 = getColorPlayer(player1);
         String colorPlayer2 = getColorPlayer(player2);
 
+        final String playerFormat =  "%-42s";
+
         String text = "⚑  " + player1.getName();
-        text = String.format("%-44s", text);
+        text = String.format(playerFormat, text);
         Color.printColor(text, colorPlayer1);
 
         text =  "-----ПОЛЕ БОЯ------";
-        text = String.format("%-26s", text);
+        text = String.format("%-28s", text);
         Color.printColor(text, COLOR_HEADER);
 
         text = "⚑  " + player2.getName();
-        text = String.format("%-38s", text);
+        text = String.format(playerFormat, text);
         Color.printColor(text, colorPlayer2);
 
         System.out.println();
