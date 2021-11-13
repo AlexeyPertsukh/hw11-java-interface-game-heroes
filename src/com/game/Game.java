@@ -448,7 +448,7 @@ public class Game {
             case Attackable.CODE_TOO_FAR:
                 System.out.printf("[%s] %s атакует только в ближнем бою, подойдите к врагу вплотную \n", playerCurrent.getName(), unit.getNameLowerCase());
                 break;
-            case Attackable.CODE_IS_KILLED:
+            case Attackable.CODE_ATTACK_OF_DEAD:
                 System.out.printf("[%s] нельзя атаковать убитого \n", playerCurrent.getName());
                 break;
             default:

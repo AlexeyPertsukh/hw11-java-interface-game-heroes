@@ -8,7 +8,7 @@ public interface Attackable {
     char CHAR_ATTACK = '↯';
 
     int CODE_TOO_FAR = -1;   // слишком далеко, пехотинец не может атаковать дистанционно (как стрелок)
-    int CODE_IS_KILLED = -2;   //нельзя атаковать убитого
+    int CODE_ATTACK_OF_DEAD = -2;   //нельзя атаковать убитого
 
     //атака
     default int attack(Unit enemy) {
@@ -27,7 +27,7 @@ public interface Attackable {
 
         //нельзя атаковать убитого
         if (enemy.isDead()) {
-            return CODE_IS_KILLED;
+            return CODE_ATTACK_OF_DEAD;
         }
 
         enemy.subtractionHitPoint(damagePoint);
