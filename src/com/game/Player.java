@@ -16,22 +16,6 @@ public class Player {
         units = new Unit[0];
     }
 
-    public String getUnitShortInfo(int num) {
-        if (num < 0 || num >= units.length) { //некорректный запрос
-            return null;
-        }
-
-        return units[num].shortInfo();
-    }
-
-    public String getUnitInfoSkillls(int num) {
-        if (num < 0 || num >= units.length) { //некорректный запрос
-            return null;
-        }
-
-        return units[num].infoSkills();
-    }
-
     //добавляем юнита
     public void addUnit(Unit unit) {
         Unit[] tmp = new Unit[units.length + 1];
