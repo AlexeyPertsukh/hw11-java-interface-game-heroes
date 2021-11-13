@@ -145,7 +145,7 @@ public class Game {
         Color.printColor(text, colorPlayer1);
 
         text =  "-----ПОЛЕ БОЯ------";
-        text = String.format("%-27s", text);
+        text = String.format("%-26s", text);
         Color.printColor(text, COLOR_HEADER);
 
         text = "⚑  " + player2.getName();
@@ -517,11 +517,11 @@ public class Game {
         final String errMessage = "лечение невозможно";
 
         switch (codeMessage) {
-            case Medicinable.CODE_IS_KILLED:
+            case Medicinable.CODE_CURE_ON_DEAD:
                 System.out.printf("[%s] %s, убитому не помочь    \n", playerCurrent.getName(), errMessage);
                 break;
 
-            case Medicinable.CODE_IS_FULL:
+            case Medicinable.CODE_CURE_ON_FULL_HP:
                 System.out.printf("[%s] %s, %s полностью здоров    \n", playerCurrent.getName(),
                         errMessage, patient.getNameLowerCase());
                 break;

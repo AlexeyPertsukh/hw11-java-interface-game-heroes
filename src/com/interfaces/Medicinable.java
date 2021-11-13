@@ -12,8 +12,8 @@ public interface Medicinable {
     int HEALTH_RESTORE_MAX = 30;
 
     int CODE_IS_NO_MAN = -1;   //нельзя лечить не_людей
-    int CODE_IS_KILLED = -2;   //нельзя лечить убитого
-    int CODE_IS_FULL = -3;   //нельзя лечить при полном здоровье
+    int CODE_CURE_ON_DEAD = -2;   //нельзя лечить убитого
+    int CODE_CURE_ON_FULL_HP = -3;   //нельзя лечить при полном здоровье
 //    int CODE_IS_THIS = -4;   //нельзя лечить самого себя
 
     //Лечение
@@ -27,10 +27,10 @@ public interface Medicinable {
             return CODE_IS_NO_MAN;
 
         } else if (patient.isDead()) {    //нельзя лечить убитого
-            return CODE_IS_KILLED;
+            return CODE_CURE_ON_DEAD;
 
         } else if (patient.isHitPointMax()) {    //если максимум здоровья- больше не добавляем
-            return CODE_IS_FULL;
+            return CODE_CURE_ON_FULL_HP;
         }
 
 //        if(patient == ((Unit)this)) { //нельзя лечить самого себя
