@@ -10,9 +10,9 @@ Features of the program code:
 - using error codes in return values instead of exceptions (exceptions will be studied later)
 
 ![alt text](class_diagram.jpg)
-
+---------
 ![alt text](easy_class_diagram.jpg)
-
+---------
 ![alt text](screenshot_battle.jpg)
 
 ![alt text](screenshot_help.jpg)
