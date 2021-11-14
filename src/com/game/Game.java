@@ -140,17 +140,18 @@ public class Game {
         String colorPlayer1 = getColorPlayer(player1);
         String colorPlayer2 = getColorPlayer(player2);
 
-        final String playerFormat =  "%-42s";
+        final String playerFormat = "%-42s";
+        final String beforeName = "⚑  ";
 
-        String text = "⚑  " + player1.getName();
+        String text = beforeName + player1.getName();
         text = String.format(playerFormat, text);
         Color.printColor(text, colorPlayer1);
 
-        text =  "-----ПОЛЕ БОЯ------";
+        text = "-----ПОЛЕ БОЯ------";
         text = String.format("%-28s", text);
         Color.printColor(text, COLOR_HEADER);
 
-        text = "⚑  " + player2.getName();
+        text = beforeName + player2.getName();
         text = String.format(playerFormat, text);
         Color.printColor(text, colorPlayer2);
 
@@ -458,7 +459,7 @@ public class Game {
             case Attackable.CODE_TOO_FAR:
                 System.out.printf("[%s] %s атакует только в ближнем бою, подойдите к врагу вплотную \n", playerCurrent.getName(), unit.getNameLowerCase());
                 break;
-            case Attackable.CODE_ATTACK_ON_DEAD:
+            case Attackable.CODE_ENEMY_DEAD:
                 System.out.printf("[%s] нельзя атаковать убитого \n", playerCurrent.getName());
                 break;
             default:
