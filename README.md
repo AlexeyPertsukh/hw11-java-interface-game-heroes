@@ -9,7 +9,9 @@ Features of the program code:
 - using null in return values (breaking GoF patterns)
 - using error codes in return values instead of exceptions (exceptions will be studied later)
 
-![alt text](classes_diagram_heroes.jpg)
+![alt text](class_diagram.jpg)
+
+![alt text](easy_class_diagram.jpg)
 
 ![alt text](screenshot_battle.jpg)
 
