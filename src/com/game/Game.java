@@ -21,7 +21,7 @@ public class Game {
 
     private static final String VERSION = "4.32";
     private static final String COPYRIGHT = "JAVA A01 \"ШАГ\", Запорожье 2021";
-    private static final String AUTHOR =  "Перцух Алексей";
+    private static final String AUTHOR = "Перцух Алексей";
 
     //Цвета в программе
     private static final String COLOR_VICTORY = Color.ANSI_GREEN;   //победа
@@ -88,9 +88,9 @@ public class Game {
         printPage();
         boolean cmdResult;
 
-        while(true) {
+        while (true) {
             inputCommand();
-            if(checkExitCommand()) {
+            if (checkExitCommand()) {
                 break;
             }
 
@@ -104,7 +104,7 @@ public class Game {
             }
 
             //ничья?
-            if(checkDraw()) {
+            if (checkDraw()) {
                 printOnDraw();
                 break;
             }
@@ -127,7 +127,6 @@ public class Game {
 
     //Распечатываем главную страницу игры
     private void printPage() {
-
         printHeader();
 
         printNamePlayersOnBattleField();
@@ -140,17 +139,18 @@ public class Game {
         String colorPlayer1 = getColorPlayer(player1);
         String colorPlayer2 = getColorPlayer(player2);
 
-        final String playerFormat =  "%-42s";
+        final String playerFormat = "%-42s";
+        final String beforeName = "⚑  ";
 
-        String text = "⚑  " + player1.getName();
+        String text = beforeName + player1.getName();
         text = String.format(playerFormat, text);
         Color.printColor(text, colorPlayer1);
 
-        text =  "-----ПОЛЕ БОЯ------";
+        text = "-----ПОЛЕ БОЯ------";
         text = String.format("%-28s", text);
         Color.printColor(text, COLOR_HEADER);
 
-        text = "⚑  " + player2.getName();
+        text = beforeName + player2.getName();
         text = String.format(playerFormat, text);
         Color.printColor(text, colorPlayer2);
 
@@ -189,14 +189,14 @@ public class Game {
         }
 
         String infoSkills = "";
-        if(!unit.isDead()) {
+        if (!unit.isDead()) {
             infoSkills = String.format("(%s)", unit.infoSkills());
         }
 
         String shortInfo = unit.shortInfo();
 
         String info = String.format(format, numUnit + 1, shortInfo, infoSkills);
-        if(unit.isDead()) {
+        if (unit.isDead()) {
             info += " ";    // потому что при выводе черепа появляются глюки при выводе текста
         }
         String colorUnit = getColorUnit(player, numUnit);
@@ -209,7 +209,7 @@ public class Game {
     private String spacedString(String string) {
         String out = "%" + (string.length() + 1) + "s";
         out = String.format(out, "");
-        return  out;
+        return out;
     }
 
     private static void printHeader() {
@@ -229,7 +229,7 @@ public class Game {
                 KEY_CMD_CURE, "номер_союзника  лечить",
                 CMD_JOKE, "шутить",
                 CMD_GAME_OVER, "выход"
-                );
+        );
         System.out.println(". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .");
         System.out.println(text);
         System.out.println(". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .");
@@ -273,7 +273,6 @@ public class Game {
         Color.resetTextColor();
     }
 
-
     // фокус на перволго игрока
     private void focusFirstPlayer() {
         focusPlayer(player1);
@@ -285,7 +284,7 @@ public class Game {
 
     private void focusPlayer(Player player) {
 
-        if(player == player1) {
+        if (player == player1) {
             playerCurrent = player1;
             playerOther = player2;
         } else {
@@ -295,7 +294,6 @@ public class Game {
 
         playerCurrent.focusFirstLivingUnit();
     }
-
 
     //фокус на следующего игрокa
     private void focusNextPlayer() {
@@ -316,7 +314,6 @@ public class Game {
 
     //Цвет, каким распечатывать игрока (цветным- когда игрок в фокусе)
     private String getColorPlayer(Player player) {
-
         if (player.isAllUnitsDead()) {
             return COLOR_KILL;
         }
@@ -351,25 +348,24 @@ public class Game {
 
     //обработка команд
     private boolean processCommand() {
-
-        if(checkBasicCommand(CMD_GO_RIGHT)) {
+        if (checkBasicCommand(CMD_GO_RIGHT)) {
             return goRight();
         }
 
-        if(checkBasicCommand(CMD_GO_LEFT)) {
+        if (checkBasicCommand(CMD_GO_LEFT)) {
             return goLeft();
         }
 
-        if(checkBasicCommand(CMD_HELP)) {
+        if (checkBasicCommand(CMD_HELP)) {
             printHelp();
             return true;
         }
 
-        if(checkBasicCommand(CMD_JOKE)) {
+        if (checkBasicCommand(CMD_JOKE)) {
             return randomJoke();
         }
 
-        if(checkBasicCommand(CMD_PRINT_ALL_JOKES)) {
+        if (checkBasicCommand(CMD_PRINT_ALL_JOKES)) {
             printAllJokes();
             return true;
         }
@@ -411,7 +407,7 @@ public class Game {
 
     //фокус на следующего юнита, если все юниты отыграли - передаем ход следующему игроку
     private void focusNextUnit() {
-        if(playerCurrent.currentUnitIsLastInLine()) {
+        if (playerCurrent.currentUnitIsLastInLine()) {
             playerCurrent.focusFirstLivingUnit();
             focusNextPlayer();
         } else {
@@ -421,7 +417,6 @@ public class Game {
 
     //атака на противника
     private boolean attack(int numEnemy) {
-
         Unit unit = playerCurrent.getUnitCurrent();
         Unit enemy = playerOther.getUnitByNum(numEnemy);
 
@@ -435,9 +430,9 @@ public class Game {
             return false;
         }
 
-        int attackResult  = ((Attackable) unit).attack(enemy);
+        int attackResult = ((Attackable) unit).attack(enemy);
 
-        if(attackResult < 0) {
+        if (attackResult < 0) {
             printMessageAttackFail(unit, attackResult);
             return false;
         }
@@ -458,7 +453,7 @@ public class Game {
             case Attackable.CODE_TOO_FAR:
                 System.out.printf("[%s] %s атакует только в ближнем бою, подойдите к врагу вплотную \n", playerCurrent.getName(), unit.getNameLowerCase());
                 break;
-            case Attackable.CODE_ATTACK_ON_DEAD:
+            case Attackable.CODE_ENEMY_DEAD:
                 System.out.printf("[%s] нельзя атаковать убитого \n", playerCurrent.getName());
                 break;
             default:
@@ -485,7 +480,6 @@ public class Game {
 
     //лечение
     public boolean cure(int numPatient) {
-
         Unit patient = playerCurrent.getUnitByNum(numPatient);
         Unit unit = playerCurrent.getUnitCurrent();
 
@@ -501,7 +495,7 @@ public class Game {
 
         int cureResult = ((Medicinable) (unit)).cureMan(patient);
 
-        if(cureResult < 0) {
+        if (cureResult < 0) {
             printMessageCureFail(patient, cureResult);
             return false;
         }
@@ -541,7 +535,6 @@ public class Game {
                 System.out.printf("[%s] %s по неизвестной причине   \n", playerCurrent.getName(), errMessage);
                 break;
         }
-
     }
 
     private boolean isMedicinable(Unit unit) {
@@ -570,7 +563,6 @@ public class Game {
 
     //для отрисовывки карты битвы построчно
     public void printBattleFieldLine(int num) {
-
         System.out.print(BATTLE_FIELD_BORDER_CHAR);
 
         for (int cell = 0; cell < RIGHT_POSITION + 1; cell++) {
@@ -604,7 +596,6 @@ public class Game {
 
         String coatString = String.valueOf(coat);
         Color.printColor(coatString, color);
-
     }
 
     private void printOnWin() {
@@ -659,20 +650,19 @@ public class Game {
     }
 
     private Player getWinPlayer() {
-        if(player1.isAllUnitsDead()) {
+        if (player1.isAllUnitsDead()) {
             return player2;
 
-        } else  if(player2.isAllUnitsDead()) {
+        } else if (player2.isAllUnitsDead()) {
             return player1;
 
         } else {
             return null;
         }
-
     }
 
     private boolean checkDraw() {
-        return  (cntNoAttack > MAX_ROUND_NO_ATTACK);
+        return (cntNoAttack > MAX_ROUND_NO_ATTACK);
     }
 
     private boolean checkCommandAttack() {
@@ -699,15 +689,15 @@ public class Game {
     }
 
     private void processNeedActions(boolean cmdResult) {
-        if(checkNeedPressForContinue(cmdResult)) {
+        if (checkNeedPressForContinue(cmdResult)) {
             Util.pressEnterForContinue();
         }
 
-        if(checkNeedFocusNextUnit(cmdResult)) {
+        if (checkNeedFocusNextUnit(cmdResult)) {
             focusNextUnit();
         }
 
-        if(checkNeedUpdatePage(cmdResult)) {
+        if (checkNeedUpdatePage(cmdResult)) {
             printPage();
         }
     }
