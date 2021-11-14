@@ -523,7 +523,7 @@ public class Game {
                 System.out.printf("[%s] %s, убитому не помочь    \n", playerCurrent.getName(), errMessage);
                 break;
 
-            case Medicinable.CODE_CURE_ON_FULL_HP:
+            case Medicinable.CODE_CURE_ON_HP_MAX:
                 System.out.printf("[%s] %s, %s полностью здоров    \n", playerCurrent.getName(),
                         errMessage, patient.getNameLowerCase());
                 break;
