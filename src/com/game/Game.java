@@ -519,16 +519,16 @@ public class Game {
         final String errMessage = "лечение невозможно";
 
         switch (codeMessage) {
-            case Medicinable.CODE_CURE_ON_DEAD:
+            case Medicinable.CODE_PATIENT_DEAD:
                 System.out.printf("[%s] %s, убитому не помочь    \n", playerCurrent.getName(), errMessage);
                 break;
 
-            case Medicinable.CODE_CURE_ON_FULL_HP:
+            case Medicinable.CODE_PATIENT_HP_MAX:
                 System.out.printf("[%s] %s, %s полностью здоров    \n", playerCurrent.getName(),
                         errMessage, patient.getNameLowerCase());
                 break;
 
-            case Medicinable.CODE_IS_NO_MAN:
+            case Medicinable.CODE_PATIENT_NO_MAN:
                 System.out.printf("[%s] %s, %s не является живым существом   \n", playerCurrent.getName(),
                         errMessage, patient.getNameLowerCase());
                 break;

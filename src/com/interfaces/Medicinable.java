@@ -11,9 +11,9 @@ public interface Medicinable {
     int HEALTH_RESTORE_MIN = 10;
     int HEALTH_RESTORE_MAX = 30;
 
-    int CODE_IS_NO_MAN = -1;   //нельзя лечить не_людей
-    int CODE_CURE_ON_DEAD = -2;   //нельзя лечить убитого
-    int CODE_CURE_ON_FULL_HP = -3;   //нельзя лечить при полном здоровье
+    int CODE_PATIENT_NO_MAN = -1;   //нельзя лечить не_людей
+    int CODE_PATIENT_DEAD = -2;   //нельзя лечить убитого
+    int CODE_PATIENT_HP_MAX = -3;   //нельзя лечить при полном здоровье
 //    int CODE_IS_THIS = -4;   //нельзя лечить самого себя
 
     //Лечение
@@ -24,13 +24,13 @@ public interface Medicinable {
         //нельзя лечить не живые юниты (напр. здания)
         boolean isMan = patient instanceof Man;
         if (!isMan) {
-            return CODE_IS_NO_MAN;
+            return CODE_PATIENT_NO_MAN;
 
         } else if (patient.isDead()) {    //нельзя лечить убитого
-            return CODE_CURE_ON_DEAD;
+            return CODE_PATIENT_DEAD;
 
         } else if (patient.isHitPointMax()) {    //если максимум здоровья- больше не добавляем
-            return CODE_CURE_ON_FULL_HP;
+            return CODE_PATIENT_HP_MAX;
         }
 
 //        if(patient == ((Unit)this)) { //нельзя лечить самого себя
