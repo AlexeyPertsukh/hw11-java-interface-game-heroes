@@ -58,8 +58,8 @@ public class Game {
 
     private int cntNoAttack; // счетчик ходов без атак
 
-    Scanner scanner;
-    String command;
+    private Scanner scanner;
+    private String command;
 
     public Game() {
         //количество юнитов у игрока 1 и 2 может быть разным

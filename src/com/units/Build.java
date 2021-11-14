@@ -9,7 +9,7 @@ public abstract class Build extends Unit {
 
 
     @Override
-    public String infoHitPoint() {
+    protected String infoHitPoint() {
         return super.infoHitPoint().replace(CHAR_HP, CHAR_BUILD_HP);  //заменяем сердце на молоточки
     }
 
