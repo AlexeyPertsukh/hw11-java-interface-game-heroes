@@ -58,7 +58,7 @@ public class Game {
 
     private int cntNoAttack; // счетчик ходов без атак
 
-    private Scanner scanner;
+    private final Scanner scanner;
     private String command;
 
     public Game() {
