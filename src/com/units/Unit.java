@@ -1,6 +1,6 @@
 package com.units;
 
-//базовый юнит воин
+//базовый юнит, прародитель для всех остальных персонажей
 public abstract class Unit {
     public static final char CHAR_HP = '♥';
     public static final String STR_DEAD_SYMBOL = "💀";

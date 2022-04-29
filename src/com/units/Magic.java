@@ -2,7 +2,11 @@ package com.units;
 
 import com.interfaces.Medicinable;
 
-//Маг - колдует фаерболы издалека(стрелок), и еще лечит
+/*
+Маг - колдует фаерболы издалека(стрелок), и еще лечит
+Реализует больше интерфейсов, чем кто-либо другой
+*/
+
 public class Magic extends Shooter implements Medicinable {
 
     private static final String NAME = "Маг";

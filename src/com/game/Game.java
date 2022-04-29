@@ -26,7 +26,7 @@ public class Game {
     //Цвета в программе
     private static final String COLOR_VICTORY = Color.ANSI_GREEN;   //победа
     private static final String COLOR_DRAW = Color.ANSI_CYAN;       //ничья
-    private static final String COLOR_FOCUS = Color.ANSI_GREEN;
+    private static final String COLOR_FOCUS = Color.ANSI_YELLOW;
     private static final String COLOR_HEADER = Color.ANSI_PURPLE;
     private static final String COLOR_FOOTER = Color.ANSI_BLUE;
     private static final String COLOR_HELP = Color.ANSI_BLUE;
@@ -242,7 +242,7 @@ public class Game {
         System.out.println("Пошаговая битва воинов по мотивам игры 'Heroes of Might and Magic II'");
         System.out.println("Количество юнитов у игроков может быть разным");
         System.out.println("---");
-        System.out.println("Правила");
+        System.out.println("ПРАВИЛА");
         System.out.println("Пехотинцы могут атаковать врагов только на своей вертикальной линии");
         System.out.println("Стрелки могут обстреливать врага из любой точки");
         System.out.println("Маг атакует издалека фаерболами, поэтому тоже стрелок");
@@ -254,14 +254,14 @@ public class Game {
         System.out.println("Дополнительная команда для распечатки всех шуток: " + CMD_PRINT_ALL_JOKES);
         System.out.println("Дополнительная чит-команда убить вражеского юнита сразу: " + KEY_CMD_KILL + "номер_врага");
         System.out.println("---");
-        System.out.println("Примеры команд");
+        System.out.println("ПРИМЕРЫ КОМАНД");
         System.out.println("Идти влево: " + CMD_GO_LEFT);
         System.out.println("Идти вправо: " + CMD_GO_RIGHT);
         System.out.println("Атаковать врага под номером 5: " + KEY_CMD_ATTACK + "5");
         System.out.println("Лечить союзника под номером 2: " + KEY_CMD_CURE + "2");
         System.out.println("Чит-команда убить сразу врага под номером 4: " + KEY_CMD_KILL + "4");
         System.out.println("---");
-        System.out.println("Обозначения");
+        System.out.println("ОБОЗНАЧЕНИЯ");
         System.out.println(Unit.CHAR_HP + " здоровье");
         System.out.println(Build.CHAR_BUILD_HP + " прочность строения");
         System.out.println(Attackable.CHAR_ATTACK + " наносимый урон");
@@ -273,7 +273,7 @@ public class Game {
         Color.resetTextColor();
     }
 
-    // фокус на перволго игрока
+    // фокус на первого игрока
     private void focusFirstPlayer() {
         focusPlayer(player1);
     }

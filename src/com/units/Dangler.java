@@ -2,7 +2,11 @@ package com.units;
 
 import com.interfaces.Jokable;
 
-//тунеядец-шутник ᙢ ☋
+/*
+тунеядец-шутник
+в бою бесполезен, нужен для прикола
+ */
+
 public class Dangler extends Man implements Jokable {
 
     private static final String NAME = "Тунеядец";
