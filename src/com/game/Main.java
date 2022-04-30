@@ -15,13 +15,6 @@ package com.game;
 public class Main {
 
     public static void main(String[] args) {
-//        Command command = new Command("44");
-//        String[] ss = command.getArgs();
-//        for (String s: ss
-//             ) {
-//            System.out.println(s);
-//        }
-
         Game game = new Game();
         game.go();
     }

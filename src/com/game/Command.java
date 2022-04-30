@@ -72,7 +72,7 @@ public class Command {
         String arg1 = args[0];
         String arg2 = args[1];
 
-        return arg1.equalsIgnoreCase(typeCmd) && Util.isInteger(arg2) && Integer.parseInt(arg2) > 0;
+        return arg1.equalsIgnoreCase(typeCmd) && Util.isInteger(arg2);
     }
 
 
