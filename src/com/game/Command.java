@@ -62,24 +62,25 @@ public class Command {
         return isComplexCommand(CMD_CURE);
     }
 
-
     private boolean isComplexCommand(String typeCmd) {
         String[] args = getArgs();
-        if(args.length < 2) {
+        if (args.length < 2) {
             return false;
         }
 
-        String arg1 = args[0];
-        String arg2 = args[1];
-
-        return arg1.equalsIgnoreCase(typeCmd) && Util.isInteger(arg2);
+        return args[0].equalsIgnoreCase(typeCmd) && Util.isInteger(args[1]);
     }
 
-
+    /*
+    "command5"   -> 5
+    "command-5"  -> CODE_ERR
+    "command5xx" -> CODE_ERR
+    "command"    -> CODE_ERR
+     */
     public int getPositiveNumOrErrCode() {
         String[] args = getArgs();
 
-        if(args.length > 1 && Util.isInteger(args[1])) {
+        if (args.length > 1 && Util.isInteger(args[1])) {
             int num = Integer.parseInt(args[1]);
             if (num >= 0) {
                 return num;
@@ -88,13 +89,15 @@ public class Command {
         return CODE_ERR;
     }
 
-    // "text" -> "text"
-    // "text123" -> "text", "123"
+    /*
+    "text"->"text"
+    "text123"->"text","123"
+     */
     public String[] getArgs() {
-        char[] chars= text.toCharArray();
+        char[] chars = text.toCharArray();
         for (int i = 0; i < chars.length; i++) {
             char c = chars[i];
-            if(c == '-' || (c >= '0' && c <= '9')) {
+            if (c == '-' || (c >= '0' && c <= '9')) {
                 return new String[]{text.substring(0, i), text.substring(i)};
             }
         }

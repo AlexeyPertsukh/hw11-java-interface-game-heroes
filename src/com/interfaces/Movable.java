@@ -1,19 +1,21 @@
 package com.interfaces;
 
-import com.game.Game;
 import com.units.Unit;
 
 //ходок, перемещается в пространстве
 public interface Movable {
 
-    default boolean go(int step) {
+    int ONE_STEP_LEFT = -1;
+    int ONE_STEP_RIGHT = 1;
+
+    default boolean go(int minPosition, int maxPosition, int step) {
         Unit unit = (Unit)this;
         int nextPosition = unit.getPosition() + step;
 
-        if( nextPosition > Game.RIGHT_POSITION) { //двигаться вправо некуда
+        if( nextPosition > maxPosition) { //двигаться вправо некуда
             return false;
         }
-        else if(nextPosition < 0) {   //двигаться влево некуда
+        else if(nextPosition < minPosition) {   //двигаться влево некуда
             return false;
         }
         unit.setPosition(nextPosition);
@@ -21,12 +23,12 @@ public interface Movable {
     }
 
     //идти вправо
-    default boolean goRightOneStep() {
-        return go(1);
+    default boolean goRightOneStep(int minPosition, int maxPosition) {
+        return go(minPosition, maxPosition, ONE_STEP_RIGHT);
     }
 
     //идти влево
-    default boolean goLeftOneStep() {
-        return go(-1);
+    default boolean goLeftOneStep(int minPosition, int maxPosition) {
+        return go(minPosition, maxPosition, ONE_STEP_LEFT);
     }
 }
