@@ -6,7 +6,6 @@ package com.game;
 import java.util.Scanner;
 
 public class Util {
-    public static final int CODE_RESULT_NOT_OK = -1;
 
     private Util(){
     }
@@ -18,28 +17,6 @@ public class Util {
         } catch (NumberFormatException e) {
             return false;
         }
-    }
-
-    //возвращает положительное число в строке-команде или -1 если это не команда
-    //например, команда (str = "+3", key ='+') вернет число 3,
-    //например, команда (str = "+3", key ='@') вернет число -1, потому что '@' не входит в "+3"
-
-    public static int getIntFromCommandStr(String str, char key) {
-
-        if(str.length() < 2) {
-            return CODE_RESULT_NOT_OK;
-        }
-
-        if(str.charAt(0) != key) {
-            return CODE_RESULT_NOT_OK;
-        }
-
-        str = str.substring(1);
-        if(!Util.isInteger(str)) {
-            return CODE_RESULT_NOT_OK;
-        }
-
-        return Integer.parseInt(str);
     }
 
     public static int random(int min, int max) {
@@ -62,6 +39,14 @@ public class Util {
         //постоянно пересоздаем сканнер в этом методе из-за глюков при переводе фокуса ввода(курсора) из консоли в код и обратно
         Scanner sc = new Scanner(System.in);
         sc.nextLine();
+    }
+
+    //Возвращает пустую строку того же размера
+    //in: '9 symbols', out: '         '
+    public static String spacedString(String string) {
+        String out = "%" + (string.length() + 1) + "s";
+        out = String.format(out, "");
+        return out;
     }
 
 }

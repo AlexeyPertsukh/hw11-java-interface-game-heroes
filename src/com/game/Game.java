@@ -17,9 +17,9 @@ public class Game {
 
     private static final int LEFT_POSITION = 0;
     public static final int RIGHT_POSITION = 3; //максимальная позиция, которую юнит может занимать на карте по горизонтали
-    private static final int MAX_ROUND_NO_ATTACK = 4;     //максимальное количество ходов без атак
+    public static final int MAX_ROUND_NO_ATTACK = 4;     //максимальное количество ходов без атак
 
-    private static final String VERSION = "4.32";
+    private static final String VERSION = "4.4";
     private static final String COPYRIGHT = "JAVA A01 \"ШАГ\", Запорожье 2021";
     private static final String AUTHOR = "Перцух Алексей";
 
@@ -31,18 +31,6 @@ public class Game {
     private static final String COLOR_FOOTER = Color.ANSI_BLUE;
     private static final String COLOR_HELP = Color.ANSI_BLUE;
     private static final String COLOR_KILL = Color.ANSI_RED;
-
-    private static final char KEY_CMD_ATTACK = '*';
-    private static final char KEY_CMD_KILL = '#';
-    private static final char KEY_CMD_CURE = '@';
-
-    private static final String CMD_HELP = "?";
-    private static final String CMD_GAME_OVER = "END";
-    private static final String CMD_GO_RIGHT = ">";
-    private static final String CMD_GO_LEFT = "<";
-    private static final String CMD_JOKE = "$";
-    private static final String CMD_PRINT_ALL_JOKES = "~";
-    private static final String CMD_SKIP = "%";
 
     private static final String NAME_PLAYER1 = "Карл IV Великолепный";
     private static final String NAME_PLAYER2 = "Барон Свиное Рыло";
@@ -59,7 +47,6 @@ public class Game {
     private int cntNoAttack; // счетчик ходов без атак
 
     private final Scanner scanner;
-    private String command;
 
     public Game() {
         //количество юнитов у игрока 1 и 2 может быть разным
@@ -86,16 +73,16 @@ public class Game {
         printOnStart();
         focusFirstPlayer();
         printPage();
-        boolean cmdResult;
+        boolean commandResult;
 
         while (true) {
-            inputCommand();
-            if (checkExitCommand()) {
+            Command command = inputCommand();
+            if (command.isEnd()) {
                 break;
             }
 
-            cmdResult = processCommand();
-            processNeedActions(cmdResult);
+            commandResult = processCommand(command);
+            processNeedActions(command, commandResult);
 
             //Кто-то победил?
             if (checkWin()) {
@@ -127,12 +114,12 @@ public class Game {
 
     //Распечатываем главную страницу игры
     private void printPage() {
-        printHeader();
+        Info.printHeader(COLOR_HEADER);
 
         printNamePlayersOnBattleField();
         printUnitsOnBattleField();
 
-        printFooter();
+        Info.printFooter(COLOR_FOOTER);
     }
 
     private void printNamePlayersOnBattleField() {
@@ -183,7 +170,7 @@ public class Game {
         Unit unit = player.getUnitByNum(numUnit);
         if (unit == null) {
             String string = String.format(format, 0, "");
-            string = spacedString(string);
+            string = Util.spacedString(string);
             System.out.print(string);
             return;
         }
@@ -204,74 +191,7 @@ public class Game {
         Color.printColor(info, colorUnit);
     }
 
-    //Возвращает пустую строку того же размера
-    //in: '9 symbols', out: '         '
-    private String spacedString(String string) {
-        String out = "%" + (string.length() + 1) + "s";
-        out = String.format(out, "");
-        return out;
-    }
 
-    private static void printHeader() {
-        Color.setTextColor(COLOR_HEADER);
-        System.out.println("*************************************************************************************************************");
-        System.out.println("                         ⛓✠⛓✠⛓✠⛓       HEROES OF JAVA CONSOLE      ⚔✠⚔✠⚔✠⚔                         ");
-        System.out.println("*************************************************************************************************************");
-        Color.resetTextColor();
-    }
-
-    private static void printFooter() {
-        Color.setTextColor(COLOR_FOOTER);
-        String text = String.format("%s %s   | %s%s %s   | %c%s  | %c%s  | %s %s  | %s %s",
-                CMD_HELP, "помощь",
-                CMD_GO_LEFT, CMD_GO_RIGHT, "идти",
-                KEY_CMD_ATTACK, "номер_врага атаковать",
-                KEY_CMD_CURE, "номер_союзника  лечить",
-                CMD_JOKE, "шутить",
-                CMD_GAME_OVER, "выход"
-        );
-        System.out.println(". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .");
-        System.out.println(text);
-        System.out.println(". . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . .");
-        Color.resetTextColor();
-    }
-
-    private static void printHelp() {
-        Color.setTextColor(COLOR_HELP);
-        System.out.println("---");
-        System.out.println("Пошаговая битва воинов по мотивам игры 'Heroes of Might and Magic II'");
-        System.out.println("Количество юнитов у игроков может быть разным");
-        System.out.println("---");
-        System.out.println("ПРАВИЛА");
-        System.out.println("Пехотинцы могут атаковать врагов только на своей вертикальной линии");
-        System.out.println("Стрелки могут обстреливать врага из любой точки");
-        System.out.println("Маг атакует издалека фаерболами, поэтому тоже стрелок");
-        System.out.println("Маг может лечить");
-        System.out.println("Лечение возможно только для живых существ");
-        System.out.println("Тунеядец умеет шутить");
-        System.out.println("Ничья, если прошло " + MAX_ROUND_NO_ATTACK + " раунда без атаки");
-        System.out.println("---");
-        System.out.println("Дополнительная команда для распечатки всех шуток: " + CMD_PRINT_ALL_JOKES);
-        System.out.println("Дополнительная чит-команда убить вражеского юнита сразу: " + KEY_CMD_KILL + "номер_врага");
-        System.out.println("---");
-        System.out.println("ПРИМЕРЫ КОМАНД");
-        System.out.println("Идти влево: " + CMD_GO_LEFT);
-        System.out.println("Идти вправо: " + CMD_GO_RIGHT);
-        System.out.println("Атаковать врага под номером 5: " + KEY_CMD_ATTACK + "5");
-        System.out.println("Лечить союзника под номером 2: " + KEY_CMD_CURE + "2");
-        System.out.println("Чит-команда убить сразу врага под номером 4: " + KEY_CMD_KILL + "4");
-        System.out.println("---");
-        System.out.println("ОБОЗНАЧЕНИЯ");
-        System.out.println(Unit.CHAR_HP + " здоровье");
-        System.out.println(Build.CHAR_BUILD_HP + " прочность строения");
-        System.out.println(Attackable.CHAR_ATTACK + " наносимый урон");
-        System.out.println(Medicinable.CHAR_CURE + " уровень лечения");
-        System.out.println(Jokable.LABEL_JOKE + " рассказывает шутки");
-        System.out.println("---");
-        System.out.println("https://github.com/AlexeyPertsukh/hw11-java-interface-game-heroes");
-        System.out.println("---");
-        Color.resetTextColor();
-    }
 
     // фокус на первого игрока
     private void focusFirstPlayer() {
@@ -341,51 +261,52 @@ public class Game {
     }
 
     //ввод команды
-    private void inputCommand() {
+    private Command inputCommand() {
         System.out.printf("[%s] %s, введите команду: ", playerCurrent.getName(), playerCurrent.getUnitCurrent().getNameLowerCase());
-        command = playerCurrent.nextCmd(scanner);
+        String text = playerCurrent.nextCmd(scanner);
+        return new Command(text);
     }
 
     //обработка команд
-    private boolean processCommand() {
-        if (checkBasicCommand(CMD_GO_RIGHT)) {
+    private boolean processCommand(Command command) {
+        if (command.isGoRight()) {
             return goRight();
         }
 
-        if (checkBasicCommand(CMD_GO_LEFT)) {
+        if (command.isGoLeft()) {
             return goLeft();
         }
 
-        if (checkBasicCommand(CMD_HELP)) {
-            printHelp();
+        if (command.isHelp()) {
+            Info.printHelp(COLOR_HELP);
             return true;
         }
 
-        if (checkBasicCommand(CMD_JOKE)) {
+        if (command.isJoke()) {
             return randomJoke();
         }
 
-        if (checkBasicCommand(CMD_PRINT_ALL_JOKES)) {
+        if (command.isPrintAllJokes()) {
             printAllJokes();
             return true;
         }
 
         //команды с параметрами
         //атака
-        if (checkCommandAttack()) {
-            int num = Util.getIntFromCommandStr(command, KEY_CMD_ATTACK) - 1;
+        if (command.isAttack()) {
+            int num = command.getPositiveNumOrErrCode() - 1;
             return attack(num);
         }
 
         //убить сразу
-        if (checkCommandKill()) {
-            int num = Util.getIntFromCommandStr(command, KEY_CMD_KILL) - 1;
+        if (command.isKill()) {
+            int num = command.getPositiveNumOrErrCode() - 1;
             return killEnemy(num);
         }
 
         //лечение
-        if (checkCommandCure()) {
-            int num = Util.getIntFromCommandStr(command, KEY_CMD_CURE) - 1;
+        if (command.isCure()) {
+            int num = command.getPositiveNumOrErrCode() - 1;
             return cure(num);
         }
 
@@ -665,60 +586,35 @@ public class Game {
         return (cntNoAttack > MAX_ROUND_NO_ATTACK);
     }
 
-    private boolean checkCommandAttack() {
-        int num = Util.getIntFromCommandStr(command, KEY_CMD_ATTACK);
-        return num != Util.CODE_RESULT_NOT_OK;
-    }
 
-    private boolean checkCommandKill() {
-        int num = Util.getIntFromCommandStr(command, KEY_CMD_KILL);
-        return num != Util.CODE_RESULT_NOT_OK;
-    }
-
-    private boolean checkCommandCure() {
-        int num = Util.getIntFromCommandStr(command, KEY_CMD_CURE);
-        return num != Util.CODE_RESULT_NOT_OK;
-    }
-
-    private boolean checkBasicCommand(String keyCommand) {
-        return command.equalsIgnoreCase(keyCommand);
-    }
-
-    private boolean checkExitCommand() {
-        return command.equalsIgnoreCase(CMD_GAME_OVER);
-    }
-
-    private void processNeedActions(boolean cmdResult) {
-        if (checkNeedPressForContinue(cmdResult)) {
+    private void processNeedActions(Command command, boolean cmdResult) {
+        if (checkNeedPressForContinue(command, cmdResult)) {
             Util.pressEnterForContinue();
         }
 
-        if (checkNeedFocusNextUnit(cmdResult)) {
+        if (checkNeedFocusNextUnit(command, cmdResult)) {
             focusNextUnit();
         }
 
-        if (checkNeedUpdatePage(cmdResult)) {
+        if (checkNeedUpdatePage(command, cmdResult)) {
             printPage();
         }
     }
 
     //Если бы на этом этапе учебы мы знали про enum, я бы использовал enum для доп. атрибутирования команд,
     //но пока справляюсь как могу- checkNeedUpdatePage etc.
-    private boolean checkNeedUpdatePage(boolean cmdResult) {
-        boolean need = checkBasicCommand(CMD_GO_RIGHT) || checkBasicCommand(CMD_GO_LEFT) || checkBasicCommand(CMD_JOKE) ||
-                checkCommandAttack() || checkCommandKill() || checkCommandCure();
+    private boolean checkNeedUpdatePage(Command command, boolean cmdResult) {
+        boolean need = command.isGo() || command.isJoke() || command.isAttack() || command.isKill() || command.isCure();
         return cmdResult && need;
     }
 
-    private boolean checkNeedFocusNextUnit(boolean cmdResult) {
-        boolean need = checkBasicCommand(CMD_GO_RIGHT) || checkBasicCommand(CMD_GO_LEFT) || checkBasicCommand(CMD_JOKE) ||
-                checkCommandAttack() || checkCommandCure();
+    private boolean checkNeedFocusNextUnit(Command command, boolean cmdResult) {
+        boolean need = command.isGo() || command.isJoke() || command.isAttack() || command.isCure();
         return cmdResult && need;
     }
 
-    private boolean checkNeedPressForContinue(boolean cmdResult) {
-        boolean need = checkBasicCommand(CMD_JOKE) || checkBasicCommand(CMD_PRINT_ALL_JOKES) ||
-                checkCommandAttack() || checkCommandKill() || checkCommandCure();
+    private boolean checkNeedPressForContinue(Command command, boolean cmdResult) {
+        boolean need = command.isJoke() || command.isPrintAllJokes() || command.isAttack() || command.isKill() || command.isCure();
         return cmdResult && need;
     }
 
