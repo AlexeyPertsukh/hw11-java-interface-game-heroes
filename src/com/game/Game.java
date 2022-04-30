@@ -15,8 +15,8 @@ import java.util.Scanner;
 
 public class Game {
 
-    private static final int MIN_POSITION = 0;
-    public static final int MAX_POSITION = 3; //максимальная позиция, которую юнит может занимать на карте по горизонтали
+    private static final int LIMIT_LEFT = 0;
+    public static final int LIMIT_RIGHT = 3; //максимальная позиция, которую юнит может занимать на карте по горизонтали
     public static final int MAX_ROUND_NO_ATTACK = 4;     //максимальное количество ходов без атак
 
     private static final String VERSION = "4.4";
@@ -51,18 +51,18 @@ public class Game {
     public Game() {
         //количество юнитов у игрока 1 и 2 может быть разным
         player1 = new Player(NAME_PLAYER1);
-        player1.addUnit(new Tower(MIN_POSITION));
-        player1.addUnit(new Knight(MIN_POSITION));
-        player1.addUnit(new Archer(MIN_POSITION));
-        player1.addUnit(new Dangler(MIN_POSITION));
-        player1.addUnit(new Magic(MIN_POSITION));
+        player1.addUnit(new Tower(LIMIT_LEFT));
+        player1.addUnit(new Knight(LIMIT_LEFT));
+        player1.addUnit(new Archer(LIMIT_LEFT));
+        player1.addUnit(new Dangler(LIMIT_LEFT));
+        player1.addUnit(new Magic(LIMIT_LEFT));
 
         player2 = new Player(NAME_PLAYER2);
-        player2.addUnit(new Tower(MAX_POSITION));
-        player2.addUnit(new Knight(MAX_POSITION));
-        player2.addUnit(new Archer(MAX_POSITION));
-        player2.addUnit(new Dangler(MAX_POSITION));
-        player2.addUnit(new Magic(MAX_POSITION));
+        player2.addUnit(new Tower(LIMIT_RIGHT));
+        player2.addUnit(new Knight(LIMIT_RIGHT));
+        player2.addUnit(new Archer(LIMIT_RIGHT));
+        player2.addUnit(new Dangler(LIMIT_RIGHT));
+        player2.addUnit(new Magic(LIMIT_RIGHT));
 //        player2.addUnit(new Archer(RIGHT_POSITION));   //для проверки игры с разным количеством юнитов у игроков
 
         scanner = new Scanner(System.in);
@@ -486,7 +486,7 @@ public class Game {
     public void printBattleFieldLine(int num) {
         System.out.print(BATTLE_FIELD_BORDER_CHAR);
 
-        for (int cell = 0; cell < MAX_POSITION + 1; cell++) {
+        for (int cell = 0; cell < LIMIT_RIGHT + 1; cell++) {
 
             printUnitCoatOrEmptyInCellBattleField(player1, num, cell);
 
@@ -536,7 +536,7 @@ public class Game {
             return false;
         }
 
-        boolean code = ((Movable) unit).goRightOneStep(MIN_POSITION, MAX_POSITION);
+        boolean code = ((Movable) unit).goRightOneStep(LIMIT_LEFT, LIMIT_RIGHT);
         if (!code) {
             System.out.printf("[%s] %s \n", playerCurrent.getName(), MESSAGE_NO_WAY);
             return false;
@@ -553,7 +553,7 @@ public class Game {
             return false;
         }
 
-        boolean code = ((Movable) unit).goLeftOneStep(MIN_POSITION, MAX_POSITION);
+        boolean code = ((Movable) unit).goLeftOneStep(LIMIT_LEFT, LIMIT_RIGHT);
         if (!code) {
             System.out.printf("[%s] %s \n", playerCurrent.getName(), MESSAGE_NO_WAY);
             return false;
