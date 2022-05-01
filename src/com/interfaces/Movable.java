@@ -9,13 +9,12 @@ public interface Movable {
     int ONE_STEP_RIGHT = 1;
 
     default boolean go(int minPosition, int maxPosition, int step) {
-        Unit unit = (Unit)this;
+        Unit unit = (Unit) this;
         int nextPosition = unit.getPosition() + step;
 
-        if( nextPosition > maxPosition) { //двигаться вправо некуда
+        if (nextPosition > maxPosition) { //двигаться вправо некуда
             return false;
-        }
-        else if(nextPosition < minPosition) {   //двигаться влево некуда
+        } else if (nextPosition < minPosition) {   //двигаться влево некуда
             return false;
         }
         unit.setPosition(nextPosition);

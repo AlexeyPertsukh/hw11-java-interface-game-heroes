@@ -10,7 +10,7 @@ public class Info {
     private Info() {
     }
 
-    public static void  printHeader(String color) {
+    public static void printHeader(String color) {
         Color.setTextColor(color);
         System.out.println("*************************************************************************************************************");
         System.out.println("                         ⛓✠⛓✠⛓✠⛓       HEROES OF JAVA CONSOLE      ⚔✠⚔✠⚔✠⚔                         ");
@@ -18,7 +18,7 @@ public class Info {
         Color.resetTextColor();
     }
 
-    public static void  printFooter(String color) {
+    public static void printFooter(String color) {
         Color.setTextColor(color);
         String text = String.format("%s %s   | %s%s %s   | %s%s  | %s%s  | %s %s  | %s %s",
                 Command.CMD_HELP, "помощь",
@@ -70,5 +70,25 @@ public class Info {
         System.out.println("---");
         Color.resetTextColor();
     }
+
+    public static void printOnWin(Player playerWin, String color) {
+        Color.printlnColor("⚑⚑⚑ ПОБЕДИЛ " + playerWin.getName() + " !!! ", color);
+    }
+
+    public static void printOnStart(String version) {
+        System.out.println("ver." + version + " Dedicated to the Heroes of Might and Magic II  ");
+    }
+
+    public static void printOnEnd(String... args) {
+        System.out.println();
+        for (String s : args) {
+            System.out.println(s);
+        }
+    }
+
+    public static void printOnDraw(int maxRoundNoAtack, String color) {
+        Color.printlnColor("⛨⛨⛨ НИЧЬЯ: " + maxRoundNoAtack + " раунда без атак.", color);
+    }
+
 
 }

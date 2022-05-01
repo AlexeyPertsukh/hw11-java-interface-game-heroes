@@ -22,9 +22,7 @@ public interface Attackable {
     }
 
     default int inputRandomDamage(Unit enemy, int damageMin, int damageMax) {
-
         int damagePoint = Util.random(damageMin, damageMax);
-
 
         //нельзя атаковать убитого
         if (enemy.isDead()) {

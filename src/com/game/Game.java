@@ -70,7 +70,7 @@ public class Game {
 
     //========= основной блок ===========================
     public void go() {
-        printOnStart();
+        Info.printOnStart(VERSION);
         focusFirstPlayer();
         printPage();
         boolean commandResult;
@@ -82,35 +82,27 @@ public class Game {
             }
 
             commandResult = processCommand(command);
-            processNeedActions(command, commandResult);
+            if (commandResult) {
+                processNeedActions(command);
+            }
+
 
             //Кто-то победил?
             if (checkWin()) {
-                printOnWin();
+                Info.printOnWin(getWinPlayer(), COLOR_VICTORY);
                 break;
             }
 
             //ничья?
             if (checkDraw()) {
-                printOnDraw();
+                Info.printOnDraw(MAX_ROUND_NO_ATTACK, COLOR_DRAW);
                 break;
             }
         }
 
-        printOnEnd();
+        Info.printOnEnd(COPYRIGHT, AUTHOR);
     }
     //===================================================
-
-    private void printOnStart() {
-        System.out.println("ver." + VERSION + " Dedicated to the Heroes of Might and Magic II  ");
-    }
-
-    private void printOnEnd() {
-        System.out.println();
-        System.out.println(COPYRIGHT);
-        System.out.println(AUTHOR);
-    }
-
 
     //Распечатываем главную страницу игры
     private void printPage() {
@@ -190,7 +182,6 @@ public class Game {
 
         Color.printColor(info, colorUnit);
     }
-
 
 
     // фокус на первого игрока
@@ -519,15 +510,6 @@ public class Game {
         Color.printColor(coatString, color);
     }
 
-    private void printOnWin() {
-        Player playerWin = getWinPlayer();
-        Color.printlnColor("⚑⚑⚑ ПОБЕДИЛ " + playerWin.getName() + " !!! ", COLOR_VICTORY);
-    }
-
-    private void printOnDraw() {
-        Color.printlnColor("⛨⛨⛨ НИЧЬЯ: " + MAX_ROUND_NO_ATTACK + " раунда без атак.", COLOR_DRAW);
-    }
-
     public boolean goRight() {
         Unit unit = playerCurrent.getUnitCurrent();
 
@@ -587,35 +569,32 @@ public class Game {
     }
 
 
-    private void processNeedActions(Command command, boolean cmdResult) {
-        if (checkNeedPressForContinue(command, cmdResult)) {
+    private void processNeedActions(Command command) {
+        if (checkNeedPressForContinue(command)) {
             Util.pressEnterForContinue();
         }
 
-        if (checkNeedFocusNextUnit(command, cmdResult)) {
+        if (checkNeedFocusNextUnit(command)) {
             focusNextUnit();
         }
 
-        if (checkNeedUpdatePage(command, cmdResult)) {
+        if (checkNeedUpdatePage(command)) {
             printPage();
         }
     }
 
     //Если бы на этом этапе учебы мы знали про enum, я бы использовал enum для доп. атрибутирования команд,
     //но пока справляюсь как могу- checkNeedUpdatePage etc.
-    private boolean checkNeedUpdatePage(Command command, boolean cmdResult) {
-        boolean need = command.isGo() || command.isJoke() || command.isAttack() || command.isKill() || command.isCure();
-        return cmdResult && need;
+    private boolean checkNeedUpdatePage(Command command) {
+        return command.isGo() || command.isJoke() || command.isAttack() || command.isKill() || command.isCure();
     }
 
-    private boolean checkNeedFocusNextUnit(Command command, boolean cmdResult) {
-        boolean need = command.isGo() || command.isJoke() || command.isAttack() || command.isCure();
-        return cmdResult && need;
+    private boolean checkNeedFocusNextUnit(Command command) {
+        return command.isGo() || command.isJoke() || command.isAttack() || command.isCure();
     }
 
-    private boolean checkNeedPressForContinue(Command command, boolean cmdResult) {
-        boolean need = command.isJoke() || command.isPrintAllJokes() || command.isAttack() || command.isKill() || command.isCure();
-        return cmdResult && need;
+    private boolean checkNeedPressForContinue(Command command) {
+        return command.isJoke() || command.isPrintAllJokes() || command.isAttack() || command.isKill() || command.isCure();
     }
 
 
