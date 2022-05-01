@@ -71,8 +71,13 @@ public class Info {
         Color.resetTextColor();
     }
 
-    public static void printOnWin(Player playerWin, String color) {
-        Color.printlnColor("⚑⚑⚑ ПОБЕДИЛ " + playerWin.getName() + " !!! ", color);
+    public static void printOnWin(Player playerWin, String color, String colorErr) {
+        if(playerWin == null) {
+            Color.printlnColor(">>>ОШИБКА В ОПРЕДЕЛЕНИИ ПОБЕДИТЕЛЯ", colorErr);
+        } else {
+            Color.printlnColor("⚑⚑⚑ ПОБЕДИЛ " + playerWin.getName() + " !!! ", color);
+        }
+
     }
 
     public static void printOnStart(String version) {
@@ -86,8 +91,8 @@ public class Info {
         }
     }
 
-    public static void printOnDraw(int maxRoundNoAtack, String color) {
-        Color.printlnColor("⛨⛨⛨ НИЧЬЯ: " + maxRoundNoAtack + " раунда без атак.", color);
+    public static void printOnDraw(int maxRoundNoAttack, String color) {
+        Color.printlnColor("⛨⛨⛨ НИЧЬЯ: " + maxRoundNoAttack + " раунда без атак.", color);
     }
 
 

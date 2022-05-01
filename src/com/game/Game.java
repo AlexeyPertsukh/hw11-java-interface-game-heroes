@@ -31,6 +31,7 @@ public class Game {
     private static final String COLOR_FOOTER = Color.ANSI_BLUE;
     private static final String COLOR_HELP = Color.ANSI_BLUE;
     private static final String COLOR_KILL = Color.ANSI_RED;
+    private static final String COLOR_ERR = Color.ANSI_RED;
 
     private static final String NAME_PLAYER1 = "Карл IV Великолепный";
     private static final String NAME_PLAYER2 = "Барон Свиное Рыло";
@@ -89,7 +90,7 @@ public class Game {
 
             //Кто-то победил?
             if (checkWin()) {
-                Info.printOnWin(getWinPlayer(), COLOR_VICTORY);
+                Info.printOnWin(getWinPlayer(), COLOR_VICTORY, COLOR_ERR);
                 break;
             }
 
