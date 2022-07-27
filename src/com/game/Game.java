@@ -74,7 +74,6 @@ public class Game {
         Info.printOnStart(VERSION);
         focusFirstPlayer();
         printPage();
-        boolean result;
 
         while (true) {
             Command command = readCommand();
@@ -82,7 +81,7 @@ public class Game {
                 break;
             }
 
-            result = processCommand(command);
+            boolean result = executeCommand(command);
             if (!result) {
                 continue;
             }
@@ -271,7 +270,7 @@ public class Game {
     }
 
     //обработка команд
-    private boolean processCommand(Command command) {
+    private boolean executeCommand(Command command) {
         if (command.isGoRight()) {
             return goRight();
         }
