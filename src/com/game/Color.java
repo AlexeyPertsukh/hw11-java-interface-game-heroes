@@ -39,15 +39,14 @@ public class Color {
 
     }
 
-    public static void printColor(String strPrint, String color){
+    public static void printColor(String message, String color){
         setTextColor(color);
-        System.out.print(strPrint);
+        System.out.print(message);
         resetTextColor();
     }
 
-    public static void printlnColor(String strPrint, String color){
-        printColor(strPrint, color);
-        System.out.println();
+    public static void printlnColor(String message, String color){
+        printColor(message + "\n", color);
     }
 
     public static void printColorYellow(String strPrint) {

@@ -1,5 +1,5 @@
 package com.game;
-
+//по учебной программе еще не знаем про enum, поэтому делаем класс
 public class Command {
 
     public static final String CMD_ATTACK = "*";
