@@ -1,8 +1,6 @@
 package com.game;
 
-import com.units.*;
-
-import java.util.Scanner;
+import com.units.Unit;
 
 public class Player {
     private static final int CODE_ERR = -1;
@@ -98,10 +96,6 @@ public class Player {
             }
         }
         return true;
-    }
-
-    public String nextCmd(Scanner sc) {
-        return sc.next();
     }
 
     public String getName() {

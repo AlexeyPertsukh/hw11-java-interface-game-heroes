@@ -77,7 +77,7 @@ public class Game {
         boolean result;
 
         while (true) {
-            Command command = inputCommand();
+            Command command = readCommand();
             if (command.isEnd()) {
                 break;
             }
@@ -264,9 +264,9 @@ public class Game {
     }
 
     //ввод команды
-    private Command inputCommand() {
+    private Command readCommand() {
         System.out.printf("[%s] %s, введите команду: ", playerCurrent.getName(), playerCurrent.getUnitCurrent().getNameLowerCase());
-        String text = playerCurrent.nextCmd(scanner);
+        String text = scanner.next();
         return new Command(text);
     }
 
