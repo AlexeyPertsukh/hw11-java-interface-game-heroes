@@ -49,62 +49,6 @@ public class Color {
         printColor(message + "\n", color);
     }
 
-    public static void printColorYellow(String strPrint) {
-        printColor(strPrint, ANSI_YELLOW);
-    }
-    public static void printlnColorYellow(String strPrint) {
-        printlnColor(strPrint, ANSI_YELLOW);
-    }
-
-    public static void printColorBlue(String strPrint) {
-        printColor(strPrint, ANSI_BLUE);
-    }
-    public static void printlnColorBlue(String strPrint) {
-        printlnColor(strPrint, ANSI_BLUE);
-    }
-
-    public static void printColorPurple(String strPrint) {
-        printColor(strPrint, ANSI_PURPLE);
-    }
-    public static void printlnColorPurple(String strPrint) {
-        printlnColor(strPrint, ANSI_PURPLE);
-    }
-
-    public static void printColorGreen(String strPrint) {
-        printColor(strPrint, ANSI_GREEN);
-    }
-    public static void printlnColorGreen(String strPrint) {
-        printlnColor(strPrint, ANSI_GREEN);
-    }
-
-    public static void printColorRed(String strPrint) {
-        printColor(strPrint, ANSI_RED);
-    }
-    public static void printlnColorRed(String strPrint) {
-        printlnColor(strPrint, ANSI_RED);
-    }
-
-    public static void printColorBlack(String strPrint) {
-        printColor(strPrint, ANSI_BLACK);
-    }
-    public static void printlnColorBlack(String strPrint) {
-        printlnColor(strPrint, ANSI_BLACK);
-    }
-
-    public static void printColorCyan(String strPrint) {
-        printColor(strPrint, ANSI_CYAN);
-    }
-    public static void printlnColorCyan(String strPrint) {
-        printlnColor(strPrint, ANSI_CYAN);
-    }
-
-    public static void printColorWhite(String strPrint) {
-        printColor(strPrint, ANSI_WHITE);
-    }
-    public static void printlnColorWhite(String strPrint) {
-        printlnColor(strPrint, ANSI_WHITE);
-    }
-
     public static void setTextColor(String color){
         System.out.print(color);
     }
