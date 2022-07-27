@@ -74,7 +74,7 @@ public class Game {
         Info.printOnStart(VERSION);
         focusFirstPlayer();
         printPage();
-        boolean commandResult;
+        boolean result;
 
         while (true) {
             Command command = inputCommand();
@@ -82,20 +82,31 @@ public class Game {
                 break;
             }
 
-            commandResult = processCommand(command);
-            if (commandResult) {
-                processNeedActions(command);
+            result = processCommand(command);
+            if (!result) {
+                continue;
             }
 
+            if (isNeedPressForContinue(command)) {
+                Util.pressEnterForContinue();
+            }
+
+            if (isNeedFocusNextUnit(command)) {
+                focusNextUnit();
+            }
+
+            if (isNeedUpdatePage(command)) {
+                printPage();
+            }
 
             //Кто-то победил?
-            if (checkWin()) {
+            if (isWin()) {
                 Info.printOnWin(getWinPlayer(), COLOR_VICTORY, COLOR_ERR);
                 break;
             }
 
             //ничья?
-            if (checkDraw()) {
+            if (isDraw()) {
                 Info.printOnDraw(MAX_ROUND_NO_ATTACK, COLOR_DRAW);
                 break;
             }
@@ -549,7 +560,7 @@ public class Game {
         return unit instanceof Movable;
     }
 
-    private boolean checkWin() {
+    private boolean isWin() {
         return player1.isAllUnitsDead() || player2.isAllUnitsDead();
     }
 
@@ -565,36 +576,21 @@ public class Game {
         }
     }
 
-    private boolean checkDraw() {
+    private boolean isDraw() {
         return (cntNoAttack > MAX_ROUND_NO_ATTACK);
-    }
-
-
-    private void processNeedActions(Command command) {
-        if (checkNeedPressForContinue(command)) {
-            Util.pressEnterForContinue();
-        }
-
-        if (checkNeedFocusNextUnit(command)) {
-            focusNextUnit();
-        }
-
-        if (checkNeedUpdatePage(command)) {
-            printPage();
-        }
     }
 
     //Если бы на этом этапе учебы мы знали про enum, я бы использовал enum для доп. атрибутирования команд,
     //но пока справляюсь как могу- checkNeedUpdatePage etc.
-    private boolean checkNeedUpdatePage(Command command) {
+    private boolean isNeedUpdatePage(Command command) {
         return command.isGo() || command.isJoke() || command.isAttack() || command.isKill() || command.isCure();
     }
 
-    private boolean checkNeedFocusNextUnit(Command command) {
+    private boolean isNeedFocusNextUnit(Command command) {
         return command.isGo() || command.isJoke() || command.isAttack() || command.isCure();
     }
 
-    private boolean checkNeedPressForContinue(Command command) {
+    private boolean isNeedPressForContinue(Command command) {
         return command.isJoke() || command.isPrintAllJokes() || command.isAttack() || command.isKill() || command.isCure();
     }
 
