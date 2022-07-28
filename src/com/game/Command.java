@@ -1,4 +1,5 @@
 package com.game;
+
 //по учебной программе еще не знаем про enum, поэтому делаем класс
 public class Command {
 
@@ -63,7 +64,7 @@ public class Command {
     }
 
     private boolean isComplexCommand(String typeCmd) {
-        String[] args = getArgs();
+        String[] args = getArguments();
         if (args.length < 2) {
             return false;
         }
@@ -78,7 +79,7 @@ public class Command {
     "command"    -> CODE_ERR
      */
     public int getPositiveNumOrErrCode() {
-        String[] args = getArgs();
+        String[] args = getArguments();
 
         if (args.length > 1 && Util.isInteger(args[1])) {
             int num = Integer.parseInt(args[1]);
@@ -93,7 +94,7 @@ public class Command {
     "text"->"text"
     "text123"->"text","123"
      */
-    public String[] getArgs() {
+    public String[] getArguments() {
         char[] chars = text.toCharArray();
         for (int i = 0; i < chars.length; i++) {
             char c = chars[i];

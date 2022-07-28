@@ -4,7 +4,7 @@ import com.interfaces.Attackable;
 import com.interfaces.Jokable;
 import com.interfaces.Medicinable;
 import com.units.Build;
-import com.units.Unit;
+import com.units.Man;
 
 public class Info {
     private Info() {
@@ -60,8 +60,8 @@ public class Info {
         System.out.println("Чит-команда убить сразу врага под номером 4: " + Command.CMD_KILL + "4");
         System.out.println("---");
         System.out.println("ОБОЗНАЧЕНИЯ");
-        System.out.println(Unit.CHAR_HP + " здоровье");
-        System.out.println(Build.CHAR_BUILD_HP + " прочность строения");
+        System.out.println(Man.CHAR_HP + " здоровье");
+        System.out.println(Build.BUILD_HP + " прочность строения");
         System.out.println(Attackable.CHAR_ATTACK + " наносимый урон");
         System.out.println(Medicinable.CHAR_CURE + " уровень лечения");
         System.out.println(Jokable.LABEL_JOKE + " рассказывает шутки");
