@@ -41,6 +41,7 @@ public class Info {
         System.out.println("Количество юнитов у игроков может быть разным");
         System.out.println("---");
         System.out.println("ПРАВИЛА");
+        System.out.println("Люди умеют ходить, а здания нет");
         System.out.println("Пехотинцы могут атаковать врагов только на своей вертикальной линии");
         System.out.println("Стрелки могут обстреливать врага из любой точки");
         System.out.println("Маг атакует издалека фаерболами, поэтому тоже стрелок");
