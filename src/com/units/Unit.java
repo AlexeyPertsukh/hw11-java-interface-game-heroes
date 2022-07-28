@@ -2,8 +2,7 @@ package com.units;
 
 //базовый юнит, прародитель для всех остальных персонажей
 public abstract class Unit {
-    public static final char CHAR_HP = '♥';
-    public static final String STR_DEAD_SYMBOL = "💀";
+    public static final String DEAD_SYMBOL = "💀";
 
     public final int maxHitPoint;
 
@@ -76,10 +75,6 @@ public abstract class Unit {
         return (hitPoint >= maxHitPoint);
     }
 
-    protected String infoHitPoint() {
-        return String.format("%c%d", CHAR_HP, hitPoint);
-    }
-
     public String shortInfo() {
         if(isDead()) {
             return shortInfoDead();
@@ -93,10 +88,12 @@ public abstract class Unit {
     }
 
     protected String shortInfoDead() {
-        return String.format("%s %s", STR_DEAD_SYMBOL, name);
+        return String.format("%s %s", DEAD_SYMBOL, name);
     }
 
     //абстрактные методы
     abstract public String infoSkills();
+
+    abstract protected String infoHitPoint();
 
 }
