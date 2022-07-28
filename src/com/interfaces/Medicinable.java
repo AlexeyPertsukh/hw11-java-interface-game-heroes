@@ -20,7 +20,7 @@ public interface Medicinable {
     //возвращает:
     // >0  количество очков здоровья, добавленных юниту
     // <0  код ошибки
-    default int cureMan(Unit patient) {
+    default int cure(Unit patient) {
         //нельзя лечить не живые юниты (напр. здания)
         boolean isMan = patient instanceof Man;
         if (!isMan) {

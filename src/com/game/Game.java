@@ -416,7 +416,7 @@ public class Game {
             return false;
         }
 
-        int cureResult = ((Medicinable) (unit)).cureMan(patient);
+        int cureResult = ((Medicinable) (unit)).cure(patient);
 
         if (cureResult < 0) {
             printMessageCureFail(patient, cureResult);
