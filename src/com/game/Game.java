@@ -43,7 +43,6 @@ public class Game {
     private final Player player1;
     private final Player player2;
     private Player playerCurrent;
-    private Player playerOther;
 
     private int cntNoAttack; // счетчик ходов без атак
 
@@ -194,6 +193,9 @@ public class Game {
         Color.printColor(info, colorUnit);
     }
 
+    private Player getOtherPlayer() {
+        return playerCurrent == player1 ? player2 : player1;
+    }
 
     // фокус на первого игрока
     private void focusFirstPlayer() {
@@ -208,10 +210,8 @@ public class Game {
 
         if (player == player1) {
             playerCurrent = player1;
-            playerOther = player2;
         } else {
             playerCurrent = player2;
-            playerOther = player1;
         }
 
         playerCurrent.focusFirstLivingUnit();
@@ -219,7 +219,7 @@ public class Game {
 
     //фокус на следующего игрокa
     private void focusNextPlayer() {
-        if (playerOther.isAllUnitsDead()) { //враг убит полностью- фокус на самого себя
+        if (getOtherPlayer().isAllUnitsDead()) { //враг убит полностью- фокус на самого себя
             focusPlayer(playerCurrent);
             return;
         }
@@ -339,7 +339,7 @@ public class Game {
     //атака на противника
     private boolean attack(int numEnemy) {
         Unit unit = playerCurrent.getUnitCurrent();
-        Unit enemy = playerOther.getUnitByNum(numEnemy);
+        Unit enemy = getOtherPlayer().getUnitByNum(numEnemy);
 
         if (!isAttackable(unit)) {
             System.out.printf("[%s] %s не умеет атаковать \n", playerCurrent.getName(), unit.getNameLowerCase());
@@ -384,7 +384,7 @@ public class Game {
     }
 
     private boolean killEnemy(int numEnemy) {
-        Unit enemy = playerOther.getUnitByNum(numEnemy);
+        Unit enemy = getOtherPlayer().getUnitByNum(numEnemy);
         if (enemy == null) {
             System.out.printf("[%s] неправильный номер для моментального убийства, попробуйте еще раз \n", playerCurrent.getName());
             return false;
