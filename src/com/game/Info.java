@@ -61,8 +61,8 @@ public class Info {
         System.out.println("Чит-команда убить сразу врага под номером 4: " + Command.CMD_KILL + "4");
         System.out.println("---");
         System.out.println("ОБОЗНАЧЕНИЯ");
-        System.out.println(Man.CHAR_HP + " здоровье");
-        System.out.println(Build.BUILD_HP + " прочность строения");
+        System.out.println(Man.SYMBOL_HP + " здоровье");
+        System.out.println(Build.SYMBOL_HP + " прочность строения");
         System.out.println(Attackable.CHAR_ATTACK + " наносимый урон");
         System.out.println(Medicinable.CHAR_CURE + " уровень лечения");
         System.out.println(Jokable.LABEL_JOKE + " рассказывает шутки");

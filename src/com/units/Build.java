@@ -1,7 +1,7 @@
 package com.units;
 
 public abstract class Build extends Unit {
-    public static final char BUILD_HP = '⚒';
+    public static final char SYMBOL_HP = '⚒';
 
     public Build(String name, int hintPoint, int position, char coat) {
         super(name, hintPoint, position, coat);
@@ -9,7 +9,7 @@ public abstract class Build extends Unit {
 
     @Override
     protected String infoHitPoint() {
-        return String.format("%c%d", BUILD_HP, getHitPoint());
+        return String.format("%c%d", SYMBOL_HP, getHitPoint());
     }
 
 }

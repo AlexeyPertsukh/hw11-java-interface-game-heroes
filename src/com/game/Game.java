@@ -219,7 +219,6 @@ public class Game {
 
     //фокус на следующего игрокa
     private void focusNextPlayer() {
-
         if (playerOther.isAllUnitsDead()) { //враг убит полностью- фокус на самого себя
             focusPlayer(playerCurrent);
             return;
@@ -331,7 +330,6 @@ public class Game {
     //фокус на следующего юнита, если все юниты отыграли - передаем ход следующему игроку
     private void focusNextUnit() {
         if (playerCurrent.currentUnitIsLastInLine()) {
-            playerCurrent.focusFirstLivingUnit();
             focusNextPlayer();
         } else {
             playerCurrent.focusNextUnit();
