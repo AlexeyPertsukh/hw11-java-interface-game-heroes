@@ -12,11 +12,10 @@ public interface Movable {
         Unit unit = (Unit) this;
         int nextPosition = unit.getPosition() + step;
 
-        if (nextPosition > maxPosition) { //двигаться вправо некуда
-            return false;
-        } else if (nextPosition < minPosition) {   //двигаться влево некуда
+        if (nextPosition > maxPosition || nextPosition < minPosition) {
             return false;
         }
+
         unit.setPosition(nextPosition);
         return true;
     }

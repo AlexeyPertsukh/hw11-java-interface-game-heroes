@@ -24,7 +24,7 @@ public class Info {
                 Command.CMD_HELP, "помощь",
                 Command.CMD_GO_LEFT, Command.CMD_GO_RIGHT, "идти",
                 Command.CMD_ATTACK, "номер_врага атаковать",
-                Command.CMD_CURE, "номер_союзника  лечить",
+                Command.CMD_CURE, "номер_союзника лечить",
                 Command.CMD_JOKE, "шутить",
                 Command.CMD_GAME_OVER, "выход"
         );

@@ -207,13 +207,7 @@ public class Game {
     }
 
     private void focusPlayer(Player player) {
-
-        if (player == player1) {
-            playerCurrent = player1;
-        } else {
-            playerCurrent = player2;
-        }
-
+        playerCurrent = player;
         playerCurrent.focusFirstLivingUnit();
     }
 
@@ -339,20 +333,18 @@ public class Game {
     //атака на противника
     private boolean attack(int numEnemy) {
         Unit unit = playerCurrent.getUnitCurrent();
-        Unit enemy = getOtherPlayer().getUnitByNum(numEnemy);
-
         if (!isAttackable(unit)) {
             System.out.printf("[%s] %s не умеет атаковать \n", playerCurrent.getName(), unit.getNameLowerCase());
             return false;
         }
 
+        Unit enemy = getOtherPlayer().getUnitByNum(numEnemy);
         if (enemy == null) {
             System.out.printf("[%s] неправильный номер для атаки, попробуйте еще раз \n", playerCurrent.getName());
             return false;
         }
 
         int attackResult = ((Attackable) unit).attack(enemy);
-
         if (attackResult < 0) {
             printMessageAttackFail(unit, attackResult);
             return false;
@@ -378,7 +370,7 @@ public class Game {
                 System.out.printf("[%s] нельзя атаковать убитого \n", playerCurrent.getName());
                 break;
             default:
-                System.out.printf("[%s] атака невозможна по неизвестной причине   \n", playerCurrent.getName());
+                System.out.printf("[%s] атака невозможна по неизвестной причине \n", playerCurrent.getName());
                 break;
         }
     }
@@ -401,21 +393,19 @@ public class Game {
 
     //лечение
     public boolean cure(int numPatient) {
-        Unit patient = playerCurrent.getUnitByNum(numPatient);
         Unit unit = playerCurrent.getUnitCurrent();
-
         if (!isMedicinable(unit)) {
-            System.out.printf("[%s] %s не умеет лечить    \n", playerCurrent.getName(), unit.getNameLowerCase());
+            System.out.printf("[%s] %s не умеет лечить \n", playerCurrent.getName(), unit.getNameLowerCase());
             return false;
         }
 
+        Unit patient = playerCurrent.getUnitByNum(numPatient);
         if (patient == null) {
             System.out.printf("[%s] неправильный номер для лечения \n", playerCurrent.getName());
             return false;
         }
 
         int cureResult = ((Medicinable) (unit)).cure(patient);
-
         if (cureResult < 0) {
             printMessageCureFail(patient, cureResult);
             return false;
