@@ -57,7 +57,7 @@ public class Game {
         scanner = new Scanner(System.in);
     }
 
-    private Unit[] createUnits(int position) {
+    private static Unit[] createUnits(int position) {
         return new Unit[]{new Tower(position),
                 new Knight(position),
                 new Archer(position),
