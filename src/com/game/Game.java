@@ -19,7 +19,7 @@ public class Game {
     public static final int LIMIT_RIGHT = 3; //максимальная позиция, которую юнит может занимать на карте по горизонтали
     public static final int MAX_ROUND_NO_ATTACK = 4;     //максимальное количество ходов без атак
 
-    private static final String VERSION = "4.4";
+    private static final String VERSION = "4.5";
     private static final String COPYRIGHT = "JAVA A01 \"ШАГ\", Запорожье 2021";
     private static final String AUTHOR = "Перцух Алексей";
 
@@ -50,22 +50,20 @@ public class Game {
 
     public Game() {
         //количество юнитов у игрока 1 и 2 может быть разным
-        player1 = new Player(NAME_PLAYER1);
-        player1.addUnit(new Tower(LIMIT_LEFT));
-        player1.addUnit(new Knight(LIMIT_LEFT));
-        player1.addUnit(new Archer(LIMIT_LEFT));
-        player1.addUnit(new Dangler(LIMIT_LEFT));
-        player1.addUnit(new Magic(LIMIT_LEFT));
-
-        player2 = new Player(NAME_PLAYER2);
-        player2.addUnit(new Tower(LIMIT_RIGHT));
-        player2.addUnit(new Knight(LIMIT_RIGHT));
-        player2.addUnit(new Archer(LIMIT_RIGHT));
-        player2.addUnit(new Dangler(LIMIT_RIGHT));
-        player2.addUnit(new Magic(LIMIT_RIGHT));
-//        player2.addUnit(new Archer(RIGHT_POSITION));   //для проверки игры с разным количеством юнитов у игроков
+        player1 = new Player(NAME_PLAYER1, createUnits(LIMIT_LEFT));
+        player2 = new Player(NAME_PLAYER2, createUnits(LIMIT_RIGHT));
+//        player2.addUnit(new Archer(LIMIT_RIGHT));   //для проверки игры с разным количеством юнитов у игроков
 
         scanner = new Scanner(System.in);
+    }
+
+    private Unit[] createUnits(int position) {
+        return new Unit[]{new Tower(position),
+                new Knight(position),
+                new Archer(position),
+                new Dangler(position),
+                new Magic(position)
+        };
     }
 
     //========= основной блок ===========================

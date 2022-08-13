@@ -9,9 +9,9 @@ public class Player {
     private Unit[] units;
     private Unit unitCurrent;
 
-    public Player(String name) {
+    public Player(String name, Unit[] units) {
         this.name = name;
-        units = new Unit[0];
+        this.units = units;
     }
 
     //добавляем юнита
