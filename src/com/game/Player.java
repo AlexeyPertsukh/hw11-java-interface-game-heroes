@@ -3,11 +3,9 @@ package com.game;
 import com.units.Unit;
 
 public class Player {
-    private static final int CODE_ERR = -1;
 
     private final String name;
     private Unit[] units;
-    private Unit unitCurrent;
 
     public Player(String name, Unit[] units) {
         this.name = name;
@@ -21,71 +19,6 @@ public class Player {
 
         tmp[tmp.length - 1] = unit;
         units = tmp;
-    }
-
-    //фокус на юнита
-    public boolean focusUnit(Unit unit) {
-        if (unit.isDead()) {
-            return false;
-        } else {
-            unitCurrent = unit;
-            return true;
-        }
-    }
-
-    //фокус на первого (живого) юнита
-    public boolean focusFirstLivingUnit() {
-        for (Unit unit : units) {
-            if (!unit.isDead()) {
-                return focusUnit(unit);
-            }
-        }
-        return false;
-    }
-
-    //фокус на следующего юнита
-    public boolean focusNextUnit() {
-
-        //находим позицию в массиве текущего юнита
-        int num = CODE_ERR;
-        for (int i = 0; i < units.length; i++) {
-            if (unitCurrent == units[i]) {
-                num = i;
-                break;
-            }
-        }
-
-        //такого юнита вообще не нашли - выходим
-        if (num == CODE_ERR) {
-            return false;
-        }
-
-        //все убиты? выходим
-        if (isAllUnitsDead()) {
-            return false;
-        }
-
-        //фокусируемся на следующем живом юните
-        for (int i = num + 1; i < units.length; i++) {
-            if (!units[i].isDead()) {
-                num = i;
-                break;
-            }
-        }
-
-        return focusUnit(units[num]);
-    }
-
-    public boolean currentUnitIsLastInLine() {
-        boolean isLast = false;
-        for (Unit unit : units) {
-            if (unit == unitCurrent) {
-                isLast = true;
-            } else if (!unit.isDead()) {
-                isLast = false;
-            }
-        }
-        return isLast;
     }
 
     //все юниты погибли?
@@ -109,9 +42,6 @@ public class Player {
         return units[num];
     }
 
-    public Unit getUnitCurrent() {
-        return unitCurrent;
-    }
 
     public Unit[] getUnits() {
         return units;
