@@ -102,10 +102,6 @@ public class Player {
         return name;
     }
 
-    public int getUnitsSize() {
-        return units.length;
-    }
-
     public Unit getUnit(int num) {
         if (num < 0 || num >= units.length) {
             return null;
