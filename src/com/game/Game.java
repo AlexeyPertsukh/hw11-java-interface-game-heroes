@@ -17,7 +17,7 @@ public class Game {
 
     public static final int MAX_ROUND_NO_ATTACK = 4;     //максимальное количество ходов без атак
 
-    private static final String VERSION = "5.0";
+    private static final String VERSION = "230108";
     private static final String COPYRIGHT = "JAVA A01 \"ШАГ\", Запорожье 2021";
     private static final String AUTHOR = "Перцух Алексей";
 
@@ -251,7 +251,7 @@ public class Game {
 
     //ввод команды
     private Command readCommand() {
-        System.out.printf("[%s] %s, введите команду: ", currentPlayer.getName(), currentPlayer.getUnitCurrent().getNameLowerCase());
+        System.out.printf("[%s] %s, введите команду: ", currentPlayer.getName(), currentPlayer.getUnitCurrent().getName().toLowerCase());
         String text = scanner.next();
         return new Command(text);
     }
@@ -328,7 +328,7 @@ public class Game {
     private boolean attack(int numEnemy) {
         Unit unit = currentPlayer.getUnitCurrent();
         if (!isAttackable(unit)) {
-            System.out.printf("[%s] %s не умеет атаковать \n", currentPlayer.getName(), unit.getNameLowerCase());
+            System.out.printf("[%s] %s не умеет атаковать \n", currentPlayer.getName(), unit.getName().toLowerCase());
             return false;
         }
 
@@ -347,8 +347,8 @@ public class Game {
         cntNoAttack = 0; //сбрасываем счетчик ходов без атак
 
         System.out.printf("[%s] %s атакует: враг %s(%d) получил урон %d ед. \n", currentPlayer.getName(),
-                unit.getNameLowerCase(),
-                enemy.getNameLowerCase(),
+                unit.getName().toLowerCase(),
+                enemy.getName().toLowerCase(),
                 numEnemy + 1,
                 attackResult);
 
@@ -358,7 +358,7 @@ public class Game {
     private void printMessageAttackFail(Unit unit, int codeMessage) {
         switch (codeMessage) {
             case Attackable.CODE_TOO_FAR:
-                System.out.printf("[%s] %s атакует только в ближнем бою, подойдите к врагу вплотную \n", currentPlayer.getName(), unit.getNameLowerCase());
+                System.out.printf("[%s] %s атакует только в ближнем бою, подойдите к врагу вплотную \n", currentPlayer.getName(), unit.getName().toLowerCase());
                 break;
             case Attackable.CODE_ENEMY_DEAD:
                 System.out.printf("[%s] нельзя атаковать убитого \n", currentPlayer.getName());
@@ -389,7 +389,7 @@ public class Game {
     public boolean cure(int numPatient) {
         Unit unit = currentPlayer.getUnitCurrent();
         if (!isMedicinable(unit)) {
-            System.out.printf("[%s] %s не умеет лечить \n", currentPlayer.getName(), unit.getNameLowerCase());
+            System.out.printf("[%s] %s не умеет лечить \n", currentPlayer.getName(), unit.getName().toLowerCase());
             return false;
         }
 
@@ -406,8 +406,8 @@ public class Game {
         }
 
         System.out.printf("[%s] %s подлечил раненого, %s(%d) восстановил %d ед. здоровья   \n", currentPlayer.getName(),
-                unit.getNameLowerCase(),
-                patient.getNameLowerCase(),
+                unit.getName().toLowerCase(),
+                patient.getName().toLowerCase(),
                 numPatient + 1,
                 cureResult);
 
@@ -424,12 +424,12 @@ public class Game {
 
             case Medicinable.CODE_PATIENT_HP_MAX:
                 System.out.printf("[%s] %s, %s полностью здоров    \n", currentPlayer.getName(),
-                        errMessage, patient.getNameLowerCase());
+                        errMessage, patient.getName().toLowerCase());
                 break;
 
             case Medicinable.CODE_PATIENT_NO_MAN:
                 System.out.printf("[%s] %s, %s не является живым существом   \n", currentPlayer.getName(),
-                        errMessage, patient.getNameLowerCase());
+                        errMessage, patient.getName().toLowerCase());
                 break;
 
 //            case Medicinable.CODE_IS_THIS:
@@ -451,12 +451,12 @@ public class Game {
         Unit unit = currentPlayer.getUnitCurrent();
 
         if (!isJokable(unit)) {
-            System.out.printf("[%s] %s не умеет шутить \n", currentPlayer.getName(), unit.getNameLowerCase());
+            System.out.printf("[%s] %s не умеет шутить \n", currentPlayer.getName(), unit.getName().toLowerCase());
             return false;
         }
 
         String story = ((Jokable) unit).randomJoke();
-        System.out.printf("[%s] %s шутит: ", currentPlayer.getName(), unit.getNameLowerCase());
+        System.out.printf("[%s] %s шутит: ", currentPlayer.getName(), unit.getName().toLowerCase());
         Color.printlnColor(story, COLOR_HELP);
 
         return true;
@@ -506,7 +506,7 @@ public class Game {
     private boolean moveUnit(int direction) {
         Unit unit = currentPlayer.getUnitCurrent();
         if (!isMovable(unit)) {
-            System.out.printf("[%s] %s не умеет ходить \n", currentPlayer.getName(), unit.getNameLowerCase());
+            System.out.printf("[%s] %s не умеет ходить \n", currentPlayer.getName(), unit.getName().toLowerCase());
             return false;
         }
         int newPosition = board.getPosition(unit) + direction;
