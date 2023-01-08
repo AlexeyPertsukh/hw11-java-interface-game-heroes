@@ -31,7 +31,6 @@ public class Game {
     private static final String COLOR_KILL = Color.ANSI_RED;
     private static final String COLOR_ERR = Color.ANSI_RED;
 
-
     private static final char EMPTY_SYMBOL = ' ';
     private static final char BATTLE_FIELD_BORDER_CHAR = '\'';
 
@@ -39,8 +38,6 @@ public class Game {
 
     private static final int ONE_STEP_LEFT = -1;
     private static final int ONE_STEP_RIGHT = 1;
-
-
 
     private final Player player1;
     private final Player player2;
