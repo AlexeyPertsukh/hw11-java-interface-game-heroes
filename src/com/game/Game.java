@@ -161,7 +161,7 @@ public class Game {
 
     private void printOneUnitOnBattleField(Unit unit, int numUnit, String format, String color) {
         if (unit == null) {
-            String string = String.format(format, 0, "");
+            String string = String.format(format, numUnit, "", "");
             string = Util.spacedString(string);
             System.out.print(string);
             return;
@@ -198,14 +198,18 @@ public class Game {
 
     //Цвет, каким распечатывать юнита (цветным- когда юнит в фокусе)
     private String getColorUnit(Unit unit) {
+        if(unit == null) {
+            return Color.ANSI_RESET;
+        }
+
         if (unit.isDead()) {
             return COLOR_DEAD;
         }
         if (unit == focus.getCurrentUnit()) {
             return COLOR_FOCUS;
         }
-        return Color.ANSI_RESET;
 
+        return Color.ANSI_RESET;
     }
 
     //ввод команды
