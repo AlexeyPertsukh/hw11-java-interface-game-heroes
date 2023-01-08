@@ -28,7 +28,7 @@ public class Game {
     private static final String COLOR_HEADER = Color.ANSI_PURPLE;
     private static final String COLOR_FOOTER = Color.ANSI_BLUE;
     private static final String COLOR_HELP = Color.ANSI_BLUE;
-    private static final String COLOR_KILL = Color.ANSI_RED;
+    private static final String COLOR_DEAD = Color.ANSI_RED;
     private static final String COLOR_ERR = Color.ANSI_RED;
 
     private static final char EMPTY_SYMBOL = ' ';
@@ -186,39 +186,31 @@ public class Game {
     //Цвет, каким распечатывать игрока (цветным- когда игрок в фокусе)
     private String getColorPlayer(Player player) {
         if (player.isAllUnitsDead()) {
-            return COLOR_KILL;
+            return COLOR_DEAD;
         }
 
         if (player == focus.currentPlayer) {
             return COLOR_FOCUS;
-        } else {
-            return Color.ANSI_RESET;
         }
+
+        return Color.ANSI_RESET;
     }
 
     //Цвет, каким распечатывать юнита (цветным- когда юнит в фокусе)
     private String getColorUnit(Unit unit) {
-        Player player = null;
-        if (player1.contain(unit)) {
-            player = player1;
-        } else if (player2.contain(unit)) {
-            player = player2;
-        }
-
         if (unit.isDead()) {
-            return COLOR_KILL;
+            return COLOR_DEAD;
         }
-
         if (unit == focus.getCurrentUnit()) {
             return COLOR_FOCUS;
-        } else {
-            return Color.ANSI_RESET;
         }
+        return Color.ANSI_RESET;
+
     }
 
     //ввод команды
     private Command readCommand() {
-        System.out.printf("[%s] %s, введите команду: ", currentPlayerName(), focus.getCurrentUnit().getName().toLowerCase());
+        System.out.printf("[%s] %s, введите команду: ", currentPlayerName(), currentUnitNameLowerCase());
         String text = scanner.next();
         return new Command(text);
     }
@@ -448,17 +440,17 @@ public class Game {
             return;
         }
 
-        char coat = unit.getIcon();
+        char icon = unit.getIcon();
         String color;
 
         if (unit.isDead()) {
-            color = COLOR_KILL;
+            color = COLOR_DEAD;
         } else {
             color = getColorPlayer(player);
         }
 
-        String coatString = String.valueOf(coat);
-        Color.printColor(coatString, color);
+        String iconString = String.valueOf(icon);
+        Color.printColor(iconString, color);
     }
 
     private boolean moveUnit(int direction) {
@@ -529,6 +521,10 @@ public class Game {
         return focus.getCurrentPlayer().getName();
     }
 
+    private String currentUnitNameLowerCase() {
+        return focus.getCurrentUnit().getName().toLowerCase();
+    }
+
     private class Focus {
         private int index;
         private Player currentPlayer;
@@ -559,7 +555,7 @@ public class Game {
                 }
             }
             setNextPlayer();
-            index = -1;
+            index = -1;     //пока костыль
             setNextUnit();
         }
 
