@@ -67,7 +67,7 @@ public class Player {
 
         //фокусируемся на следующем живом юните
         for (int i = num + 1; i < units.length; i++) {
-            if(!units[i].isDead()) {
+            if (!units[i].isDead()) {
                 num = i;
                 break;
             }
@@ -81,7 +81,7 @@ public class Player {
         for (Unit unit : units) {
             if (unit == unitCurrent) {
                 isLast = true;
-            } else if(!unit.isDead()) {
+            } else if (!unit.isDead()) {
                 isLast = false;
             }
         }
@@ -106,7 +106,7 @@ public class Player {
         return units.length;
     }
 
-    public Unit getUnitByNum(int num) {
+    public Unit getUnit(int num) {
         if (num < 0 || num >= units.length) {
             return null;
         }
@@ -117,5 +117,16 @@ public class Player {
         return unitCurrent;
     }
 
+    public Unit[] getUnits() {
+        return units;
+    }
 
+    public boolean contain(Unit unit) {
+        for (Unit u : units) {
+            if (u == unit) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
