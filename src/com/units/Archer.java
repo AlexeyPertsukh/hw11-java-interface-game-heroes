@@ -8,8 +8,8 @@ public class Archer extends Shooter {
     private static final int DAMAGE_MAX = 30;
     private static final int HIT_POINT = 55;
 
-    public Archer(int position) {
-        super(NAME, HIT_POINT, position, COAT, DAMAGE_MIN, DAMAGE_MAX);
+    public Archer() {
+        super(NAME, HIT_POINT, COAT, DAMAGE_MIN, DAMAGE_MAX);
     }
 
     @Override

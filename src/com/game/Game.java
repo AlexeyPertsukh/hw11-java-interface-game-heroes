@@ -15,11 +15,9 @@ import java.util.Scanner;
 
 public class Game {
 
-    private static final int LIMIT_LEFT = 0;
-    public static final int LIMIT_RIGHT = 3; //максимальная позиция, которую юнит может занимать на карте по горизонтали
     public static final int MAX_ROUND_NO_ATTACK = 4;     //максимальное количество ходов без атак
 
-    private static final String VERSION = "4.5";
+    private static final String VERSION = "5.0";
     private static final String COPYRIGHT = "JAVA A01 \"ШАГ\", Запорожье 2021";
     private static final String AUTHOR = "Перцух Алексей";
 
@@ -33,16 +31,20 @@ public class Game {
     private static final String COLOR_KILL = Color.ANSI_RED;
     private static final String COLOR_ERR = Color.ANSI_RED;
 
-    private static final String NAME_PLAYER1 = "Карл IV Великолепный";
-    private static final String NAME_PLAYER2 = "Барон Свиное Рыло";
+
     private static final char EMPTY_SYMBOL = ' ';
     private static final char BATTLE_FIELD_BORDER_CHAR = '\'';
 
     private static final String MESSAGE_NO_WAY = "туда ходить нельзя";
 
+    private static final int ONE_STEP_LEFT = -1;
+    private static final int ONE_STEP_RIGHT = 1;
+
+
+
     private final Player player1;
     private final Player player2;
-    private Player playerCurrent;
+    private Player currentPlayer;
 
     private final Board board;
 
@@ -50,24 +52,12 @@ public class Game {
 
     private final Scanner scanner;
 
-    public Game() {
-        //количество юнитов у игрока 1 и 2 может быть разным
-        player1 = new Player(NAME_PLAYER1, createUnits(LIMIT_LEFT));
-        player2 = new Player(NAME_PLAYER2, createUnits(LIMIT_RIGHT));
-//        player2.addUnit(new Archer(LIMIT_RIGHT));   //для проверки игры с разным количеством юнитов у игроков
-
-        board = new Board(player1, player2);
+    public Game(Player player1, Player player2) {
+        this.player1 = player1;
+        this.player2 = player2;
+        board = new Board(player1.getUnits(), player2.getUnits());
 
         scanner = new Scanner(System.in);
-    }
-
-    private static Unit[] createUnits(int position) {
-        return new Unit[]{new Tower(position),
-                new Knight(position),
-                new Archer(position),
-                new Dangler(position),
-                new Magic(position)
-        };
     }
 
     //========= основной блок ===========================
@@ -151,27 +141,28 @@ public class Game {
     private void printUnitsOnBattleField() {
         String format;
 
-        int max = Math.max(player1.getUnitsSize(), player2.getUnitsSize());
-
-        for (int i = 0; i < max; i++) {
+        for (int i = 0; i < board.length(); i++) {
 
             //юнит игрока1
             format = "%d. %-11s %-22s   ";      // напр: "4. ⬦ Тунеядец  (♥15, :))"
-            printOneUnitOnBattleField(player1, i, format);
+            Unit[] units = board.line(i);
+
+            Unit unit = units[0];
+            printOneUnitOnBattleField(unit, i, format, getColorUnit(unit));
 
             //рисуем линию тактической карты
             printBattleFieldLine(i);
 
             //юнит игрока2
             format = "       " + format;
-            printOneUnitOnBattleField(player2, i, format);
+            unit = units[1];
+            printOneUnitOnBattleField(unit, i, format, getColorUnit(unit));
 
             System.out.println();
         }
     }
 
-    private void printOneUnitOnBattleField(Player player, int numUnit, String format) {
-        Unit unit = player.getUnit(numUnit);
+    private void printOneUnitOnBattleField(Unit unit, int numUnit, String format, String color) {
         if (unit == null) {
             String string = String.format(format, 0, "");
             string = Util.spacedString(string);
@@ -190,13 +181,12 @@ public class Game {
         if (unit.isDead()) {
             info += " ";    // потому что при выводе черепа появляются глюки при выводе текста
         }
-        String colorUnit = getColorUnit(player, numUnit);
 
-        Color.printColor(info, colorUnit);
+        Color.printColor(info, color);
     }
 
     private Player getOtherPlayer() {
-        return playerCurrent == player1 ? player2 : player1;
+        return currentPlayer == player1 ? player2 : player1;
     }
 
     // фокус на первого игрока
@@ -209,18 +199,18 @@ public class Game {
     }
 
     private void focusPlayer(Player player) {
-        playerCurrent = player;
-        playerCurrent.focusFirstLivingUnit();
+        currentPlayer = player;
+        currentPlayer.focusFirstLivingUnit();
     }
 
     //фокус на следующего игрокa
     private void focusNextPlayer() {
         if (getOtherPlayer().isAllUnitsDead()) { //враг убит полностью- фокус на самого себя
-            focusPlayer(playerCurrent);
+            focusPlayer(currentPlayer);
             return;
         }
 
-        if (playerCurrent == player1) {
+        if (currentPlayer == player1) {
             focusSecondPlayer();
         } else {
             focusFirstPlayer();
@@ -235,7 +225,7 @@ public class Game {
             return COLOR_KILL;
         }
 
-        if (player == playerCurrent) {
+        if (player == currentPlayer) {
             return COLOR_FOCUS;
         } else {
             return Color.ANSI_RESET;
@@ -243,14 +233,19 @@ public class Game {
     }
 
     //Цвет, каким распечатывать юнита (цветным- когда юнит в фокусе)
-    private String getColorUnit(Player player, int num) {
-        Unit unit = player.getUnit(num);
+    private String getColorUnit(Unit unit) {
+        Player player = null;
+        if (player1.contain(unit)) {
+            player = player1;
+        } else if (player2.contain(unit)) {
+            player = player2;
+        }
 
         if (unit.isDead()) {
             return COLOR_KILL;
         }
 
-        if (player == playerCurrent && player.getUnitCurrent() == unit) {
+        if (player == currentPlayer && player.getUnitCurrent() == unit) {
             return COLOR_FOCUS;
         } else {
             return Color.ANSI_RESET;
@@ -259,7 +254,7 @@ public class Game {
 
     //ввод команды
     private Command readCommand() {
-        System.out.printf("[%s] %s, введите команду: ", playerCurrent.getName(), playerCurrent.getUnitCurrent().getNameLowerCase());
+        System.out.printf("[%s] %s, введите команду: ", currentPlayer.getName(), currentPlayer.getUnitCurrent().getNameLowerCase());
         String text = scanner.next();
         return new Command(text);
     }
@@ -308,7 +303,7 @@ public class Game {
         }
 
         //
-        System.out.printf("[%s] неизвестная команда \n", playerCurrent.getName());
+        System.out.printf("[%s] неизвестная команда \n", currentPlayer.getName());
         return false;
     }
 
@@ -325,28 +320,28 @@ public class Game {
 
     //фокус на следующего юнита, если все юниты отыграли - передаем ход следующему игроку
     private void focusNextUnit() {
-        if (playerCurrent.currentUnitIsLastInLine()) {
+        if (currentPlayer.currentUnitIsLastInLine()) {
             focusNextPlayer();
         } else {
-            playerCurrent.focusNextUnit();
+            currentPlayer.focusNextUnit();
         }
     }
 
     //атака на противника
     private boolean attack(int numEnemy) {
-        Unit unit = playerCurrent.getUnitCurrent();
+        Unit unit = currentPlayer.getUnitCurrent();
         if (!isAttackable(unit)) {
-            System.out.printf("[%s] %s не умеет атаковать \n", playerCurrent.getName(), unit.getNameLowerCase());
+            System.out.printf("[%s] %s не умеет атаковать \n", currentPlayer.getName(), unit.getNameLowerCase());
             return false;
         }
 
         Unit enemy = getOtherPlayer().getUnit(numEnemy);
         if (enemy == null) {
-            System.out.printf("[%s] неправильный номер для атаки, попробуйте еще раз \n", playerCurrent.getName());
+            System.out.printf("[%s] неправильный номер для атаки, попробуйте еще раз \n", currentPlayer.getName());
             return false;
         }
 
-        int attackResult = ((Attackable) unit).attack(enemy);
+        int attackResult = ((Attackable) unit).attack(enemy, board.getPosition(unit), board.getPosition(enemy));
         if (attackResult < 0) {
             printMessageAttackFail(unit, attackResult);
             return false;
@@ -354,7 +349,7 @@ public class Game {
 
         cntNoAttack = 0; //сбрасываем счетчик ходов без атак
 
-        System.out.printf("[%s] %s атакует: враг %s(%d) получил урон %d ед. \n", playerCurrent.getName(),
+        System.out.printf("[%s] %s атакует: враг %s(%d) получил урон %d ед. \n", currentPlayer.getName(),
                 unit.getNameLowerCase(),
                 enemy.getNameLowerCase(),
                 numEnemy + 1,
@@ -366,13 +361,13 @@ public class Game {
     private void printMessageAttackFail(Unit unit, int codeMessage) {
         switch (codeMessage) {
             case Attackable.CODE_TOO_FAR:
-                System.out.printf("[%s] %s атакует только в ближнем бою, подойдите к врагу вплотную \n", playerCurrent.getName(), unit.getNameLowerCase());
+                System.out.printf("[%s] %s атакует только в ближнем бою, подойдите к врагу вплотную \n", currentPlayer.getName(), unit.getNameLowerCase());
                 break;
             case Attackable.CODE_ENEMY_DEAD:
-                System.out.printf("[%s] нельзя атаковать убитого \n", playerCurrent.getName());
+                System.out.printf("[%s] нельзя атаковать убитого \n", currentPlayer.getName());
                 break;
             default:
-                System.out.printf("[%s] атака невозможна по неизвестной причине \n", playerCurrent.getName());
+                System.out.printf("[%s] атака невозможна по неизвестной причине \n", currentPlayer.getName());
                 break;
         }
     }
@@ -380,7 +375,7 @@ public class Game {
     private boolean killEnemy(int numEnemy) {
         Unit enemy = getOtherPlayer().getUnit(numEnemy);
         if (enemy == null) {
-            System.out.printf("[%s] неправильный номер для моментального убийства, попробуйте еще раз \n", playerCurrent.getName());
+            System.out.printf("[%s] неправильный номер для моментального убийства, попробуйте еще раз \n", currentPlayer.getName());
             return false;
         } else {
             enemy.kill();
@@ -395,15 +390,15 @@ public class Game {
 
     //лечение
     public boolean cure(int numPatient) {
-        Unit unit = playerCurrent.getUnitCurrent();
+        Unit unit = currentPlayer.getUnitCurrent();
         if (!isMedicinable(unit)) {
-            System.out.printf("[%s] %s не умеет лечить \n", playerCurrent.getName(), unit.getNameLowerCase());
+            System.out.printf("[%s] %s не умеет лечить \n", currentPlayer.getName(), unit.getNameLowerCase());
             return false;
         }
 
-        Unit patient = playerCurrent.getUnit(numPatient);
+        Unit patient = currentPlayer.getUnit(numPatient);
         if (patient == null) {
-            System.out.printf("[%s] неправильный номер для лечения \n", playerCurrent.getName());
+            System.out.printf("[%s] неправильный номер для лечения \n", currentPlayer.getName());
             return false;
         }
 
@@ -413,7 +408,7 @@ public class Game {
             return false;
         }
 
-        System.out.printf("[%s] %s подлечил раненого, %s(%d) восстановил %d ед. здоровья   \n", playerCurrent.getName(),
+        System.out.printf("[%s] %s подлечил раненого, %s(%d) восстановил %d ед. здоровья   \n", currentPlayer.getName(),
                 unit.getNameLowerCase(),
                 patient.getNameLowerCase(),
                 numPatient + 1,
@@ -427,16 +422,16 @@ public class Game {
 
         switch (codeMessage) {
             case Medicinable.CODE_PATIENT_DEAD:
-                System.out.printf("[%s] %s, убитому не помочь    \n", playerCurrent.getName(), errMessage);
+                System.out.printf("[%s] %s, убитому не помочь    \n", currentPlayer.getName(), errMessage);
                 break;
 
             case Medicinable.CODE_PATIENT_HP_MAX:
-                System.out.printf("[%s] %s, %s полностью здоров    \n", playerCurrent.getName(),
+                System.out.printf("[%s] %s, %s полностью здоров    \n", currentPlayer.getName(),
                         errMessage, patient.getNameLowerCase());
                 break;
 
             case Medicinable.CODE_PATIENT_NO_MAN:
-                System.out.printf("[%s] %s, %s не является живым существом   \n", playerCurrent.getName(),
+                System.out.printf("[%s] %s, %s не является живым существом   \n", currentPlayer.getName(),
                         errMessage, patient.getNameLowerCase());
                 break;
 
@@ -445,7 +440,7 @@ public class Game {
 //                break;
 
             default:
-                System.out.printf("[%s] %s по неизвестной причине   \n", playerCurrent.getName(), errMessage);
+                System.out.printf("[%s] %s по неизвестной причине   \n", currentPlayer.getName(), errMessage);
                 break;
         }
     }
@@ -456,15 +451,15 @@ public class Game {
 
     //пошутить
     public boolean randomJoke() {
-        Unit unit = playerCurrent.getUnitCurrent();
+        Unit unit = currentPlayer.getUnitCurrent();
 
         if (!isJokable(unit)) {
-            System.out.printf("[%s] %s не умеет шутить \n", playerCurrent.getName(), unit.getNameLowerCase());
+            System.out.printf("[%s] %s не умеет шутить \n", currentPlayer.getName(), unit.getNameLowerCase());
             return false;
         }
 
         String story = ((Jokable) unit).randomJoke();
-        System.out.printf("[%s] %s шутит: ", playerCurrent.getName(), unit.getNameLowerCase());
+        System.out.printf("[%s] %s шутит: ", currentPlayer.getName(), unit.getNameLowerCase());
         Color.printlnColor(story, COLOR_HELP);
 
         return true;
@@ -478,27 +473,27 @@ public class Game {
     public void printBattleFieldLine(int num) {
         System.out.print(BATTLE_FIELD_BORDER_CHAR);
 
-        for (int cell = 0; cell < LIMIT_RIGHT + 1; cell++) {
+        for (int cell = 0; cell < Board.COLUMNS; cell++) {
 
-            printUnitCoatOrEmptyInCellBattleField(player1, num, cell);
+            printUnitIconOrEmptyInCellBattleField(player1, num, cell);
 
             System.out.print("  ");    //разделитель между вражескими юнитами, когда они станут в одну ячейку
 
-            printUnitCoatOrEmptyInCellBattleField(player2, num, cell);
+            printUnitIconOrEmptyInCellBattleField(player2, num, cell);
 
             System.out.print(BATTLE_FIELD_BORDER_CHAR);
         }
     }
 
-    private void printUnitCoatOrEmptyInCellBattleField(Player player, int num, int cell) {
+    private void printUnitIconOrEmptyInCellBattleField(Player player, int num, int cell) {
         Unit unit = player.getUnit(num);
 
-        if (unit == null || unit.getPosition() != cell) {
+        if (unit == null || board.getPosition(unit) != cell) {
             System.out.print(EMPTY_SYMBOL);
             return;
         }
 
-        char coat = unit.getCoat();
+        char coat = unit.getIcon();
         String color;
 
         if (unit.isDead()) {
@@ -511,33 +506,30 @@ public class Game {
         Color.printColor(coatString, color);
     }
 
-    private boolean moveUnit(Unit unit, int position) {
+    private boolean moveUnit(int direction) {
+        Unit unit = currentPlayer.getUnitCurrent();
         if (!isMovable(unit)) {
-            System.out.printf("[%s] %s не умеет ходить \n", playerCurrent.getName(), unit.getNameLowerCase());
+            System.out.printf("[%s] %s не умеет ходить \n", currentPlayer.getName(), unit.getNameLowerCase());
             return false;
         }
+        int newPosition = board.getPosition(unit) + direction;
 
-        boolean code = board.updatePosition(unit, position);
+        boolean code = board.updatePosition(unit, newPosition);
         if (!code) {
-            System.out.printf("[%s] %s \n", playerCurrent.getName(), MESSAGE_NO_WAY);
+            System.out.printf("[%s] %s \n", currentPlayer.getName(), MESSAGE_NO_WAY);
             return false;
         }
 
-        unit.setPosition(position); // Убрать!!!!
         return true;
 
     }
 
     public boolean moveUnitRight() {
-        Unit unit = playerCurrent.getUnitCurrent();
-        int position = board.getPosition(unit);
-        return moveUnit(unit, position + 1);
+        return moveUnit( ONE_STEP_RIGHT);
     }
 
     public boolean moveUnitLeft() {
-        Unit unit = playerCurrent.getUnitCurrent();
-        int position = board.getPosition(unit);
-        return moveUnit(unit, position - 1);
+        return moveUnit(ONE_STEP_LEFT);
     }
 
     private boolean isMovable(Unit unit) {

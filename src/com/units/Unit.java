@@ -7,22 +7,17 @@ public abstract class Unit {
     public final int maxHitPoint;
 
     private final String name;
-    private final char coat;              //тактический знак для отображения на карте
+    private final char icon;              //тактический знак для отображения на карте
 
     private int hitPoint;
-    private int position;            //позиция по горизонтали
 
-    public Unit(String name, int hitPoint, int position, char coat) {
+    public Unit(String name, int hitPoint, char icon) {
         this.name = name;
-        this.coat = coat;
-        this.position = position;
+        this.icon = icon;
         this.hitPoint = hitPoint;
         this.maxHitPoint = this.hitPoint;
     }
 
-    public void setPosition(int position) {
-        this.position = position;
-    }
 
     public String getName() {
         return name;
@@ -32,8 +27,8 @@ public abstract class Unit {
         return name.toLowerCase();
     }
 
-    public char getCoat() {
-        return coat;
+    public char getIcon() {
+        return icon;
     }
 
     public int getHitPoint() {
@@ -57,9 +52,6 @@ public abstract class Unit {
         setHitPoint(hitPoint - point);
     }
 
-    public int getPosition() {
-        return position;
-    }
 
     public void kill() {
         hitPoint = 0;
@@ -84,7 +76,7 @@ public abstract class Unit {
     }
 
     protected String shortInfoAlive() {
-     return String.format("%c %s", coat, name);
+     return String.format("%c %s", icon, name);
     }
 
     protected String shortInfoDead() {

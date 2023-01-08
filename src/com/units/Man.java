@@ -5,8 +5,8 @@ import com.interfaces.Movable;
 public abstract class Man extends Unit implements Movable {
     public static final char SYMBOL_HP = '♥';
 
-    public Man(String name, int hintPoint, int position, char coat) {
-        super(name, hintPoint, position, coat);
+    public Man(String name, int hintPoint, char coat) {
+        super(name, hintPoint,coat);
     }
 
     protected String infoHitPoint() {

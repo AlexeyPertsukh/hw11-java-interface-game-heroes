@@ -6,8 +6,8 @@ public abstract class Soldier extends Man implements Attackable {
     private final int damageMin;
     private final int damageMax;
 
-    public Soldier(String name, int hintPoint, int position, char coat, int damageMin, int damageMax) {
-        super(name, hintPoint, position, coat);
+    public Soldier(String name, int hintPoint, char coat, int damageMin, int damageMax) {
+        super(name, hintPoint, coat);
         this.damageMin = damageMin;
         this.damageMax = damageMax;
     }

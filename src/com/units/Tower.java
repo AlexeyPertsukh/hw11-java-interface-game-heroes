@@ -10,8 +10,8 @@ public class Tower extends Bastion implements DistanceAttackable {
     private static final int DAMAGE_MAX = 30;
     private static final int HIT_POINT = 80;
 
-    public Tower(int position) {
-        super(NAME, HIT_POINT, position, COAT, DAMAGE_MIN, DAMAGE_MAX);
+    public Tower() {
+        super(NAME, HIT_POINT, COAT, DAMAGE_MIN, DAMAGE_MAX);
     }
 
     @Override
