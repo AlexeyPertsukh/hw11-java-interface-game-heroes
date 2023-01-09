@@ -72,12 +72,7 @@ public class Info {
     }
 
     public static void printOnWin(Player playerWin, String color, String colorErr) {
-        if(playerWin == null) {
-            Color.printlnColor(">>>ОШИБКА В ОПРЕДЕЛЕНИИ ПОБЕДИТЕЛЯ", colorErr);
-        } else {
             Color.printlnColor("⚑⚑⚑ ПОБЕДИЛ " + playerWin.getName() + " !!! ", color);
-        }
-
     }
 
     public static void printOnStart(String version) {
