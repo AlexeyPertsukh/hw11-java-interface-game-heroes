@@ -15,8 +15,6 @@ import java.util.Scanner;
 
 public class Game {
 
-    public static final int MAX_ROUND_NO_ATTACK = 4;     //максимальное количество ходов без атак
-
     private static final String VERSION = "230108";
     private static final String COPYRIGHT = "JAVA A01 \"ШАГ\", Запорожье 2021";
     private static final String AUTHOR = "Перцух Алексей";
@@ -89,12 +87,6 @@ public class Game {
             //Кто-то победил?
             if (isWin()) {
                 Info.printOnWin(getWinPlayer(), COLOR_VICTORY, COLOR_ERR);
-                break;
-            }
-
-            //ничья?
-            if (isDraw()) {
-                Info.printOnDraw(MAX_ROUND_NO_ATTACK, COLOR_DRAW);
                 break;
             }
         }
@@ -488,23 +480,11 @@ public class Game {
     }
 
     private boolean isWin() {
-        return player1.isAllUnitsDead() || player2.isAllUnitsDead();
+        return Rules.isWin(player1, player2);
     }
 
     private Player getWinPlayer() {
-        if (player1.isAllUnitsDead()) {
-            return player2;
-
-        } else if (player2.isAllUnitsDead()) {
-            return player1;
-
-        } else {
-            return null;
-        }
-    }
-
-    private boolean isDraw() {
-        return (cntNoAttack > MAX_ROUND_NO_ATTACK);
+        return Rules.getWinPlayer(player1, player2);
     }
 
     //Если бы на этом этапе учебы мы знали про enum, я бы использовал enum для доп. атрибутирования команд,

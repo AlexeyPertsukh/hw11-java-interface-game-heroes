@@ -48,7 +48,6 @@ public class Info {
         System.out.println("Маг может лечить");
         System.out.println("Лечение возможно только для живых существ");
         System.out.println("Тунеядец умеет шутить");
-        System.out.println("Ничья, если прошло " + Game.MAX_ROUND_NO_ATTACK + " раунда без атаки");
         System.out.println("---");
         System.out.println("Дополнительная команда для распечатки всех шуток: " + Command.CMD_PRINT_ALL_JOKES);
         System.out.println("Дополнительная чит-команда убить вражеского юнита сразу: " + Command.CMD_KILL + "номер_врага");
@@ -91,10 +90,5 @@ public class Info {
             System.out.println(s);
         }
     }
-
-    public static void printOnDraw(int maxRoundNoAttack, String color) {
-        Color.printlnColor("⛨⛨⛨ НИЧЬЯ: " + maxRoundNoAttack + " раунда без атак.", color);
-    }
-
 
 }
