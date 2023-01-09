@@ -21,7 +21,6 @@ public class Game {
 
     //Цвета в программе
     private static final String COLOR_VICTORY = Color.ANSI_GREEN;   //победа
-    private static final String COLOR_DRAW = Color.ANSI_CYAN;       //ничья
     private static final String COLOR_FOCUS = Color.ANSI_YELLOW;
     private static final String COLOR_HEADER = Color.ANSI_PURPLE;
     private static final String COLOR_FOOTER = Color.ANSI_BLUE;
