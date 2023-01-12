@@ -22,7 +22,6 @@ public class Main {
     public static void main(String[] args) {
         Player player1 = new Player(NAME_PLAYER1, createUnits());
         Player player2 = new Player(NAME_PLAYER2, createUnits());
-//         player2.addUnit(new Archer());   //для проверки игры с разным количеством юнитов у игроков
 
         Game game = new Game(player1, player2);
         game.go();

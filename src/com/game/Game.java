@@ -26,7 +26,6 @@ public class Game {
     private static final String COLOR_FOOTER = Color.ANSI_BLUE;
     private static final String COLOR_HELP = Color.ANSI_BLUE;
     private static final String COLOR_DEAD = Color.ANSI_RED;
-    private static final String COLOR_ERR = Color.ANSI_RED;
 
     private static final char EMPTY_SYMBOL = ' ';
     private static final char BATTLE_FIELD_BORDER_CHAR = '\'';
@@ -42,8 +41,6 @@ public class Game {
     private final Board board;
     private final Focus focus;
 
-    private int cntNoAttack; // счетчик ходов без атак
-
     private final Scanner scanner;
 
     public Game(Player player1, Player player2) {
@@ -57,7 +54,7 @@ public class Game {
 
     //========= основной блок ===========================
     public void go() {
-        Info.printOnStart(VERSION);
+        Info.onStart(VERSION);
         printPage();
 
         while (true) {
@@ -85,23 +82,23 @@ public class Game {
 
             //Кто-то победил?
             if (isWin()) {
-                Info.printOnWin(getWinPlayer(), COLOR_VICTORY, COLOR_ERR);
+                print(COLOR_VICTORY, Info.onWin(getWinPlayer()));
                 break;
             }
         }
 
-        Info.printOnEnd(COPYRIGHT, AUTHOR);
+        print(Color.ANSI_RESET, COPYRIGHT, AUTHOR);
     }
     //===================================================
 
     //Распечатываем главную страницу игры
     private void printPage() {
-        Info.printHeader(COLOR_HEADER);
+        print(COLOR_HEADER, Info.header());
 
         printNamePlayersOnBattleField();
         printUnitsOnBattleField();
 
-        Info.printFooter(COLOR_FOOTER);
+        print(COLOR_FOOTER, Info.footer());
     }
 
     private void printNamePlayersOnBattleField() {
@@ -189,7 +186,7 @@ public class Game {
 
     //Цвет, каким распечатывать юнита (цветным- когда юнит в фокусе)
     private String getColorUnit(Unit unit) {
-        if(unit == null) {
+        if (unit == null) {
             return Color.ANSI_RESET;
         }
 
@@ -221,7 +218,7 @@ public class Game {
         }
 
         if (command.isHelp()) {
-            Info.printHelp(COLOR_HELP);
+            print(COLOR_HELP, Info.help());
             return true;
         }
 
@@ -288,8 +285,6 @@ public class Game {
             printMessageAttackFail(unit, attackResult);
             return false;
         }
-
-        cntNoAttack = 0; //сбрасываем счетчик ходов без атак
 
         System.out.printf("[%s] %s атакует: враг %s(%d) получил урон %d ед. \n", currentPlayerName(),
                 unit.getName().toLowerCase(),
@@ -547,5 +542,12 @@ public class Game {
         }
     }
 
+    private static void print(String color, String... strings) {
+        Color.setTextColor(color);
+        for (String s : strings) {
+            System.out.println(s);
+        }
+        Color.resetTextColor();
+    }
 
 }
