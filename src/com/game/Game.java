@@ -280,7 +280,7 @@ public class Game {
             return false;
         }
 
-        int attackResult = ((Attackable) unit).attack(enemy, board.getPosition(unit), board.getPosition(enemy));
+        int attackResult = ((Attackable) unit).attack(enemy, board.getPosition(unit) == board.getPosition(enemy));
         if (attackResult < 0) {
             printMessageAttackFail(unit, attackResult);
             return false;
