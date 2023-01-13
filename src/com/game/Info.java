@@ -79,9 +79,5 @@ public class Info {
         return "ver." + version + " Dedicated to the Heroes of Might and Magic II  ";
     }
 
-    public static String onEnd(String version) {
-        return "ver." + version + " Dedicated to the Heroes of Might and Magic II  ";
-    }
-
 
 }

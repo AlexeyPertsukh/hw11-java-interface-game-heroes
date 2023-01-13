@@ -11,10 +11,8 @@ public interface Attackable {
     int CODE_ENEMY_DEAD = -2;   //нельзя атаковать убитого
 
     //атака
-    default int attack(Unit enemy, int myPosition, int enemyPosition) {
-        Unit unit = (Unit) this;
-
-        if (myPosition != enemyPosition) {
+    default int attack(Unit enemy, boolean nearby) {
+        if (!nearby) {
             return CODE_TOO_FAR;
         }
 
